@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ตอบรับคำท้าดวลสำเร็จ (Duel Accepted &amp; Match Locked)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Noto Sans Thai"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              navy: '#1D2D44',
+              'navy-dark': '#0E1726',
+              oat: '#FBF9F5',
+              'oat-low': '#F5F3EF',
+              'oat-medium': '#EAE6DF',
+              amber: '#D97706',
+              accent: '#E0A96D',
+              green: '#06C755',
+              'green-dark': '#059669',
+            }
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Noto Sans Thai', sans-serif;
+      background-color: #F0EDE8;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    @keyframes bounce-gentle {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    .animate-bounce-gentle {
+      animation: bounce-gentle 2.5s infinite ease-in-out;
+    }
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+    .animate-pulse-glow {
+      animation: pulse-glow 3s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex justify-center items-start sm:py-6">
+<!-- Mobile Device Frame (390px max) -->
+<div class="w-full max-w-[410px] min-h-screen bg-[#FBF9F5] shadow-2xl relative flex flex-col justify-between overflow-hidden border-x border-[#EAE6DF]">
+<!-- Top App Bar / Header -->
+<header class="sticky top-0 z-30 bg-[#FBF9F5]/95 backdrop-blur-md border-b border-[#EAE6DF] px-4 py-3 flex items-center justify-between">
+<button aria-label="ย้อนกลับ" class="w-9 h-9 rounded-full bg-white shadow-xs border border-stone-200 flex items-center justify-center text-stone-700 hover:bg-stone-50 transition active:scale-95">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path>
+</svg>
+</button>
+<div class="text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[11px] font-bold">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          แมตช์ถูกล็อกแล้ว (Match Locked)
+        </span>
+<h1 class="text-sm font-bold text-stone-800 tracking-tight">ยืนยันตอบรับคำท้าดวล</h1>
+</div>
+<div class="w-9 h-9 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center overflow-hidden">
+<img alt="Winner Court Capybara Avatar" class="w-7 h-7 object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VwLPjUC3bhswd7goRY7KwZ6h_XxnaN_F4__OmN6Moc4A_67xEmQkTnJdDpf9h0IaQD7SlWt8EG2UcoaRCZo6yBWQ7yJEzFZzkiFWaezj1st0gcyH60nc88FY5sS47xI14yGKzjtJbWzixu-YTRGQ7RsDYPErpNtz6vCZfw-N5cO0dUN7bYCEJVast5aI4U9U6C3Tyn_I3T3ZekL9Y7p0s4ljWdl2OLF4zf492Em8T5qQnwFgfbIZPS-cY"/>
+</div>
+</header>
+<!-- Scrollable Content Area -->
+<main class="flex-1 px-4 py-4 space-y-4 pb-28 custom-scrollbar overflow-y-auto">
+<!-- Success Celebration Banner with Mascot & Sparkles -->
+<div class="relative bg-gradient-to-br from-[#1D2D44] via-[#243B55] to-[#141E30] rounded-3xl p-5 text-white shadow-lg overflow-hidden border border-[#2d466b]">
+<!-- Decorative Glow & Court Lines -->
+<div class="absolute -right-8 -bottom-8 w-36 h-36 bg-amber-500/15 rounded-full blur-2xl pointer-events-none"></div>
+<div class="absolute -left-6 -top-6 w-32 h-32 bg-emerald-500/15 rounded-full blur-xl pointer-events-none"></div>
+<div class="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:12px_12px] pointer-events-none"></div>
+<div class="relative z-10 flex items-center gap-4">
+<div class="relative flex-shrink-0">
+<div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-amber-400 to-amber-200 p-0.5 shadow-md animate-bounce-gentle">
+<div class="w-full h-full bg-[#1D2D44] rounded-[14px] flex items-center justify-center overflow-hidden p-1">
+<img alt="Capybara Cheering with Racket" class="w-16 h-16 object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Uj0xcy0IeAaDNGroyF_scODsVzXgkLoPODvEcPs41LDDDNcR1bJEQAMSRoT7Io5SAG9Aod8w1qdhqoGwHgEC0kF1vnvOAZKUCagV76w-fGvRaI8135gIZ3eHlHo44Tsqp9DGzUQE1iz9GyibqOXUPjZLxR0L0_wOuynGdrJC7uoQI0KNOYOPkjZ3NJt8gLAfWHR6yj-H93xV5jGbDVuTosgkQ3SuUHSObSOJPrC8tN2HNxDIXDEb3QUOs"/>
+</div>
+</div>
+<span class="absolute -top-1.5 -right-1.5 bg-emerald-500 text-white rounded-full p-1 shadow-sm">
+<svg class="w-3.5 h-3.5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path>
+</svg>
+</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-1.5 mb-1">
+<span class="px-2 py-0.5 rounded-md bg-amber-400/20 text-amber-300 text-[10px] font-bold tracking-wider uppercase border border-amber-400/30">
+                ⚔️ DUEL CONFIRMED
+              </span>
+<span class="text-xs text-stone-300 font-mono">#WC-DUEL42</span>
+</div>
+<h2 class="text-lg font-black text-white leading-snug">
+              ตอบรับคำท้าสำเร็จแล้ว! 🔥
+            </h2>
+<p class="text-xs text-stone-300 mt-1 leading-relaxed">
+              แมตช์นี้ล็อกกติกาและสนามเรียบร้อย เตรียมพร้อมลงดวลเพื่อชิงชานมไข่มุกและแต้ม EXP ก๊วน!
+            </p>
+</div>
+</div>
+<!-- Notification Dispatch Badge -->
+<div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs">
+<div class="flex items-center gap-1.5 text-emerald-400 font-medium">
+<svg class="w-4 h-4" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
+</svg>
+<span>ส่งการแจ้งเตือนไปยัง Ken และสมาชิกทั้ง 4 คนแล้ว</span>
+</div>
+<span class="text-[10px] text-stone-400">เมื่อสักครู่</span>
+</div>
+</div>
+<!-- Head-to-Head Roster Showdown Card -->
+<section class="bg-white rounded-2xl p-4 shadow-sm border border-[#EAE6DF]">
+<div class="flex items-center justify-between pb-3 border-b border-stone-100 mb-3">
+<span class="text-xs font-bold text-stone-700 uppercase tracking-wider flex items-center gap-1.5">
+<svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+            รายชื่อ 4 นักตบลงสนาม (Roster 2 vs 2)
+          </span>
+<span class="px-2 py-0.5 rounded-full bg-stone-100 text-stone-600 text-[11px] font-semibold">
+            ประเภทคู่ผสม 3 เซต 21 แต้ม
+          </span>
+</div>
+<div class="grid grid-cols-11 items-center gap-1">
+<!-- Left Team: Challengers -->
+<div class="col-span-5 bg-stone-50 rounded-xl p-2.5 border border-stone-200 text-center">
+<span class="inline-block px-1.5 py-0.5 rounded bg-[#1D2D44] text-white text-[9px] font-bold mb-1.5">
+              ทีมผู้ท้าชิง
+            </span>
+<div class="flex justify-center -space-x-2 mb-1.5">
+<div class="relative">
+<img alt="Ken" class="w-10 h-10 rounded-full border-2 border-white object-cover shadow-xs" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg"/>
+<span class="absolute -bottom-1 -right-1 bg-amber-500 text-white text-[9px] px-1 rounded-full font-bold">Lv.24</span>
+</div>
+<div class="relative">
+<img alt="Ton C." class="w-10 h-10 rounded-full border-2 border-white object-cover shadow-xs" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg"/>
+<span class="absolute -bottom-1 -right-1 bg-blue-600 text-white text-[9px] px-1 rounded-full font-bold">Lv.24</span>
+</div>
+</div>
+<h4 class="text-xs font-bold text-stone-800 truncate">Ken (คุณ) &amp; กัปตันต้น</h4>
+<p class="text-[10px] text-stone-500 truncate">Tactician • Playmaker</p>
+<div class="mt-1.5 inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> พร้อมแข่ง
+            </div>
+</div>
+<!-- Middle VS Pillar -->
+<div class="col-span-1 flex flex-col items-center justify-center">
+<div class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-500 to-amber-600 text-white font-black text-xs flex items-center justify-center shadow-md border-2 border-white">
+              VS
+            </div>
+<span class="text-[9px] font-bold text-stone-400 mt-1">H2H</span>
+<span class="text-[9px] font-bold text-stone-600 font-mono">2-1</span>
+</div>
+<!-- Right Team: Defenders (You / Mind) -->
+<div class="col-span-5 bg-amber-50/70 rounded-xl p-2.5 border border-amber-200 text-center relative overflow-hidden">
+<div class="absolute -top-1 -right-1 bg-amber-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-bl shadow-xs">
+              ทีมของคุณ
+            </div>
+<span class="inline-block px-1.5 py-0.5 rounded bg-amber-600 text-white text-[9px] font-bold mb-1.5">
+              ทีมแชมป์เก่า 👑
+            </span>
+<div class="flex justify-center -space-x-2 mb-1.5">
+<div class="relative">
+<img alt="Mind N." class="w-10 h-10 rounded-full border-2 border-amber-300 object-cover shadow-xs" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg"/>
+<span class="absolute -bottom-1 -right-1 bg-amber-600 text-white text-[9px] px-1 rounded-full font-bold">Lv.28</span>
+</div>
+<div class="relative">
+<img alt="Palm S." class="w-10 h-10 rounded-full border-2 border-white object-cover shadow-xs" src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg"/>
+<span class="absolute -bottom-1 -right-1 bg-blue-600 text-white text-[9px] px-1 rounded-full font-bold">Lv.26</span>
+</div>
+</div>
+<h4 class="text-xs font-bold text-stone-800 truncate">น้องมายด์ (คุณ) &amp; ปาล์ม</h4>
+<p class="text-[10px] text-stone-500 truncate">Net Master • Smash</p>
+<div class="mt-1.5 inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> ตอบรับแล้ว ✓
+            </div>
+</div>
+</div>
+</section>
+<!-- Venue & Confirmed Slot Card -->
+<section class="bg-white rounded-2xl p-4 shadow-sm border border-[#EAE6DF] space-y-3">
+<div class="flex items-center justify-between pb-2.5 border-b border-stone-100">
+<span class="text-xs font-bold text-stone-700 uppercase tracking-wider flex items-center gap-1.5">
+<svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+            สนามและเวลาที่นัดหมาย (Locked Slot)
+          </span>
+<span class="px-2 py-0.5 rounded bg-emerald-50 border border-emerald-200 text-emerald-700 text-[10px] font-bold">
+            ชำระมัดจำแล้ว
+          </span>
+</div>
+<div class="flex items-start gap-3 bg-stone-50 rounded-xl p-3 border border-stone-200/80">
+<div class="w-11 h-11 rounded-xl bg-white border border-stone-200 flex items-center justify-center text-[#1D2D44] flex-shrink-0 shadow-xs">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+</svg>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-1.5">
+<h3 class="text-sm font-bold text-stone-800">Winner Court Bangkok</h3>
+<span class="text-[10px] px-1.5 py-0.2 rounded bg-amber-100 text-amber-800 font-semibold">คอร์ท 3</span>
+</div>
+<p class="text-xs text-stone-600 mt-0.5">คอร์ทแอร์ • พื้นยางมาตรฐาน BWF เกรดแข่งขัน</p>
+<div class="flex items-center gap-2 mt-2 text-xs font-semibold text-stone-700">
+<span class="flex items-center gap-1 text-[#1D2D44]">
+<svg class="w-3.5 h-3.5 text-stone-500" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+                วันศุกร์นี้ 31 พ.ค. 2567
+              </span>
+<span class="text-stone-300">•</span>
+<span class="text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded font-mono">19:00 - 20:00 น. (1 ชม.)</span>
+</div>
+</div>
+</div>
+<!-- Check-in QR & Court Light Note -->
+<div class="flex items-center justify-between text-xs px-2 text-stone-500">
+<span class="flex items-center gap-1">
+<svg class="w-3.5 h-3.5 text-amber-500" fill="currentColor" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" fill-rule="evenodd"></path>
+</svg>
+            ไฟคอร์ทจะเปิดอัตโนมัติเมื่อสแกน QR หน้าสนาม
+          </span>
+<a class="text-emerald-700 font-bold hover:underline" href="#">ดูบัตรเช็คอิน →</a>
+</div>
+</section>
+<!-- Locked Stakes & EXP Impact -->
+<section class="bg-white rounded-2xl p-4 shadow-sm border border-[#EAE6DF] space-y-2.5">
+<span class="text-xs font-bold text-stone-700 uppercase tracking-wider flex items-center gap-1.5">
+<svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+          ข้อตกลงเดิมพัน &amp; รางวัลแมตช์ (Agreed Stakes)
+        </span>
+<div class="bg-amber-50/60 rounded-xl p-3 border border-amber-200/70 flex items-start gap-3">
+<div class="text-2xl flex-shrink-0">🧋</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<h4 class="text-xs font-bold text-amber-950">เดิมพันชานมกระชับมิตร</h4>
+<span class="text-[10px] font-bold text-amber-700 bg-amber-100 px-1.5 py-0.5 rounded">ยืนยันแล้ว</span>
+</div>
+<p class="text-xs text-amber-800 mt-0.5">ชานมไข่มุกหวานร้อย 1 แก้วใหญ่ (ทีมผู้แพ้เป็นเจ้าภาพเลี้ยงหลังแข่งเสร็จ)</p>
+</div>
+</div>
+<div class="bg-stone-50 rounded-xl p-3 border border-stone-200/80 flex items-start gap-3">
+<div class="text-2xl flex-shrink-0">⚡</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<h4 class="text-xs font-bold text-stone-800">EXP สโมสร &amp; ผลต่อแรงกิ้งสัปดาห์นี้</h4>
+<span class="text-[10px] font-bold text-stone-600 bg-stone-200 px-1.5 py-0.5 rounded">Leaderboard Impact</span>
+</div>
+<p class="text-xs text-stone-600 mt-0.5">
+              ทีมชนะรับ <span class="font-bold text-amber-700">+100 EXP</span> / ทีมแพ้รับ <span class="font-semibold text-stone-700">+20 EXP</span> พร้อมบันทึกลงตาราง MVP
+            </p>
+</div>
+</div>
+</section>
+<!-- Capybara AI Coach Commentary Box -->
+<section class="bg-gradient-to-r from-amber-50 via-stone-50 to-amber-50 rounded-2xl p-3.5 border border-amber-200 shadow-xs flex items-center gap-3">
+<div class="w-12 h-12 rounded-xl bg-white border border-amber-200 flex-shrink-0 flex items-center justify-center shadow-xs overflow-hidden">
+<img alt="Capybara Coach Sitting Calm" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UcvIDjovuP5IpD-hurc-I3UBRobMfUCtNCNDMLqPJfrXy_WcNqK8geSxwtYd6GNAkxHwagtQuN1SCHWB3ItRZmU1mcDidI_O-NyJRr8WAi_aFRWhjm3B_4QgDkkTPuLTQFJy0yNV1EtW-FfkkhVWdMhhoq5-L4xvfDe_69MQ3wtNWQmnhDf0QDdqQP3a15FVsaHSgCZAmt6YWxxMtyG6Ha5GHxCFHbCfrlSBj7bdoSQ1FJ2jksftfqcV4"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-1.5">
+<h4 class="text-xs font-bold text-stone-800">โค้ชพี่กะปิวิเคราะห์ความพร้อม 🦫✨</h4>
+<span class="text-[9px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.2 rounded">Matched!</span>
+</div>
+<p class="text-xs text-stone-600 mt-0.5 leading-snug">
+            "ดีลลงตัวเรียบร้อย! น้องมายด์ดักหน้าเน็ต ปาล์มคอยสแมชท้ายคอร์ท ถ้าไม่หลุดแต้มดิวซ์ ชานมแก้วนี้ไม่หนีไปไหนแน่นอน!"
+          </p>
+</div>
+</section>
+<!-- Live Broadcast to LINE Status -->
+<div class="bg-emerald-50/80 rounded-xl p-3 border border-emerald-200 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-[#06C755] flex items-center justify-center text-white text-xs font-bold">
+<svg class="w-3.5 h-3.5" fill="currentColor" viewbox="0 0 24 24">
+<path d="M19.365 9.863c.349.001.636.287.636.637 0 4.148-4.477 7.5-10 7.5-1.55 0-3.003-.263-4.3-.733l-3.328 1.053c-.347.11-.703-.146-.689-.508l.182-2.368C1.18 14.168 0 12.115 0 9.863c0-4.148 4.477-7.5 10-7.5s10 3.352 10 7.5z"></path>
+</svg>
+</div>
+<div>
+<p class="text-xs font-bold text-emerald-950">อัปเดตสถานะในห้องแชท LINE แล้ว</p>
+<p class="text-[10px] text-emerald-700">การ์ดในห้องก๊วนวันศุกร์เปลี่ยนเป็น "ตอบรับเรียบร้อย"</p>
+</div>
+</div>
+<span class="text-xs font-bold text-emerald-700">ดูแชท →</span>
+</div>
+</main>
+<!-- Sticky Bottom CTA Bar -->
+<div class="sticky bottom-0 z-30 bg-white/95 backdrop-blur-md border-t border-[#EAE6DF] px-4 py-3 shadow-lg space-y-2">
+<!-- Primary Green Action: Open Scoreboard / Check-in -->
+<div class="grid grid-cols-2 gap-2">
+<button class="w-full bg-[#1D2D44] hover:bg-[#152234] text-white py-3 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-98 shadow-sm">
+<svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>กระดานนับคะแนน</span>
+</button>
+<button class="w-full bg-[#06C755] hover:bg-[#05a847] text-white py-3 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-98 shadow-sm">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>เปิด QR เช็คอินสนาม</span>
+</button>
+</div>
+<!-- Secondary: Back to Home or Chat -->
+<button class="w-full bg-stone-100 hover:bg-stone-200 text-stone-700 py-2.5 rounded-xl font-semibold text-xs flex items-center justify-center gap-1 transition">
+<span>กลับไปที่ห้องแชท LINE ก๊วน</span>
+</button>
+</div>
+</div>
+</body>
+</html>

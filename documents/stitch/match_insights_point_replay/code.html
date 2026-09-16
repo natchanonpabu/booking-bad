@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+
+<html lang="th"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans:wght@400;600;700&amp;family=Noto+Sans+Thai:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;font-family:'Noto Sans Thai','Noto Sans',sans-serif;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-primary-container":"#8595b0","primary-fixed":"#d5e3ff","tertiary":"#131a00","secondary-fixed":"#ffdcbb","on-tertiary":"#ffffff","surface-container-low":"#f5f3ef","on-error-container":"#93000a","on-tertiary-fixed":"#171e00","background":"#fbf9f5","on-background":"#1b1c1a","on-tertiary-container":"#8c9960","on-secondary-fixed":"#2b1700","surface-container-high":"#eae8e4","surface-container":"#efeeea","surface-container-highest":"#e4e2de","secondary-container":"#fdbd77","inverse-on-surface":"#f2f0ed","on-secondary":"#ffffff","surface-container-lowest":"#ffffff","tertiary-fixed":"#dbe9a9","inverse-surface":"#30312e","primary":"#07182e","surface-dim":"#dbdad6","on-secondary-container":"#784a0d","on-primary-fixed":"#0b1c32","primary-container":"#1d2d44","surface-bright":"#fbf9f5","secondary-fixed-dim":"#faba75","inverse-primary":"#b7c7e5","on-surface-variant":"#44474d","on-secondary-fixed-variant":"#673d00","tertiary-container":"#263003","outline":"#75777e","on-primary-fixed-variant":"#384760","surface":"#fbf9f5","error-container":"#ffdad6","outline-variant":"#c5c6cd","surface-tint":"#4f5f79","on-tertiary-fixed-variant":"#404b1b","on-surface":"#1b1c1a","tertiary-fixed-dim":"#bfcd8f","surface-variant":"#e4e2de","on-primary":"#ffffff","secondary":"#835418","primary-fixed-dim":"#b7c7e5","on-error":"#ffffff","error":"#ba1a1a"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-2xs":"0.25rem","space-lg":"1.5rem","space-sm":"0.75rem","space-md":"1rem","margin-tablet":"2rem","space-xs":"0.5rem","space-2xl":"3rem","margin-desktop":"3rem","margin-mobile":"1rem","gutter-mobile":"1rem","space-3xl":"4rem","gutter-desktop":"1.5rem","space-xl":"2rem"},"fontFamily":{"body-sm":["Inter","Noto Sans Thai"],"label-md":["Inter","Noto Sans Thai"],"body-lg":["Inter","Noto Sans Thai"],"body-md":["Inter","Noto Sans Thai"],"headline-sm":["Noto Sans","Noto Sans Thai"],"label-sm":["Inter","Noto Sans Thai"],"headline-lg":["Noto Sans","Noto Sans Thai"],"label-lg":["Inter","Noto Sans Thai"],"headline-md":["Noto Sans","Noto Sans Thai"],"display-lg-mobile":["Noto Sans","Noto Sans Thai"],"display-lg":["Noto Sans","Noto Sans Thai"]},"fontSize":{"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"headline-sm":["18px",{"lineHeight":"24px","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.03em","fontWeight":"500"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.01em","fontWeight":"600"}],"label-lg":["14px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"600"}],"headline-md":["22px",{"lineHeight":"28px","fontWeight":"600"}],"display-lg-mobile":["32px",{"lineHeight":"40px","letterSpacing":"-0.01em","fontWeight":"700"}],"display-lg":["40px",{"lineHeight":"48px","letterSpacing":"-0.02em","fontWeight":"700"}]}}}};</script></head><body class="bg-surface text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-space-md flex items-center justify-between gap-space-xs"><div class="flex items-center gap-space-xs"><button aria-label="LINE Home" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[22px]">home</span></button><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary tracking-tight font-semibold truncate max-w-[190px]">วินเนอร์ คอร์ท (Winner Court)</span><div class="flex items-center gap-1.5"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-high text-on-tertiary-container font-label-sm text-label-sm"><span class="w-1.5 h-1.5 rounded-full bg-[#606C38]"></span>เปิดบริการ 09:00 - 22:00</span></div></div></div><div class="flex items-center gap-space-xs"><div class="w-8 h-8 rounded-full overflow-hidden p-0.5 bg-surface-container-low"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1VwLPjUC3bhswd7goRY7KwZ6h_XxnaN_F4__OmN6Moc4A_67xEmQkTnJdDpf9h0IaQD7SlWt8EG2UcoaRCZo6yBWQ7yJEzFZzkiFWaezj1st0gcyH60nc88FY5sS47xI14yGKzjtJbWzixu-YTRGQ7RsDYPErpNtz6vCZfw-N5cO0dUN7bYCEJVast5aI4U9U6C3Tyn_I3T3ZekL9Y7p0s4ljWdl2OLF4zf492Em8T5qQnwFgfbIZPS-cY"/></div></div></div></header><main class="flex flex-col relative w-full pt-16 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full px-space-md space-y-space-md max-w-[430px] mx-auto pb-6">
+<!-- Breadcrumb & Nav Header Context -->
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-space-xs">
+<button aria-label="ย้อนกลับไปหน้าสรุป" class="w-10 h-10 rounded-full flex items-center justify-center bg-surface-container-low text-primary active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+</button>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-primary font-bold">สถิติละเอียด &amp; รีเพลย์แต้ม</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-secondary">location_on</span>
+          คอร์ท 3 (แอร์) • 24 พ.ค. (19:00 - 19:48 น.)
+        </span>
+</div>
+</div>
+<div class="flex items-center gap-1.5">
+<button aria-label="แชร์สรุปผล" class="w-10 h-10 rounded-full flex items-center justify-center bg-surface-container-low text-primary active:scale-95 transition-all" id="btnShareModal">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</button>
+<button aria-label="ดาวน์โหลดสถิติ" class="w-10 h-10 rounded-full flex items-center justify-center bg-surface-container-low text-primary active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+</div>
+<!-- Hero Match Recap Summary Card -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container-lowest p-space-md shadow-sm">
+<div class="absolute -right-6 -bottom-6 w-28 h-28 bg-secondary-fixed/30 rounded-full blur-xl pointer-events-none"></div>
+<div class="flex items-center justify-between mb-3">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">military_tech</span>
+        ผลการแข่งขันแมตช์ 3 เซต
+      </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">timer</span>
+        48 นาที • 9.4 แรลลี่/แต้ม
+      </span>
+</div>
+<!-- Matchup Scores -->
+<div class="grid grid-cols-11 items-center py-1">
+<!-- Team A -->
+<div class="col-span-4 flex flex-col items-start min-w-0">
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">ทีม A</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface truncate font-semibold">กัปตันต้น &amp; นนท์</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">แพ้ 1 เซต</span>
+</div>
+<!-- Set breakdown badge in center -->
+<div class="col-span-3 flex flex-col items-center justify-center">
+<div class="px-2.5 py-1 rounded-lg bg-surface-container-high flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface-variant">1</span>
+<span class="font-label-sm text-label-sm text-outline">-</span>
+<span class="font-headline-sm text-headline-sm font-bold text-primary">2</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-tertiary-container mt-1 font-medium">ทีม B ชนะ</span>
+</div>
+<!-- Team B (Winner) -->
+<div class="col-span-4 flex flex-col items-end text-right min-w-0">
+<div class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-[#606C38]"></span>
+<span class="font-label-sm text-label-sm text-on-tertiary-container font-semibold">ทีม B (ชนะ)</span>
+</div>
+<span class="font-label-lg text-label-lg text-primary truncate font-bold">ปาล์ม &amp; มายด์ 👑</span>
+<span class="font-body-sm text-body-sm text-secondary font-medium">แชมป์ประจำคอร์ท</span>
+</div>
+</div>
+<!-- Set Score Tracker Row -->
+<div class="mt-3 pt-3 flex items-center justify-around bg-surface-container-low rounded-lg p-2">
+<div class="text-center">
+<div class="font-label-sm text-label-sm text-on-surface-variant">เซต 1</div>
+<div class="font-label-lg text-label-lg text-primary font-bold">21 - 17</div>
+<div class="font-body-sm text-body-sm text-outline">ทีม A ได้</div>
+</div>
+<div class="w-px h-6 bg-surface-container-highest"></div>
+<div class="text-center">
+<div class="font-label-sm text-label-sm text-on-surface-variant">เซต 2</div>
+<div class="font-label-lg text-label-lg text-primary font-bold">19 - 21</div>
+<div class="font-body-sm text-body-sm text-secondary font-semibold">ทีม B พลิก</div>
+</div>
+<div class="w-px h-6 bg-surface-container-highest"></div>
+<div class="text-center">
+<div class="flex items-center justify-center gap-0.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">เซต 3</span>
+<span class="material-symbols-outlined text-[13px] text-error">local_fire_department</span>
+</div>
+<div class="font-label-lg text-label-lg text-primary font-bold">20 - 22</div>
+<div class="font-body-sm text-body-sm text-on-tertiary-container font-bold">ดิวซ์ระทึก</div>
+</div>
+</div>
+</div>
+<!-- Set Filter Tabs -->
+<div class="flex items-center gap-1.5 p-1 bg-surface-container rounded-xl overflow-x-auto">
+<button class="tab-btn px-3 py-1.5 rounded-lg text-on-surface-variant font-label-md text-label-md transition-all shrink-0">
+      ภาพรวมแมตช์
+    </button>
+<button class="tab-btn px-3 py-1.5 rounded-lg text-on-surface-variant font-label-md text-label-md transition-all shrink-0">
+      เซต 1
+    </button>
+<button class="tab-btn px-3 py-1.5 rounded-lg text-on-surface-variant font-label-md text-label-md transition-all shrink-0">
+      เซต 2
+    </button>
+<button class="tab-btn active px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md shadow-sm transition-all shrink-0 flex items-center gap-1">
+<span>เซต 3 (ดิวซ์ 22-20)</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed"></span>
+</button>
+</div>
+<!-- Momentum Step Graph & Turning Points (Set 3 Focus) -->
+<div class="rounded-xl bg-surface-container-lowest p-space-md shadow-sm space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">show_chart</span>
+<span class="font-headline-sm text-headline-sm text-primary font-bold">โมเมนตัมแต้ม เซต 3</span>
+</div>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-semibold">
+        จุดพลิกผัน 4 ครั้ง
+      </span>
+</div>
+<!-- Momentum SVG Chart -->
+<div class="relative w-full bg-surface-container-low rounded-xl p-3 pt-4">
+<div class="flex justify-between items-center text-on-surface-variant font-label-sm text-label-sm pb-1">
+<span class="text-outline font-medium">ทีม A นำ (+4)</span>
+<span class="text-on-surface-variant">สูสี (0)</span>
+<span class="text-secondary font-bold">ทีม B นำ (+4)</span>
+</div>
+<!-- Step Line SVG Graph -->
+<svg class="w-full h-24 overflow-visible" viewbox="0 0 340 100">
+<!-- Zero Axis Baseline -->
+<line stroke="#c5c6cd" stroke-dasharray="3 3" stroke-width="1.5" x1="10" x2="330" y1="50" y2="50"></line>
+<!-- Momentum Curve/Polyline -->
+<!-- Center=50, Team A up=20, Team B down/up: 50 -> 40 -> 60 -> 45 -> 70 -> 50 -> 75 -->
+<polyline fill="none" points="10,50 40,42 70,38 95,44 125,56 160,35 195,30 230,50 260,50 290,65 325,75" stroke="#1d2d44" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></polyline>
+<!-- Key Milestones Points -->
+<!-- Milestone 1: 11-8 Mid Break -->
+<circle cx="125" cy="56" fill="#835418" r="4"></circle>
+<text class="text-[9px] fill-[#44474d] font-sans" text-anchor="middle" x="125" y="74">11-8 (พัก)</text>
+<!-- Milestone 2: Team A leads 19-17 -->
+<circle cx="195" cy="30" fill="#ba1a1a" r="4.5"></circle>
+<text class="text-[9px] fill-[#ba1a1a] font-sans font-bold" text-anchor="middle" x="195" y="20">ทีม A นำ 19-17</text>
+<!-- Milestone 3: Deuce 20-20 -->
+<circle cx="260" cy="50" fill="#fdbd77" r="5" stroke="#1d2d44" stroke-width="2"></circle>
+<text class="text-[9px] fill-[#07182e] font-sans font-bold" text-anchor="middle" x="260" y="40">20-20 ดิวซ์!</text>
+<!-- Milestone 4: Match Point 22-20 -->
+<circle cx="325" cy="75" fill="#606c38" r="5"></circle>
+<text class="text-[10px] fill-[#263003] font-sans font-bold" text-anchor="middle" x="315" y="93">🏆 22-20</text>
+</svg>
+</div>
+<!-- Turning point quick pills -->
+<div class="grid grid-cols-2 gap-2 pt-1">
+<div class="flex items-start gap-2 p-2 rounded-lg bg-surface-container-low">
+<span class="w-5 h-5 rounded-full bg-error-container text-on-error-container flex items-center justify-center shrink-0 text-label-sm font-bold">!</span>
+<div class="min-w-0">
+<div class="font-label-sm text-label-sm font-bold text-primary">ทีม A เสียแมตช์พอยต์</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">นำ 19-17 ก่อนโดนดักหน้าเน็ต</div>
+</div>
+</div>
+<div class="flex items-start gap-2 p-2 rounded-lg bg-surface-container-low">
+<span class="w-5 h-5 rounded-full bg-tertiary-fixed text-on-tertiary-container flex items-center justify-center shrink-0 text-label-sm font-bold">★</span>
+<div class="min-w-0">
+<div class="font-label-sm text-label-sm font-bold text-primary">มายด์ รัน 3 แต้มรวด</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">หยอดปิดเซต 22-20 คว้าชัย</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Point-by-Point Interactive Replay Feed -->
+<div class="space-y-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">sports_score</span>
+<span class="font-headline-sm text-headline-sm text-primary font-bold">บันทึกจังหวะได้-เสียแต้ม (Point Log)</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">42 แต้มบันทึก</span>
+</div>
+<!-- Filter chips -->
+<div class="flex items-center gap-1.5 overflow-x-auto pb-1">
+<button class="point-filter active px-2.5 py-1 rounded-full bg-primary text-on-primary font-label-sm text-label-sm font-semibold shrink-0">
+        ทั้งหมด
+      </button>
+<button class="point-filter px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm shrink-0 flex items-center gap-1">
+<span>⚡ แต้มตบ (Smash)</span>
+</button>
+<button class="point-filter px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm shrink-0 flex items-center gap-1">
+<span>🌿 แต้มหยอด (Drop/Net)</span>
+</button>
+<button class="point-filter px-2.5 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm shrink-0 flex items-center gap-1">
+<span>❌ ตีเสียเอง (Error)</span>
+</button>
+</div>
+<!-- Points Feed List -->
+<div class="space-y-2">
+<!-- Point 1 (Game End) -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-container font-label-sm text-label-sm font-bold">
+              แต้มชนะ 22-20
+            </span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">แรลลี่ 18 ช็อต</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-primary font-bold">20 - 22</span>
+</div>
+<div class="flex items-start gap-2.5">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed shrink-0 font-bold text-label-sm">
+            M
+          </div>
+<div class="min-w-0 flex-1">
+<div class="flex items-center gap-1.5">
+<span class="font-label-lg text-label-lg font-bold text-primary">น้องมายด์ (ทีม B)</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container-high text-on-surface-variant text-[10px] font-semibold">Drop Shot</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+              หยอดตัดหน้าเน็ตทแยงมุม เสียบมุมสามเหลี่ยมฝั่งซ้ายแบบเฉียบขาด กัปตันต้นพุ่งรับไม่ทัน
+            </p>
+</div>
+</div>
+</div>
+<!-- Point 2 -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">
+              แมตช์พอยต์ 21-20
+            </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">แรลลี่ 12 ช็อต</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-primary font-bold">20 - 21</span>
+</div>
+<div class="flex items-start gap-2.5">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center shrink-0 font-bold text-label-sm">
+            P
+          </div>
+<div class="min-w-0 flex-1">
+<div class="flex items-center gap-1.5">
+<span class="font-label-lg text-label-lg font-bold text-primary">ปาล์ม (ทีม B)</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container-high text-on-surface-variant text-[10px] font-semibold">Smash Kill</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+              กระโดดสแมชฝังเส้นข้างฝั่งขวา ความเร็ว 210 km/h ทะลวงเกมรับ
+            </p>
+</div>
+</div>
+</div>
+<!-- Point 3 (Deuce Maker) -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">
+              ดิวซ์ 20-20
+            </span>
+<span class="font-label-sm text-label-sm text-outline">Unforced Error</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface-variant font-bold">20 - 20</span>
+</div>
+<div class="flex items-start gap-2.5">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center shrink-0 font-bold text-label-sm">
+            T
+          </div>
+<div class="min-w-0 flex-1">
+<div class="flex items-center gap-1.5">
+<span class="font-label-lg text-label-lg font-bold text-on-surface">กัปตันต้น (ทีม A)</span>
+<span class="px-1.5 py-0.2 rounded bg-error-container text-on-error-container text-[10px] font-semibold">Service Fault</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+              เสิร์ฟลูกสั้นติดเน็ตอย่างน่าเสียดายในแต้มสำคัญ ทำให้แต้มกลับมาเสมอดิวซ์
+            </p>
+</div>
+</div>
+</div>
+<!-- Point 4 (Longest Rally) -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed-dim text-on-secondary-fixed font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">bolt</span>
+              Longest Rally! (38 ช็อต)
+            </span>
+</div>
+<span class="font-headline-sm text-headline-sm text-primary font-bold">20 - 19</span>
+</div>
+<div class="flex items-start gap-2.5">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0 font-bold text-label-sm">
+            N
+          </div>
+<div class="min-w-0 flex-1">
+<div class="flex items-center gap-1.5">
+<span class="font-label-lg text-label-lg font-bold text-primary">นนท์ (ทีม A)</span>
+<span class="px-1.5 py-0.2 rounded bg-surface-container-high text-on-surface-variant text-[10px] font-semibold">Power Jump Smash</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">
+              ไล่ตบกระหน่ำท้ายคอร์ท 4 ช็อตติด ก่อนกระโดดฟาดกลางคอร์ทเต็มแรง (245 km/h) เป็นแต้มขึ้นนำ
+            </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Detailed Player Performance & Head-to-Head -->
+<div class="space-y-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">person_search</span>
+<span class="font-headline-sm text-headline-sm text-primary font-bold">สถิติรายบุคคล (Player Insights)</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-tertiary-container font-semibold">4 ผู้เล่นในสนาม</span>
+</div>
+<!-- 4 Players Grid -->
+<div class="grid grid-cols-2 gap-2.5">
+<!-- Player 1: Mind (MVP) -->
+<div class="p-3 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between mb-1.5">
+<div class="w-7 h-7 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center font-bold text-label-sm">
+            M
+          </div>
+<span class="px-1.5 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-container font-label-sm text-label-sm font-bold">
+            ⭐ MVP
+          </span>
+</div>
+<div class="min-w-0">
+<span class="font-label-lg text-label-lg font-bold text-primary block truncate">น้องมายด์</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">คุมหน้าเน็ตยอดเยี่ยม</span>
+</div>
+<div class="mt-2 pt-2 bg-surface-container-low rounded-lg p-1.5 space-y-1">
+<div class="flex justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">หยอดสำเร็จ</span>
+<span class="font-bold text-primary">11 แต้ม</span>
+</div>
+<div class="flex justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">ดักหน้าเน็ต</span>
+<span class="font-bold text-primary">9 ครั้ง</span>
+</div>
+<div class="flex justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">เสิร์ฟเสีย</span>
+<span class="font-bold text-[#606C38]">0 ครั้ง</span>
+</div>
+</div>
+</div>
+<!-- Player 2: Palm -->
+<div class="p-3 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1.5">
+<div class="w-7 h-7 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bold text-label-sm">
+            P
+          </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">ทีม B</span>
+</div>
+<div class="min-w-0">
+<span class="font-label-lg text-label-lg font-bold text-primary block truncate">ปาล์ม</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">สายซัพพอร์ต &amp; สแมช</span>
+</div>
+<div class="mt-2 pt-2 bg-surface-container-low rounded-lg p-1.5 space-y-1">
+<div class="flex justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">ตบทำแต้ม</span>
+<span class="font-bold text-primary">6 แต้ม</span>
+</div>
+<div class="flex justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">รับลูกตบได้</span>
+<span class="font-bold text-primary">14 ครั้ง</span>
+</div>
+<div class="flex justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">คอร์ทคัฟเวอร์</span>
+<span class="font-bold text-primary">82%</span>
+</div>
+</div>
+</div>
+<!-- Player 3: Captain Ton -->
+<div class="p-3 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1.5">
+<div class="w-7 h-7 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center font-bold text-label-sm">
+            T
+          </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">ทีม A</span>
+</div>
+<div class="min-w-0">
+<span class="font-label-lg text-label-lg font-bold text-primary block truncate">กัปตันต้น</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">เพลย์เมกเกอร์คุมคอร์ท</span>
+</div>
+<div class="mt-2 pt-2 bg-surface-container-low rounded-lg p-1.5 space-y-1">
+<div class="flex justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">วางลูกท้ายคอร์ท</span>
+<span class="font-bold text-primary">8 ครั้ง</span>
+</div>
+<div class="flex justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">คุมแดน</span>
+<span class="font-bold text-primary">78%</span>
+</div>
+<div class="flex justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">เสิร์ฟเอซ</span>
+<span class="font-bold text-primary">2 แต้ม</span>
+</div>
+</div>
+</div>
+<!-- Player 4: Non -->
+<div class="p-3 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-1.5">
+<div class="w-7 h-7 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-label-sm">
+            N
+          </div>
+<span class="px-1.5 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold">
+            ⚡ Max Speed
+          </span>
+</div>
+<div class="min-w-0">
+<span class="font-label-lg text-label-lg font-bold text-primary block truncate">นนท์</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">จอมพลังพลังทำลายสูง</span>
+</div>
+<div class="mt-2 pt-2 bg-surface-container-low rounded-lg p-1.5 space-y-1">
+<div class="flex justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">ตบฝังท็อป</span>
+<span class="font-bold text-primary">8 แต้ม</span>
+</div>
+<div class="flex justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">ความเร็วสูงสุด</span>
+<span class="font-bold text-error">245 km/h</span>
+</div>
+<div class="flex justify-between font-label-sm text-label-sm">
+<span class="text-on-surface-variant">ตีติดเน็ต</span>
+<span class="font-bold text-outline">5 ครั้ง</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Court Zone Win Rate Comparison Bar -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg font-bold text-primary">การทำแต้มตามโซน (Net vs Backcourt)</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">สัดส่วนแต้มได้</span>
+</div>
+<!-- Zone 1: Net Play -->
+<div>
+<div class="flex justify-between font-label-sm text-label-sm mb-1">
+<span class="text-on-surface-variant">โซนหน้าเน็ต (Net / Drop)</span>
+<span class="font-bold text-primary">ทีม B ชนะ 68%</span>
+</div>
+<div class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden flex">
+<div class="h-full bg-primary" style="width: 68%;"></div>
+<div class="h-full bg-secondary-fixed" style="width: 32%;"></div>
+</div>
+</div>
+<!-- Zone 2: Backcourt Smash -->
+<div>
+<div class="flex justify-between font-label-sm text-label-sm mb-1">
+<span class="text-on-surface-variant">โซนท้ายคอร์ท (Smash / Clear)</span>
+<span class="font-bold text-primary">ทีม A ชนะ 58%</span>
+</div>
+<div class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden flex">
+<div class="h-full bg-secondary-container" style="width: 58%;"></div>
+<div class="h-full bg-surface-container-highest" style="width: 42%;"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Capybara Tactician Coach Card -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container-low p-space-md shadow-sm">
+<div class="flex items-start gap-3">
+<!-- Mascot Pose -->
+<div class="w-16 h-20 shrink-0 relative flex items-center justify-center">
+<img alt="Mascot Coach Capybara" class="w-full h-full object-contain filter drop-shadow-sm" src="https://lh3.googleusercontent.com/aida/AEtjO1UcvIDjovuP5IpD-hurc-I3UBRobMfUCtNCNDMLqPJfrXy_WcNqK8geSxwtYd6GNAkxHwagtQuN1SCHWB3ItRZmU1mcDidI_O-NyJRr8WAi_aFRWhjm3B_4QgDkkTPuLTQFJy0yNV1EtW-FfkkhVWdMhhoq5-L4xvfDe_69MQ3wtNWQmnhDf0QDdqQP3a15FVsaHSgCZAmt6YWxxMtyG6Ha5GHxCFHbCfrlSBj7bdoSQ1FJ2jksftfqcV4"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-1.5 mb-1">
+<span class="font-label-lg text-label-lg font-bold text-primary">💡 ทริคแก้เกมจากพี่กะปิ</span>
+<span class="px-2 py-0.2 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold">AI Coach</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-snug">
+          "แมตช์นี้ทีม A ปูเกมท้ายคอร์ทได้ดุดันมาก แต่น้องมายด์ทีม B อ่านทางหน้าเน็ตได้เร็ว ดักหยอดไปถึง 11 แต้ม ถ้ารอบหน้ารีแมตช์ ให้ทีม A ดึงสปีดเกมให้เร็วขึ้นหรือโยกสลับซ้ายขวาจะเปิดพื้นที่ตบได้ง่ายขึ้นครับ!"
+        </p>
+</div>
+</div>
+</div>
+<!-- Bottom Interactive CTA Buttons -->
+<div class="space-y-2 pt-1">
+<!-- LINE Group Share Button -->
+<button class="w-full min-h-[48px] py-3 px-space-md rounded-xl bg-[#06C755] text-white flex items-center justify-center gap-2 active:scale-[0.98] transition-transform shadow-sm" id="btnLineShare">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24">
+<path d="M19.365 9.864c0-4.04-4.202-7.324-9.365-7.324s-9.365 3.284-9.365 7.324c0 3.619 3.22 6.649 7.574 7.21.295.064.697.194.798.446.091.229.06.586.03.818l-.134.806c-.04.24-.19 1.05.74.57 3.328-1.71 4.542-2.73 5.48-3.79 2.56-2.02 4.242-4.52 4.242-6.054z"></path>
+</svg>
+<span class="font-label-lg text-label-lg font-bold">แชร์สถิติและรีเพลย์เข้ากลุ่ม LINE</span>
+</button>
+<!-- Rematch / Next Match Button -->
+<div class="grid grid-cols-2 gap-2">
+<button class="min-h-[48px] py-2.5 px-3 rounded-xl bg-primary text-on-primary flex items-center justify-center gap-1.5 active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined text-[18px]">replay</span>
+<span class="font-label-md text-label-md font-bold">ท้าแข่งรีแมตช์</span>
+</button>
+<button class="min-h-[48px] py-2.5 px-3 rounded-xl bg-surface-container-high text-primary flex items-center justify-center gap-1.5 active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined text-[18px]">sports_tennis</span>
+<span class="font-label-md text-label-md font-bold">เริ่มแมตช์ถัดไป</span>
+</button>
+</div>
+</div>
+<!-- Toast / Notification container -->
+<div class="fixed bottom-20 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full bg-inverse-surface text-inverse-on-surface font-label-md text-label-md shadow-lg opacity-0 pointer-events-none transition-opacity flex items-center gap-2 z-50" id="toastNotification">
+<span class="material-symbols-outlined text-[18px] text-secondary-fixed">check_circle</span>
+<span id="toastMessage">แชร์สถิติเรียบร้อยแล้ว</span>
+</div>
+</div>
+<script>
+  // Filter interaction
+  const pointFilters = document.querySelectorAll('.point-filter');
+  pointFilters.forEach(btn => {
+    btn.addEventListener('click', () => {
+      pointFilters.forEach(b => {
+        b.classList.remove('active', 'bg-primary', 'text-on-primary', 'font-semibold');
+        b.classList.add('bg-surface-container', 'text-on-surface-variant');
+      });
+      btn.classList.add('active', 'bg-primary', 'text-on-primary', 'font-semibold');
+      btn.classList.remove('bg-surface-container', 'text-on-surface-variant');
+    });
+  });
+
+  // Tab switcher
+  const tabButtons = document.querySelectorAll('.tab-btn');
+  tabButtons.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabButtons.forEach(t => {
+        t.classList.remove('active', 'bg-primary', 'text-on-primary', 'shadow-sm');
+        t.classList.add('text-on-surface-variant');
+      });
+      tab.classList.add('active', 'bg-primary', 'text-on-primary', 'shadow-sm');
+      tab.classList.remove('text-on-surface-variant');
+    });
+  });
+
+  // Toast helper
+  const toast = document.getElementById('toastNotification');
+  const toastMsg = document.getElementById('toastMessage');
+  function showToast(text) {
+    if (!toast) return;
+    toastMsg.textContent = text;
+    toast.classList.remove('opacity-0', 'pointer-events-none');
+    toast.classList.add('opacity-100');
+    setTimeout(() => {
+      toast.classList.remove('opacity-100');
+      toast.classList.add('opacity-0', 'pointer-events-none');
+    }, 2400);
+  }
+
+  // LINE Share click simulation
+  const lineShareBtn = document.getElementById('btnLineShare');
+  if (lineShareBtn) {
+    lineShareBtn.addEventListener('click', () => {
+      showToast('ส่งสรุปและรีเพลย์แมตช์เข้า LINE กลุ่มแล้ว 🏸');
+    });
+  }
+
+  const shareBtn = document.getElementById('btnShareModal');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', () => {
+      showToast('คัดลอกลิงก์สถิติการแข่งสำเร็จ!');
+    });
+  }
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/85 backdrop-blur-xl shadow-[0_-2px_12px_rgba(29,45,68,0.06)]" data-active-classes="text-primary font-bold"><div class="flex justify-around items-center h-16 px-space-xs"><a aria-current="page" class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] gap-0.5 transition-colors text-primary font-bold" data-path="court-reserve" href="#"><span class="material-symbols-outlined text-[24px]">sports_tennis</span><span class="font-label-sm text-label-sm">จองคอร์ด</span></a><a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors" data-path="my-bookings" href="#"><span class="material-symbols-outlined text-[24px]">event_available</span><span class="font-label-sm text-label-sm">ประวัติจอง</span></a><a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors" data-path="court-rates" href="#"><span class="material-symbols-outlined text-[24px]">sell</span><span class="font-label-sm text-label-sm">อัตราค่าบริการ</span></a><a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors" data-path="member-card" href="#"><span class="material-symbols-outlined text-[24px]">badge</span><span class="font-label-sm text-label-sm">สมาชิก</span></a></div></nav></body></html>

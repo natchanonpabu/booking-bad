@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+
+<html lang="th"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans:wght@400;600;700&amp;family=Noto+Sans+Thai:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;font-family:'Noto Sans Thai','Noto Sans',sans-serif;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-primary-container":"#8595b0","primary-fixed":"#d5e3ff","tertiary":"#131a00","secondary-fixed":"#ffdcbb","on-tertiary":"#ffffff","surface-container-low":"#f5f3ef","on-error-container":"#93000a","on-tertiary-fixed":"#171e00","background":"#fbf9f5","on-background":"#1b1c1a","on-tertiary-container":"#8c9960","on-secondary-fixed":"#2b1700","surface-container-high":"#eae8e4","surface-container":"#efeeea","surface-container-highest":"#e4e2de","secondary-container":"#fdbd77","inverse-on-surface":"#f2f0ed","on-secondary":"#ffffff","surface-container-lowest":"#ffffff","tertiary-fixed":"#dbe9a9","inverse-surface":"#30312e","primary":"#07182e","surface-dim":"#dbdad6","on-secondary-container":"#784a0d","on-primary-fixed":"#0b1c32","primary-container":"#1d2d44","surface-bright":"#fbf9f5","secondary-fixed-dim":"#faba75","inverse-primary":"#b7c7e5","on-surface-variant":"#44474d","on-secondary-fixed-variant":"#673d00","tertiary-container":"#263003","outline":"#75777e","on-primary-fixed-variant":"#384760","surface":"#fbf9f5","error-container":"#ffdad6","outline-variant":"#c5c6cd","surface-tint":"#4f5f79","on-tertiary-fixed-variant":"#404b1b","on-surface":"#1b1c1a","tertiary-fixed-dim":"#bfcd8f","surface-variant":"#e4e2de","on-primary":"#ffffff","secondary":"#835418","primary-fixed-dim":"#b7c7e5","on-error":"#ffffff","error":"#ba1a1a"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-2xs":"0.25rem","space-lg":"1.5rem","space-sm":"0.75rem","space-md":"1rem","margin-tablet":"2rem","space-xs":"0.5rem","space-2xl":"3rem","margin-desktop":"3rem","margin-mobile":"1rem","gutter-mobile":"1rem","space-3xl":"4rem","gutter-desktop":"1.5rem","space-xl":"2rem"},"fontFamily":{"body-sm":["Inter","Noto Sans Thai"],"label-md":["Inter","Noto Sans Thai"],"body-lg":["Inter","Noto Sans Thai"],"body-md":["Inter","Noto Sans Thai"],"headline-sm":["Noto Sans","Noto Sans Thai"],"label-sm":["Inter","Noto Sans Thai"],"headline-lg":["Noto Sans","Noto Sans Thai"],"label-lg":["Inter","Noto Sans Thai"],"headline-md":["Noto Sans","Noto Sans Thai"],"display-lg-mobile":["Noto Sans","Noto Sans Thai"],"display-lg":["Noto Sans","Noto Sans Thai"]},"fontSize":{"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"headline-sm":["18px",{"lineHeight":"24px","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.03em","fontWeight":"500"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.01em","fontWeight":"600"}],"label-lg":["14px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"600"}],"headline-md":["22px",{"lineHeight":"28px","fontWeight":"600"}],"display-lg-mobile":["32px",{"lineHeight":"40px","letterSpacing":"-0.01em","fontWeight":"700"}],"display-lg":["40px",{"lineHeight":"48px","letterSpacing":"-0.02em","fontWeight":"700"}]}}}};</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-space-md flex items-center justify-between gap-space-xs"><div class="flex items-center gap-space-xs"><button aria-label="LINE Home" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[22px]">home</span></button><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary tracking-tight font-semibold truncate max-w-[190px]">วินเนอร์ คอร์ท (Winner Court)</span><div class="flex items-center gap-1.5"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-high text-on-tertiary-container font-label-sm text-label-sm"><span class="w-1.5 h-1.5 rounded-full bg-[#606C38]"></span>เปิดบริการ 09:00 - 22:00</span></div></div></div><div class="flex items-center gap-space-xs"><div class="w-8 h-8 rounded-full overflow-hidden p-0.5 bg-surface-container-low"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1VwLPjUC3bhswd7goRY7KwZ6h_XxnaN_F4__OmN6Moc4A_67xEmQkTnJdDpf9h0IaQD7SlWt8EG2UcoaRCZo6yBWQ7yJEzFZzkiFWaezj1st0gcyH60nc88FY5sS47xI14yGKzjtJbWzixu-YTRGQ7RsDYPErpNtz6vCZfw-N5cO0dUN7bYCEJVast5aI4U9U6C3Tyn_I3T3ZekL9Y7p0s4ljWdl2OLF4zf492Em8T5qQnwFgfbIZPS-cY"/></div></div></div></header><main class="flex flex-col relative w-full pt-16 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<div class="px-space-md pt-space-xs pb-space-sm bg-surface flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<button aria-label="Close LIFF window" class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+<div>
+<h1 class="font-headline-sm text-headline-sm text-primary leading-tight">แจ้งโอนเงินค่าคอร์ท</h1>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">แมตช์ศุกร์ 24 พ.ค. • วินเนอร์ คอร์ท</span>
+</div>
+</div>
+</div>
+<div class="px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">groups</span>
+<span>ก๊วนแบดวันศุกร์</span>
+</div>
+</div>
+<div class="px-space-md flex flex-col gap-space-md pb-6">
+<!-- Card 1: Match & Bill Details -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_-4px_rgba(29,45,68,0.07)] p-space-md flex flex-col gap-space-sm relative overflow-hidden">
+<div class="absolute -right-6 -bottom-6 w-28 h-28 rounded-full bg-secondary-fixed/30 pointer-events-none blur-xl"></div>
+<div class="flex items-center justify-between">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary text-on-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">mode_fan</span>
+<span>คอร์ท 3 (แอร์ 19:00 - 21:00 น.)</span>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant">ยอดรวมทั้งก๊วน</span>
+<p class="font-label-lg text-label-lg text-primary">฿600 <span class="font-body-sm text-body-sm text-on-surface-variant">/ 5 คน</span></p>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-space-sm flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wide">ยอดที่ต้องชำระของคุณ</span>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="font-headline-lg text-headline-lg text-primary font-bold">฿120</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">สุทธิ (รวมลูกแบด)</span>
+</div>
+</div>
+<div class="w-11 h-11 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed shadow-sm">
+<span class="material-symbols-outlined text-[24px]">payments</span>
+</div>
+</div>
+<!-- Bank / PromptPay Destination Info -->
+<div class="bg-surface-container rounded-lg p-space-sm flex flex-col gap-2.5">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+</div>
+<div>
+<span class="font-body-sm text-body-sm text-on-surface-variant block">บัญชีกัปตันรับโอน</span>
+<span class="font-label-lg text-label-lg text-primary">นายจิรภัทร สุขสมบูรณ์ (กัปตันต้น)</span>
+</div>
+</div>
+<button class="px-2 py-1 rounded bg-surface-container-highest text-primary hover:bg-surface-container-low transition-colors text-label-sm font-label-sm flex items-center gap-1" id="qr-toggle-btn" type="button">
+<span class="material-symbols-outlined text-[14px]">qr_code_2</span>
+<span>ดู QR</span>
+</button>
+</div>
+<div class="flex items-center justify-between bg-surface-container-lowest rounded px-space-sm py-2">
+<div class="flex items-center gap-2">
+<span class="px-1.5 py-0.5 rounded bg-surface-variant text-on-surface font-label-sm text-label-sm">พร้อมเพย์</span>
+<span class="font-headline-sm text-headline-sm text-primary tracking-wide" id="promptpay-number">081-234-5678</span>
+</div>
+<button class="px-3 py-1 rounded bg-secondary text-on-secondary hover:bg-secondary/90 transition-all text-label-sm font-label-sm flex items-center gap-1 active:scale-95" id="copy-btn" type="button">
+<span class="material-symbols-outlined text-[14px]">content_copy</span>
+<span id="copy-text">คัดลอกเบอร์</span>
+</button>
+</div>
+<!-- Collapsible QR Preview Box -->
+<div class="hidden flex flex-col items-center justify-center p-space-sm bg-surface-container-lowest rounded text-center transition-all" id="qr-container">
+<div class="w-40 h-40 bg-surface-container-low rounded-lg p-2 flex flex-col items-center justify-center relative shadow-inner">
+<div class="w-full h-full rounded bg-surface-container-highest flex flex-col items-center justify-center p-2 text-primary">
+<span class="material-symbols-outlined text-[64px] text-primary">qr_code_scanner</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">สแกนจ่ายพร้อมเพย์ ฿120</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2">ยอดถูกล็อกที่ ฿120 เพื่อความสะดวกในการสแกน</p>
+</div>
+</div>
+</div>
+<!-- Card 2: Payer Selection -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_-4px_rgba(29,45,68,0.07)] p-space-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<label class="font-headline-sm text-headline-sm text-primary flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[20px]">person_check</span>
+<span>เลือกชื่อผู้โอนในก๊วน</span>
+</label>
+<span class="font-body-sm text-body-sm text-on-surface-variant">เลือกชื่อของคุณ</span>
+</div>
+<div class="grid grid-cols-2 gap-2" id="payer-chip-group">
+<!-- Selected Payer -->
+<button class="payer-chip p-2.5 rounded-lg bg-primary text-on-primary flex items-center justify-between transition-transform active:scale-95 text-left" data-user="palm" type="button">
+<div class="flex items-center gap-2 min-w-0">
+<div class="w-7 h-7 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center text-label-sm font-bold flex-shrink-0">ป</div>
+<div class="truncate">
+<span class="font-label-md text-label-md block truncate">ปาล์ม (ฉัน)</span>
+<span class="font-label-sm text-label-sm text-secondary-fixed block">รอชำระ ฿120</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary-fixed text-[18px]">check_circle</span>
+</button>
+<!-- Another Pending Payer -->
+<button class="payer-chip p-2.5 rounded-lg bg-surface-container-low text-on-surface flex items-center justify-between hover:bg-surface-container transition-transform active:scale-95 text-left" data-user="mind" type="button">
+<div class="flex items-center gap-2 min-w-0">
+<div class="w-7 h-7 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center text-label-sm font-bold flex-shrink-0">ม</div>
+<div class="truncate">
+<span class="font-label-md text-label-md block truncate">มายด์</span>
+<span class="font-label-sm text-label-sm text-error block">รอชำระ ฿120</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant text-[18px]">radio_button_unchecked</span>
+</button>
+<!-- Paid Member 1 -->
+<div class="p-2.5 rounded-lg bg-surface-container-low/60 text-on-surface-variant flex items-center justify-between opacity-75">
+<div class="flex items-center gap-2 min-w-0">
+<div class="w-7 h-7 rounded-full bg-surface-container-high text-on-tertiary-container flex items-center justify-center text-label-sm font-bold flex-shrink-0">น</div>
+<div class="truncate">
+<span class="font-label-md text-label-md block truncate">นนท์</span>
+<span class="font-label-sm text-label-sm text-on-tertiary-container block">จ่ายแล้ว</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-tertiary-container text-[18px]">verified</span>
+</div>
+<!-- Paid Member 2 -->
+<div class="p-2.5 rounded-lg bg-surface-container-low/60 text-on-surface-variant flex items-center justify-between opacity-75">
+<div class="flex items-center gap-2 min-w-0">
+<div class="w-7 h-7 rounded-full bg-surface-container-high text-on-tertiary-container flex items-center justify-center text-label-sm font-bold flex-shrink-0">บ</div>
+<div class="truncate">
+<span class="font-label-md text-label-md block truncate">บอส</span>
+<span class="font-label-sm text-label-sm text-on-tertiary-container block">จ่ายแล้ว</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-tertiary-container text-[18px]">verified</span>
+</div>
+</div>
+</div>
+<!-- Card 3: Upload Slip & Smart Slip Verification -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_-4px_rgba(29,45,68,0.07)] p-space-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[20px]">document_scanner</span>
+<h2 class="font-headline-sm text-headline-sm text-primary">อัปโหลดสลิปโอนเงิน</h2>
+</div>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-semibold">ตรวจจับสลิปอัตโนมัติ</span>
+</div>
+<!-- Uploaded Slip Preview & Scan Result -->
+<div class="bg-surface-container-low rounded-xl p-space-sm flex flex-col gap-space-sm">
+<div class="flex items-start gap-space-sm bg-surface-container-lowest p- space-sm rounded-lg shadow-sm">
+<div class="relative w-16 h-20 rounded bg-surface-container-highest overflow-hidden flex-shrink-0 shadow">
+<img class="w-full h-full object-cover" data-alt="Close up smartphone banking slip showing successful transfer of one hundred and twenty Thai baht to Jiraphat with clean mobile app typography and official confirmation seal in warm ambient tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDczECFw9uzaasIdrn1UhYm5d5RBZRDb-Qd8h4oiQanNkiDX6LnPCJYH6FM3rLa0SQJ_GvvUWwOE0Ti5YgBsO34tO7MjBYmv02ZR_w4DTduIPfErnEnXHDWF95n9UgiebEM0u0q-tiNwkL908mpS8K375NwWPe469TTgqpVdCSHv3ZMaw-XVe2FgOJiqjh3WK4fWS8zGJDum-39DuiGUyrR8RBBkiYnZInqiK9bpnn6kTtll5O3BZ1Z"/>
+<div class="absolute inset-0 bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-[20px]">receipt_long</span>
+</div>
+</div>
+<div class="flex flex-col justify-between flex-1 min-w-0 py-0.5">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-primary truncate">K PLUS Slip_240524.jpg</span>
+<button class="text-secondary hover:text-primary transition-colors text-label-sm font-label-sm" type="button">เปลี่ยนรูป</button>
+</div>
+<div class="flex items-center gap-1 text-on-tertiary-container font-label-sm text-label-sm mt-1">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span class="font-semibold">ตรวจสอบสลิปอัตโนมัติสำเร็จ</span>
+</div>
+<div class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-0.5 font-body-sm text-body-sm text-on-surface-variant">
+<span>ยอดตรวจพบ: <strong class="text-primary font-label-md">฿120.00</strong></span>
+<span>เวลา: 18:42 น.</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between px-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-on-tertiary-container">verified_user</span>
+            รหัสอ้างอิง: 01414318428174
+          </span>
+<span class="text-on-tertiary-container font-label-sm text-label-sm font-medium">ตรงตามเงื่อนไข</span>
+</div>
+</div>
+</div>
+<!-- Card 4: Group Payment Status / Tracker -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_4px_20px_-4px_rgba(29,45,68,0.07)] p-space-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-primary flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[20px]">query_stats</span>
+<span>สถานะค่าคอร์ทของก๊วน</span>
+</span>
+<span class="font-label-lg text-label-lg text-primary font-bold">ชำระแล้ว 4/5 คน</span>
+</div>
+<!-- Segmented Bar -->
+<div class="w-full h-3 bg-surface-container rounded-full overflow-hidden flex gap-1 p-0.5">
+<div class="h-full rounded-full bg-secondary flex-1"></div>
+<div class="h-full rounded-full bg-secondary flex-1"></div>
+<div class="h-full rounded-full bg-secondary flex-1"></div>
+<div class="h-full rounded-full bg-secondary flex-1 animate-pulse"></div>
+<div class="h-full rounded-full bg-surface-container-highest flex-1"></div>
+</div>
+<!-- Mini Roster -->
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center -space-x-2 overflow-hidden">
+<div class="inline-block h-8 w-8 rounded-full bg-surface-container-highest text-primary font-label-sm flex items-center justify-center shadow-sm">ต้น</div>
+<div class="inline-block h-8 w-8 rounded-full bg-surface-container-high text-primary font-label-sm flex items-center justify-center shadow-sm">นนท์</div>
+<div class="inline-block h-8 w-8 rounded-full bg-surface-container-high text-primary font-label-sm flex items-center justify-center shadow-sm">บอส</div>
+<div class="inline-block h-8 w-8 rounded-full bg-secondary text-on-secondary font-label-sm font-bold flex items-center justify-center shadow-sm ring-2 ring-surface-container-lowest">ปาล์ม</div>
+<div class="inline-block h-8 w-8 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm flex items-center justify-center shadow-sm">มายด์</div>
+</div>
+<div class="text-right">
+<span class="font-body-sm text-body-sm text-on-surface-variant block">คงเหลืออีก 1 ท่าน</span>
+<span class="font-label-sm text-label-sm text-error font-semibold">ขาดอีก ฿120</span>
+</div>
+</div>
+</div>
+<!-- Delight Moment: Calm Capybara Mascot Note -->
+<div class="rounded-xl bg-surface-container-high p-space-sm flex items-center gap-space-sm relative">
+<div class="w-12 h-12 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center flex-shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[28px]">sports_tennis</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-lg text-label-lg text-primary leading-snug">ขอบคุณที่โอนไว กัปตันรักเลย! 🏸</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">ก๊วนเราไม่ติดหนี้ เล่นแบดแฮปปี้ทุกคน</p>
+</div>
+</div>
+</div>
+<!-- Primary Sticky Bottom Action -->
+<div class="sticky bottom-0 w-full bg-surface-container-lowest shadow-[0_-4px_24px_rgba(29,45,68,0.1)] px-space-md py-space-sm flex flex-col gap-2 z-40">
+<button class="w-full min-h-[48px] rounded-xl bg-primary text-on-primary font-label-lg text-label-lg flex items-center justify-center gap-2 shadow-md hover:bg-primary/95 active:scale-[0.99] transition-all" id="submit-transfer-btn" type="button">
+<span class="material-symbols-outlined text-[20px]">send</span>
+<span>ยืนยันแจ้งโอนเงิน (฿120)</span>
+</button>
+<p class="text-center font-body-sm text-body-sm text-on-surface-variant flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-on-tertiary-container">sync</span>
+<span>ระบบจะอัปเดตยอดในการ์ด LINE กลุ่มทันทีอัตโนมัติ</span>
+</p>
+</div>
+</div>
+<script>
+  (function() {
+    const copyBtn = document.getElementById('copy-btn');
+    const copyText = document.getElementById('copy-text');
+    const promptpayNum = document.getElementById('promptpay-number');
+    const qrToggleBtn = document.getElementById('qr-toggle-btn');
+    const qrContainer = document.getElementById('qr-container');
+    const submitBtn = document.getElementById('submit-transfer-btn');
+    const payerChips = document.querySelectorAll('.payer-chip');
+
+    if (copyBtn && promptpayNum && copyText) {
+      copyBtn.addEventListener('click', function() {
+        const textToCopy = promptpayNum.innerText.replace(/-/g, '');
+        navigator.clipboard?.writeText(textToCopy).then(() => {
+          copyText.textContent = 'คัดลอกแล้ว!';
+          copyBtn.classList.replace('bg-secondary', 'bg-tertiary');
+          copyBtn.classList.replace('text-on-secondary', 'text-on-tertiary');
+          setTimeout(() => {
+            copyText.textContent = 'คัดลอกเบอร์';
+            copyBtn.classList.replace('bg-tertiary', 'bg-secondary');
+            copyBtn.classList.replace('text-on-tertiary', 'text-on-secondary');
+          }, 2000);
+        }).catch(() => {
+          copyText.textContent = '0812345678';
+        });
+      });
+    }
+
+    if (qrToggleBtn && qrContainer) {
+      qrToggleBtn.addEventListener('click', function() {
+        const isHidden = qrContainer.classList.contains('hidden');
+        if (isHidden) {
+          qrContainer.classList.remove('hidden');
+          qrToggleBtn.querySelector('span:last-child').textContent = 'ซ่อน QR';
+        } else {
+          qrContainer.classList.add('hidden');
+          qrToggleBtn.querySelector('span:last-child').textContent = 'ดู QR';
+        }
+      });
+    }
+
+    payerChips.forEach(chip => {
+      chip.addEventListener('click', function() {
+        payerChips.forEach(c => {
+          c.classList.remove('bg-primary', 'text-on-primary');
+          c.classList.add('bg-surface-container-low', 'text-on-surface');
+          const icon = c.querySelector('.material-symbols-outlined:last-child');
+          if (icon) {
+            icon.textContent = 'radio_button_unchecked';
+            icon.classList.remove('text-secondary-fixed');
+            icon.classList.add('text-outline-variant');
+          }
+        });
+        chip.classList.remove('bg-surface-container-low', 'text-on-surface');
+        chip.classList.add('bg-primary', 'text-on-primary');
+        const activeIcon = chip.querySelector('.material-symbols-outlined:last-child');
+        if (activeIcon) {
+          activeIcon.textContent = 'check_circle';
+          activeIcon.classList.remove('text-outline-variant');
+          activeIcon.classList.add('text-secondary-fixed');
+        }
+      });
+    });
+
+    if (submitBtn) {
+      submitBtn.addEventListener('click', function() {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `
+          <span class="material-symbols-outlined animate-spin text-[20px]">progress_activity</span>
+          <span>กำลังส่งข้อมูลเข้า LINE กลุ่ม...</span>
+        `;
+        setTimeout(() => {
+          submitBtn.innerHTML = `
+            <span class="material-symbols-outlined text-[20px]">check_circle</span>
+            <span>แจ้งยอดสำเร็จแล้ว! ขอบคุณครับ</span>
+          `;
+          submitBtn.classList.replace('bg-primary', 'bg-tertiary');
+          submitBtn.classList.replace('text-on-primary', 'text-on-tertiary');
+        }, 1200);
+      });
+    }
+  })();
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/85 backdrop-blur-xl shadow-[0_-2px_12px_rgba(29,45,68,0.06)]" data-active-classes="text-primary font-bold"><div class="flex justify-around items-center h-16 px-space-xs"><a aria-current="page" class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] gap-0.5 transition-colors text-primary font-bold" data-path="court-reserve" href="#"><span class="material-symbols-outlined text-[24px]">sports_tennis</span><span class="font-label-sm text-label-sm">จองคอร์ด</span></a><a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors" data-path="my-bookings" href="#"><span class="material-symbols-outlined text-[24px]">event_available</span><span class="font-label-sm text-label-sm">ประวัติจอง</span></a><a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors" data-path="court-rates" href="#"><span class="material-symbols-outlined text-[24px]">sell</span><span class="font-label-sm text-label-sm">อัตราค่าบริการ</span></a><a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors" data-path="member-card" href="#"><span class="material-symbols-outlined text-[24px]">badge</span><span class="font-label-sm text-label-sm">สมาชิก</span></a></div></nav></body></html>

@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+
+<html lang="th"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans:wght@400;600;700&amp;family=Noto+Sans+Thai:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;font-family:'Noto Sans Thai','Noto Sans',sans-serif;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-primary-container":"#8595b0","primary-fixed":"#d5e3ff","tertiary":"#131a00","secondary-fixed":"#ffdcbb","on-tertiary":"#ffffff","surface-container-low":"#f5f3ef","on-error-container":"#93000a","on-tertiary-fixed":"#171e00","background":"#fbf9f5","on-background":"#1b1c1a","on-tertiary-container":"#8c9960","on-secondary-fixed":"#2b1700","surface-container-high":"#eae8e4","surface-container":"#efeeea","surface-container-highest":"#e4e2de","secondary-container":"#fdbd77","inverse-on-surface":"#f2f0ed","on-secondary":"#ffffff","surface-container-lowest":"#ffffff","tertiary-fixed":"#dbe9a9","inverse-surface":"#30312e","primary":"#07182e","surface-dim":"#dbdad6","on-secondary-container":"#784a0d","on-primary-fixed":"#0b1c32","primary-container":"#1d2d44","surface-bright":"#fbf9f5","secondary-fixed-dim":"#faba75","inverse-primary":"#b7c7e5","on-surface-variant":"#44474d","on-secondary-fixed-variant":"#673d00","tertiary-container":"#263003","outline":"#75777e","on-primary-fixed-variant":"#384760","surface":"#fbf9f5","error-container":"#ffdad6","outline-variant":"#c5c6cd","surface-tint":"#4f5f79","on-tertiary-fixed-variant":"#404b1b","on-surface":"#1b1c1a","tertiary-fixed-dim":"#bfcd8f","surface-variant":"#e4e2de","on-primary":"#ffffff","secondary":"#835418","primary-fixed-dim":"#b7c7e5","on-error":"#ffffff","error":"#ba1a1a"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-2xs":"0.25rem","space-lg":"1.5rem","space-sm":"0.75rem","space-md":"1rem","margin-tablet":"2rem","space-xs":"0.5rem","space-2xl":"3rem","margin-desktop":"3rem","margin-mobile":"1rem","gutter-mobile":"1rem","space-3xl":"4rem","gutter-desktop":"1.5rem","space-xl":"2rem"},"fontFamily":{"body-sm":["Inter","Noto Sans Thai"],"label-md":["Inter","Noto Sans Thai"],"body-lg":["Inter","Noto Sans Thai"],"body-md":["Inter","Noto Sans Thai"],"headline-sm":["Noto Sans","Noto Sans Thai"],"label-sm":["Inter","Noto Sans Thai"],"headline-lg":["Noto Sans","Noto Sans Thai"],"label-lg":["Inter","Noto Sans Thai"],"headline-md":["Noto Sans","Noto Sans Thai"],"display-lg-mobile":["Noto Sans","Noto Sans Thai"],"display-lg":["Noto Sans","Noto Sans Thai"]},"fontSize":{"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"headline-sm":["18px",{"lineHeight":"24px","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.03em","fontWeight":"500"}],"headline-lg":["28px",{"lineHeight":"36px","letterSpacing":"-0.01em","fontWeight":"600"}],"label-lg":["14px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"600"}],"headline-md":["22px",{"lineHeight":"28px","fontWeight":"600"}],"display-lg-mobile":["32px",{"lineHeight":"40px","letterSpacing":"-0.01em","fontWeight":"700"}],"display-lg":["40px",{"lineHeight":"48px","letterSpacing":"-0.02em","fontWeight":"700"}]}}}};</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-space-md flex items-center justify-between gap-space-xs"><div class="flex items-center gap-space-xs"><button aria-label="LINE Home" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container transition-colors"><span class="material-symbols-outlined text-[22px]">home</span></button><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary tracking-tight font-semibold truncate max-w-[190px]">วินเนอร์ คอร์ท (Winner Court)</span><div class="flex items-center gap-1.5"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-high text-on-tertiary-container font-label-sm text-label-sm"><span class="w-1.5 h-1.5 rounded-full bg-[#606C38]"></span>เปิดบริการ 09:00 - 22:00</span></div></div></div><div class="flex items-center gap-space-xs"><div class="w-8 h-8 rounded-full overflow-hidden p-0.5 bg-surface-container-low"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1VwLPjUC3bhswd7goRY7KwZ6h_XxnaN_F4__OmN6Moc4A_67xEmQkTnJdDpf9h0IaQD7SlWt8EG2UcoaRCZo6yBWQ7yJEzFZzkiFWaezj1st0gcyH60nc88FY5sS47xI14yGKzjtJbWzixu-YTRGQ7RsDYPErpNtz6vCZfw-N5cO0dUN7bYCEJVast5aI4U9U6C3Tyn_I3T3ZekL9Y7p0s4ljWdl2OLF4zf492Em8T5qQnwFgfbIZPS-cY"/></div></div></div></header><main class="flex flex-col relative w-full pt-16 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Friendly Welcome Banner with Club Vibe -->
+<div class="px-space-md pt-space-xs pb-space-sm flex items-center justify-between">
+<div>
+<h1 class="font-headline-sm text-headline-sm text-primary flex items-center gap-1.5">
+        จองคอร์ทแบดมินตัน
+        <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">6 คอร์ทยางมาตรฐาน</span>
+</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">เลือกรอบเวลาที่ต้องการแล้วกดยืนยันเพื่อล็อกคิวทันที</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-primary shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[22px]">calendar_month</span>
+</div>
+</div>
+<!-- Horizontal Date Picker (14 Days) -->
+<div class="w-full pb-space-xs">
+<div class="flex items-center justify-between px-space-md mb-2">
+<span class="font-label-md text-label-md text-primary font-semibold">พฤษภาคม 2567</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">touch_app</span> เลื่อนเลือกวัน
+      </span>
+</div>
+<!-- Scrollable Dates Strip -->
+<div class="flex gap-2.5 overflow-x-auto px-space-md pb-2 scroll-smooth no-scrollbar" id="dateSelectorStrip">
+<!-- Day 1: Today (Selected State) -->
+<button aria-current="date" class="flex flex-col items-center justify-center min-w-[58px] py-2.5 px-2 rounded-xl bg-primary-container text-on-primary shadow-sm shrink-0 transition-transform active:scale-95">
+<span class="font-label-sm text-label-sm text-on-primary-container opacity-90">วันนี้</span>
+<span class="font-headline-sm text-headline-sm font-bold my-0.5">24</span>
+<span class="font-label-sm text-label-sm">ศ.</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-container mt-1"></span>
+</button>
+<!-- Day 2 -->
+<button class="flex flex-col items-center justify-center min-w-[58px] py-2.5 px-2 rounded-xl bg-surface-container-lowest text-on-surface hover:bg-surface-container-high transition shrink-0 shadow-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant">พ.ค.</span>
+<span class="font-headline-sm text-headline-sm font-bold text-primary my-0.5">25</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">ส.</span>
+<span class="w-1.5 h-1.5 rounded-full bg-transparent mt-1"></span>
+</button>
+<!-- Day 3 -->
+<button class="flex flex-col items-center justify-center min-w-[58px] py-2.5 px-2 rounded-xl bg-surface-container-lowest text-on-surface hover:bg-surface-container-high transition shrink-0 shadow-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant">พ.ค.</span>
+<span class="font-headline-sm text-headline-sm font-bold text-primary my-0.5">26</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">อา.</span>
+<span class="w-1.5 h-1.5 rounded-full bg-transparent mt-1"></span>
+</button>
+<!-- Day 4 -->
+<button class="flex flex-col items-center justify-center min-w-[58px] py-2.5 px-2 rounded-xl bg-surface-container-lowest text-on-surface hover:bg-surface-container-high transition shrink-0 shadow-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant">พ.ค.</span>
+<span class="font-headline-sm text-headline-sm font-bold text-primary my-0.5">27</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">จ.</span>
+<span class="w-1.5 h-1.5 rounded-full bg-transparent mt-1"></span>
+</button>
+<!-- Day 5 -->
+<button class="flex flex-col items-center justify-center min-w-[58px] py-2.5 px-2 rounded-xl bg-surface-container-lowest text-on-surface hover:bg-surface-container-high transition shrink-0 shadow-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant">พ.ค.</span>
+<span class="font-headline-sm text-headline-sm font-bold text-primary my-0.5">28</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">อ.</span>
+<span class="w-1.5 h-1.5 rounded-full bg-transparent mt-1"></span>
+</button>
+<!-- Day 6 -->
+<button class="flex flex-col items-center justify-center min-w-[58px] py-2.5 px-2 rounded-xl bg-surface-container-lowest text-on-surface hover:bg-surface-container-high transition shrink-0 shadow-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant">พ.ค.</span>
+<span class="font-headline-sm text-headline-sm font-bold text-primary my-0.5">29</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">พ.</span>
+<span class="w-1.5 h-1.5 rounded-full bg-transparent mt-1"></span>
+</button>
+<!-- Day 7 -->
+<button class="flex flex-col items-center justify-center min-w-[58px] py-2.5 px-2 rounded-xl bg-surface-container-lowest text-on-surface hover:bg-surface-container-high transition shrink-0 shadow-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant">พ.ค.</span>
+<span class="font-headline-sm text-headline-sm font-bold text-primary my-0.5">30</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">พฤ.</span>
+<span class="w-1.5 h-1.5 rounded-full bg-transparent mt-1"></span>
+</button>
+<!-- Day 8 -->
+<button class="flex flex-col items-center justify-center min-w-[58px] py-2.5 px-2 rounded-xl bg-surface-container-lowest text-on-surface hover:bg-surface-container-high transition shrink-0 shadow-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant">พ.ค.</span>
+<span class="font-headline-sm text-headline-sm font-bold text-primary my-0.5">31</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">ศ.</span>
+<span class="w-1.5 h-1.5 rounded-full bg-transparent mt-1"></span>
+</button>
+<!-- Day 9 -->
+<button class="flex flex-col items-center justify-center min-w-[58px] py-2.5 px-2 rounded-xl bg-surface-container-lowest text-on-surface hover:bg-surface-container-high transition shrink-0 shadow-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant">มิ.ย.</span>
+<span class="font-headline-sm text-headline-sm font-bold text-primary my-0.5">01</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">ส.</span>
+<span class="w-1.5 h-1.5 rounded-full bg-transparent mt-1"></span>
+</button>
+<!-- Day 10 -->
+<button class="flex flex-col items-center justify-center min-w-[58px] py-2.5 px-2 rounded-xl bg-surface-container-lowest text-on-surface hover:bg-surface-container-high transition shrink-0 shadow-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant">มิ.ย.</span>
+<span class="font-headline-sm text-headline-sm font-bold text-primary my-0.5">02</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">อา.</span>
+<span class="w-1.5 h-1.5 rounded-full bg-transparent mt-1"></span>
+</button>
+<!-- Day 11 -->
+<button class="flex flex-col items-center justify-center min-w-[58px] py-2.5 px-2 rounded-xl bg-surface-container-lowest text-on-surface hover:bg-surface-container-high transition shrink-0 shadow-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant">มิ.ย.</span>
+<span class="font-headline-sm text-headline-sm font-bold text-primary my-0.5">03</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">จ.</span>
+<span class="w-1.5 h-1.5 rounded-full bg-transparent mt-1"></span>
+</button>
+<!-- Day 12 -->
+<button class="flex flex-col items-center justify-center min-w-[58px] py-2.5 px-2 rounded-xl bg-surface-container-lowest text-on-surface hover:bg-surface-container-high transition shrink-0 shadow-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant">มิ.ย.</span>
+<span class="font-headline-sm text-headline-sm font-bold text-primary my-0.5">04</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">อ.</span>
+<span class="w-1.5 h-1.5 rounded-full bg-transparent mt-1"></span>
+</button>
+<!-- Day 13 -->
+<button class="flex flex-col items-center justify-center min-w-[58px] py-2.5 px-2 rounded-xl bg-surface-container-lowest text-on-surface hover:bg-surface-container-high transition shrink-0 shadow-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant">มิ.ย.</span>
+<span class="font-headline-sm text-headline-sm font-bold text-primary my-0.5">05</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">พ.</span>
+<span class="w-1.5 h-1.5 rounded-full bg-transparent mt-1"></span>
+</button>
+<!-- Day 14 -->
+<button class="flex flex-col items-center justify-center min-w-[58px] py-2.5 px-2 rounded-xl bg-surface-container-lowest text-on-surface hover:bg-surface-container-high transition shrink-0 shadow-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant">มิ.ย.</span>
+<span class="font-headline-sm text-headline-sm font-bold text-primary my-0.5">06</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">พฤ.</span>
+<span class="w-1.5 h-1.5 rounded-full bg-transparent mt-1"></span>
+</button>
+</div>
+</div>
+<!-- Legend Strip (Compact, Clean, Trustworthy) -->
+<div class="px-space-md py-2 my-1">
+<div class="bg-surface-container-low rounded-xl px-3 py-2 flex items-center justify-between gap-1 overflow-x-auto">
+<!-- Legend: Available -->
+<div class="flex items-center gap-1.5 shrink-0">
+<span class="w-2.5 h-2.5 rounded-full bg-[#606C38]"></span>
+<span class="font-label-sm text-label-sm text-on-surface">ว่าง (฿180-220)</span>
+</div>
+<!-- Legend: Selected -->
+<div class="flex items-center gap-1.5 shrink-0">
+<span class="w-3.5 h-2.5 rounded-md bg-primary"></span>
+<span class="font-label-sm text-label-sm text-on-surface">เลือกอยู่</span>
+</div>
+<!-- Legend: Booked -->
+<div class="flex items-center gap-1.5 shrink-0">
+<span class="w-3.5 h-2.5 rounded-md bg-error-container relative overflow-hidden flex items-center justify-center">
+<span class="w-full h-[1.5px] bg-[#ba1a1a]/40 rotate-45"></span>
+</span>
+<span class="font-label-sm text-label-sm text-on-surface">เต็มแล้ว</span>
+</div>
+<!-- Legend: Maintenance -->
+<div class="flex items-center gap-1.5 shrink-0">
+<span class="w-3.5 h-2.5 rounded-md bg-surface-container-highest flex items-center justify-center">
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+</span>
+<span class="font-label-sm text-label-sm text-on-surface">ปรับปรุง</span>
+</div>
+</div>
+</div>
+<!-- Interactive Badminton Court Grid -->
+<div class="relative w-full px-space-md mb-20">
+<!-- Notice badge on Peak Rate -->
+<div class="flex items-center justify-between py-1 px-1 mb-1.5">
+<div class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold shadow-sm">
+<span class="material-symbols-outlined text-[15px]">bolt</span>
+        ช่วงพีค 17:00 - 21:00 (฿220/ชม.)
+      </div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">มาตรฐานพื้นยาง 6 คอร์ท</span>
+</div>
+<!-- Scrollable Matrix Container with Synchronized Sticky Headers -->
+<div class="relative rounded-2xl bg-surface-container-lowest shadow-md overflow-hidden">
+<div class="overflow-x-auto overflow-y-visible" id="courtMatrixScroll">
+<div class="min-w-[590px]">
+<!-- Sticky Header Row: Court Names -->
+<div class="sticky top-0 z-20 flex bg-surface-container-high border-b border-surface-container-high shadow-sm">
+<!-- Fixed Time label header -->
+<div class="w-20 shrink-0 py-2.5 px-2 bg-surface-container-high flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">เวลา</span>
+</div>
+<!-- Court Columns 1 to 6 -->
+<div class="flex-1 grid grid-cols-6 gap-1 p-1">
+<div class="text-center py-1.5 px-1 rounded-lg bg-surface-container-lowest">
+<span class="block font-label-md text-label-md font-bold text-primary leading-tight">คอร์ท 1</span>
+<span class="block font-label-sm text-[10px] text-on-surface-variant">ยางเขียว</span>
+</div>
+<div class="text-center py-1.5 px-1 rounded-lg bg-surface-container-lowest">
+<span class="block font-label-md text-label-md font-bold text-primary leading-tight">คอร์ท 2</span>
+<span class="block font-label-sm text-[10px] text-on-surface-variant">ยางเขียว</span>
+</div>
+<div class="text-center py-1.5 px-1 rounded-lg bg-surface-container-lowest">
+<span class="block font-label-md text-label-md font-bold text-primary leading-tight">คอร์ท 3</span>
+<span class="block font-label-sm text-[10px] text-on-surface-variant">ยางเขียว</span>
+</div>
+<div class="text-center py-1.5 px-1 rounded-lg bg-surface-container-lowest">
+<span class="block font-label-md text-label-md font-bold text-primary leading-tight">คอร์ท 4</span>
+<span class="block font-label-sm text-[10px] text-on-surface-variant">ยางน้ำเงิน</span>
+</div>
+<div class="text-center py-1.5 px-1 rounded-lg bg-surface-container-lowest">
+<span class="block font-label-md text-label-md font-bold text-primary leading-tight">คอร์ท 5</span>
+<span class="block font-label-sm text-[10px] text-on-surface-variant">ยางน้ำเงิน</span>
+</div>
+<div class="text-center py-1.5 px-1 rounded-lg bg-surface-container-lowest">
+<span class="block font-label-md text-label-md font-bold text-primary leading-tight">คอร์ท 6</span>
+<span class="block font-label-sm text-[10px] text-on-surface-variant">ยางน้ำเงิน</span>
+</div>
+</div>
+</div>
+<!-- Time Rows: 09:00 - 22:00 -->
+<div class="divide-y divide-surface-container-low">
+<!-- Slot 09:00 - 10:00 (Standard) -->
+<div class="flex items-center">
+<div class="w-20 shrink-0 py-2 px-1 text-center bg-surface-container-low">
+<span class="font-label-sm text-label-sm font-semibold text-primary block">09:00</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant block">10:00</span>
+</div>
+<div class="flex-1 grid grid-cols-6 gap-1 p-1">
+<!-- C1: Available -->
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+<!-- C2: Available -->
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+<!-- C3: Booked -->
+<div class="py-2 px-0.5 rounded-lg bg-error-container/60 text-center flex flex-col items-center justify-center opacity-85 cursor-not-allowed">
+<span class="material-symbols-outlined text-[13px] text-error">close</span>
+<span class="font-label-sm text-[10px] text-error font-medium">เต็ม</span>
+</div>
+<!-- C4: Available -->
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+<!-- C5: Maintenance -->
+<div class="py-2 px-0.5 rounded-lg bg-surface-container-high text-center flex flex-col items-center justify-center opacity-70 cursor-not-allowed">
+<span class="material-symbols-outlined text-[13px] text-outline">build</span>
+<span class="font-label-sm text-[10px] text-outline">ปรับปรุง</span>
+</div>
+<!-- C6: Available -->
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+</div>
+</div>
+<!-- Slot 10:00 - 11:00 (Standard) -->
+<div class="flex items-center">
+<div class="w-20 shrink-0 py-2 px-1 text-center bg-surface-container-low">
+<span class="font-label-sm text-label-sm font-semibold text-primary block">10:00</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant block">11:00</span>
+</div>
+<div class="flex-1 grid grid-cols-6 gap-1 p-1">
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+<div class="py-2 px-0.5 rounded-lg bg-surface-container-high text-center flex flex-col items-center justify-center opacity-70 cursor-not-allowed">
+<span class="material-symbols-outlined text-[13px] text-outline">build</span>
+<span class="font-label-sm text-[10px] text-outline">ปรับปรุง</span>
+</div>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+</div>
+</div>
+<!-- Slot 11:00 - 12:00 (Standard) -->
+<div class="flex items-center">
+<div class="w-20 shrink-0 py-2 px-1 text-center bg-surface-container-low">
+<span class="font-label-sm text-label-sm font-semibold text-primary block">11:00</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant block">12:00</span>
+</div>
+<div class="flex-1 grid grid-cols-6 gap-1 p-1">
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+<div class="py-2 px-0.5 rounded-lg bg-error-container/60 text-center flex flex-col items-center justify-center opacity-85 cursor-not-allowed">
+<span class="material-symbols-outlined text-[13px] text-error">close</span>
+<span class="font-label-sm text-[10px] text-error font-medium">เต็ม</span>
+</div>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+</div>
+</div>
+<!-- Slot 13:00 - 14:00 (Standard) -->
+<div class="flex items-center">
+<div class="w-20 shrink-0 py-2 px-1 text-center bg-surface-container-low">
+<span class="font-label-sm text-label-sm font-semibold text-primary block">13:00</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant block">14:00</span>
+</div>
+<div class="flex-1 grid grid-cols-6 gap-1 p-1">
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+</div>
+</div>
+<!-- Slot 15:00 - 16:00 (Standard) -->
+<div class="flex items-center">
+<div class="w-20 shrink-0 py-2 px-1 text-center bg-surface-container-low">
+<span class="font-label-sm text-label-sm font-semibold text-primary block">15:00</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant block">16:00</span>
+</div>
+<div class="flex-1 grid grid-cols-6 gap-1 p-1">
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+<div class="py-2 px-0.5 rounded-lg bg-error-container/60 text-center flex flex-col items-center justify-center opacity-85 cursor-not-allowed">
+<span class="material-symbols-outlined text-[13px] text-error">close</span>
+<span class="font-label-sm text-[10px] text-error font-medium">เต็ม</span>
+</div>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+<div class="py-2 px-0.5 rounded-lg bg-error-container/60 text-center flex flex-col items-center justify-center opacity-85 cursor-not-allowed">
+<span class="material-symbols-outlined text-[13px] text-error">close</span>
+<span class="font-label-sm text-[10px] text-error font-medium">เต็ม</span>
+</div>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+</div>
+</div>
+<!-- Peak Zone Divider Tag -->
+<div class="bg-secondary-container/20 py-1 px-3 flex items-center justify-between">
+<span class="font-label-sm text-[11px] font-bold text-on-secondary-container flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">local_fire_department</span>
+                เริ่มช่วงเวลาพีค (17:00 - 21:00) ฿220/ชม.
+              </span>
+<span class="font-label-sm text-[10px] text-secondary">หลังเลิกงานยอดนิยม</span>
+</div>
+<!-- Slot 17:00 - 18:00 (PEAK) -->
+<div class="flex items-center bg-secondary-fixed-dim/10">
+<div class="w-20 shrink-0 py-2 px-1 text-center bg-secondary-container/30">
+<span class="font-label-sm text-label-sm font-bold text-on-secondary-container block">17:00</span>
+<span class="font-label-sm text-[10px] text-on-secondary-container block">18:00</span>
+</div>
+<div class="flex-1 grid grid-cols-6 gap-1 p-1">
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-secondary-container/30 transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-secondary">฿220</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mt-0.5"></span>
+</button>
+<div class="py-2 px-0.5 rounded-lg bg-error-container/60 text-center flex flex-col items-center justify-center opacity-85 cursor-not-allowed">
+<span class="material-symbols-outlined text-[13px] text-error">close</span>
+<span class="font-label-sm text-[10px] text-error font-medium">เต็ม</span>
+</div>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-secondary-container/30 transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-secondary">฿220</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mt-0.5"></span>
+</button>
+<div class="py-2 px-0.5 rounded-lg bg-error-container/60 text-center flex flex-col items-center justify-center opacity-85 cursor-not-allowed">
+<span class="material-symbols-outlined text-[13px] text-error">close</span>
+<span class="font-label-sm text-[10px] text-error font-medium">เต็ม</span>
+</div>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-secondary-container/30 transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-secondary">฿220</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-secondary-container/30 transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-secondary">฿220</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mt-0.5"></span>
+</button>
+</div>
+</div>
+<!-- Slot 18:00 - 19:00 (PEAK - High Demand) -->
+<div class="flex items-center bg-secondary-fixed-dim/10">
+<div class="w-20 shrink-0 py-2 px-1 text-center bg-secondary-container/30">
+<span class="font-label-sm text-label-sm font-bold text-on-secondary-container block">18:00</span>
+<span class="font-label-sm text-[10px] text-on-secondary-container block">19:00</span>
+</div>
+<div class="flex-1 grid grid-cols-6 gap-1 p-1">
+<div class="py-2 px-0.5 rounded-lg bg-error-container/60 text-center flex flex-col items-center justify-center opacity-85 cursor-not-allowed">
+<span class="material-symbols-outlined text-[13px] text-error">close</span>
+<span class="font-label-sm text-[10px] text-error font-medium">เต็ม</span>
+</div>
+<div class="py-2 px-0.5 rounded-lg bg-error-container/60 text-center flex flex-col items-center justify-center opacity-85 cursor-not-allowed">
+<span class="material-symbols-outlined text-[13px] text-error">close</span>
+<span class="font-label-sm text-[10px] text-error font-medium">เต็ม</span>
+</div>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-secondary-container/30 transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-secondary">฿220</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mt-0.5"></span>
+</button>
+<div class="py-2 px-0.5 rounded-lg bg-error-container/60 text-center flex flex-col items-center justify-center opacity-85 cursor-not-allowed">
+<span class="material-symbols-outlined text-[13px] text-error">close</span>
+<span class="font-label-sm text-[10px] text-error font-medium">เต็ม</span>
+</div>
+<div class="py-2 px-0.5 rounded-lg bg-error-container/60 text-center flex flex-col items-center justify-center opacity-85 cursor-not-allowed">
+<span class="material-symbols-outlined text-[13px] text-error">close</span>
+<span class="font-label-sm text-[10px] text-error font-medium">เต็ม</span>
+</div>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-secondary-container/30 transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-secondary">฿220</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mt-0.5"></span>
+</button>
+</div>
+</div>
+<!-- Slot 19:00 - 20:00 (PEAK) -->
+<div class="flex items-center bg-secondary-fixed-dim/10">
+<div class="w-20 shrink-0 py-2 px-1 text-center bg-secondary-container/30">
+<span class="font-label-sm text-label-sm font-bold text-on-secondary-container block">19:00</span>
+<span class="font-label-sm text-[10px] text-on-secondary-container block">20:00</span>
+</div>
+<div class="flex-1 grid grid-cols-6 gap-1 p-1">
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-secondary-container/30 transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-secondary">฿220</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-secondary-container/30 transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-secondary">฿220</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mt-0.5"></span>
+</button>
+<div class="py-2 px-0.5 rounded-lg bg-error-container/60 text-center flex flex-col items-center justify-center opacity-85 cursor-not-allowed">
+<span class="material-symbols-outlined text-[13px] text-error">close</span>
+<span class="font-label-sm text-[10px] text-error font-medium">เต็ม</span>
+</div>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-secondary-container/30 transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-secondary">฿220</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-secondary-container/30 transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-secondary">฿220</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mt-0.5"></span>
+</button>
+<div class="py-2 px-0.5 rounded-lg bg-error-container/60 text-center flex flex-col items-center justify-center opacity-85 cursor-not-allowed">
+<span class="material-symbols-outlined text-[13px] text-error">close</span>
+<span class="font-label-sm text-[10px] text-error font-medium">เต็ม</span>
+</div>
+</div>
+</div>
+<!-- Slot 20:00 - 21:00 (PEAK) -->
+<div class="flex items-center bg-secondary-fixed-dim/10">
+<div class="w-20 shrink-0 py-2 px-1 text-center bg-secondary-container/30">
+<span class="font-label-sm text-label-sm font-bold text-on-secondary-container block">20:00</span>
+<span class="font-label-sm text-[10px] text-on-secondary-container block">21:00</span>
+</div>
+<div class="flex-1 grid grid-cols-6 gap-1 p-1">
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-secondary-container/30 transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-secondary">฿220</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-secondary-container/30 transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-secondary">฿220</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-secondary-container/30 transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-secondary">฿220</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-secondary-container/30 transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-secondary">฿220</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-secondary-container/30 transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-secondary">฿220</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-secondary-container/30 transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-secondary">฿220</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mt-0.5"></span>
+</button>
+</div>
+</div>
+<!-- Slot 21:00 - 22:00 (Standard night) -->
+<div class="flex items-center">
+<div class="w-20 shrink-0 py-2 px-1 text-center bg-surface-container-low">
+<span class="font-label-sm text-label-sm font-semibold text-primary block">21:00</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant block">22:00</span>
+</div>
+<div class="flex-1 grid grid-cols-6 gap-1 p-1">
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+<button class="court-slot py-2 px-0.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition shadow-sm text-center flex flex-col items-center justify-center">
+<span class="font-label-sm text-label-sm font-bold text-[#606C38]">฿180</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#606C38] mt-0.5"></span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Guidance Drawer (Unselected Initial State) -->
+<div class="fixed bottom-16 left-0 right-0 z-40 px-space-md pb-2 pt-2 bg-gradient-to-t from-surface via-surface/95 to-transparent">
+<div class="bg-surface-container-lowest rounded-2xl p-3.5 shadow-xl flex items-center justify-between gap-3">
+<!-- Instruction with animated cue -->
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-10 h-10 rounded-full bg-secondary-container/40 flex items-center justify-center shrink-0 text-secondary">
+<span class="material-symbols-outlined text-[22px] animate-bounce">ads_click</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-label-lg font-bold text-primary truncate">ยังไม่ได้เลือกคอร์ท</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">แตะช่องว่างในตารางเพื่อเลือกเวลา</span>
+</div>
+</div>
+<!-- Disabled Action CTA Button -->
+<button class="py-2.5 px-4 rounded-xl bg-surface-container-high text-on-surface-variant font-label-md text-label-md font-semibold shrink-0 cursor-not-allowed flex items-center gap-1.5 opacity-80" disabled="">
+<span>จองทันที</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+  // Simple micro-interaction for slot selection toggle
+  document.querySelectorAll('.court-slot').forEach(slot => {
+    slot.addEventListener('click', function() {
+      const isSelected = this.classList.contains('bg-primary-container');
+      if (isSelected) {
+        this.classList.remove('bg-primary-container', 'text-on-primary');
+        this.classList.add('bg-surface-container-lowest');
+        const priceTag = this.querySelector('span:first-child');
+        if (priceTag) {
+          priceTag.classList.remove('text-on-primary');
+          priceTag.classList.add('text-[#606C38]');
+        }
+      } else {
+        this.classList.remove('bg-surface-container-lowest');
+        this.classList.add('bg-primary-container', 'text-on-primary');
+        const priceTag = this.querySelector('span:first-child');
+        if (priceTag) {
+          priceTag.classList.remove('text-[#606C38]', 'text-secondary');
+          priceTag.classList.add('text-on-primary');
+        }
+      }
+    });
+  });
+
+  // Date strip active pill toggle
+  const dateButtons = document.querySelectorAll('#dateSelectorStrip button');
+  dateButtons.forEach(btn => {
+    btn.addEventListener('click', function() {
+      dateButtons.forEach(b => {
+        b.className = 'flex flex-col items-center justify-center min-w-[58px] py-2.5 px-2 rounded-xl bg-surface-container-lowest text-on-surface hover:bg-surface-container-high transition shrink-0 shadow-sm';
+        const dot = b.querySelector('span:last-child');
+        if(dot) dot.className = 'w-1.5 h-1.5 rounded-full bg-transparent mt-1';
+        const titleSpan = b.querySelector('span:first-child');
+        if(titleSpan) titleSpan.className = 'font-label-sm text-label-sm text-on-surface-variant';
+        const numSpan = b.querySelector('span:nth-child(2)');
+        if(numSpan) numSpan.className = 'font-headline-sm text-headline-sm font-bold text-primary my-0.5';
+      });
+
+      this.className = 'flex flex-col items-center justify-center min-w-[58px] py-2.5 px-2 rounded-xl bg-primary-container text-on-primary shadow-sm shrink-0 transition-transform active:scale-95';
+      const dot = this.querySelector('span:last-child');
+      if(dot) dot.className = 'w-1.5 h-1.5 rounded-full bg-secondary-container mt-1';
+      const titleSpan = this.querySelector('span:first-child');
+      if(titleSpan) titleSpan.className = 'font-label-sm text-label-sm text-on-primary-container opacity-90';
+      const numSpan = this.querySelector('span:nth-child(2)');
+      if(numSpan) numSpan.className = 'font-headline-sm text-headline-sm font-bold text-white my-0.5';
+    });
+  });
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/85 backdrop-blur-xl shadow-[0_-2px_12px_rgba(29,45,68,0.06)]" data-active-classes="text-primary font-bold"><div class="flex justify-around items-center h-16 px-space-xs"><a aria-current="page" class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] gap-0.5 transition-colors text-primary font-bold" data-path="court-reserve" href="#"><span class="material-symbols-outlined text-[24px]">sports_tennis</span><span class="font-label-sm text-label-sm">จองคอร์ด</span></a><a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors" data-path="my-bookings" href="#"><span class="material-symbols-outlined text-[24px]">event_available</span><span class="font-label-sm text-label-sm">ประวัติจอง</span></a><a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors" data-path="court-rates" href="#"><span class="material-symbols-outlined text-[24px]">sell</span><span class="font-label-sm text-label-sm">อัตราค่าบริการ</span></a><a class="flex flex-col items-center justify-center min-w-[56px] min-h-[44px] gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors" data-path="member-card" href="#"><span class="material-symbols-outlined text-[24px]">badge</span><span class="font-label-sm text-label-sm">สมาชิก</span></a></div></nav></body></html>
