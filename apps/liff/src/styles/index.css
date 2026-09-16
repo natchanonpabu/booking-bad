@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Colours come from tailwind.config.js via theme() — no hex values live here.
+   (Revision 2 cut the :root palette mirror: it had no consumer.) */
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --wc-liff-max-w: theme('maxWidth.liff');
+  }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background: theme('colors.surface');
+    color: theme('colors.on-surface');
+    font-family: theme('fontFamily.sans');
+    overscroll-behavior-y: none;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100dvh;
+  }
+
+  /* iOS Safari zooms the page on focus when an input is under 16px and never zooms back
+     — the side effect of allowing pinch-zoom again (Plan 01 revision 2). */
+  input, select, textarea { font-size: 16px; }
+
+  /* Tabular figures for prices, times and countdowns, structurally. */
+  time, [data-numeric], .price, .total, .countdown, .booking-ref, .slot-time {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  /* THE focus ring (0 occurrences of focus-visible across the 48 mockups).
+     :where() keeps specificity at 0 so any component can override it. */
+  :where(a, button, input, select, textarea, summary, [tabindex]:not([tabindex='-1'])):focus-visible {
+    outline: 2px solid theme('colors.secondary-container');
+    outline-offset: 2px;
+    border-radius: theme('borderRadius.DEFAULT');
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* The LIFF column clamp. Every `fixed` element needs its own inner clamp as well,
+     because `fixed` positions against the viewport, not this column. */
+  .liff-column { width: 100%; max-width: var(--wc-liff-max-w); margin-inline: auto; }
+}

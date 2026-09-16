@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img"><title>คาปิบาร่า</title>
+  <!-- Capybara 4: หน้าอย่างเดียวแบบวงกลม สำหรับใช้เป็นไอคอนเล็ก 24px (ทดสอบแล้วลดทอนรายละเอียดให้ชัดเจนที่สุด) -->
+  <!-- Circular badge container -->
+  <circle cx="32" cy="32" r="30" fill="#FDFBF7" stroke="#1D2D44" stroke-width="3"/>
+  <!-- Head shape -->
+  <rect x="14" y="14" width="36" height="36" rx="14" fill="#B78A62"/>
+  <!-- Snout -->
+  <rect x="20" y="27" width="24" height="18" rx="8" fill="#9E734D"/>
+  <!-- Nostrils -->
+  <circle cx="28" cy="34" r="1.5" fill="#1D2D44"/>
+  <circle cx="36" cy="34" r="1.5" fill="#1D2D44"/>
+  <path d="M32 37 L32 40" stroke="#1D2D44" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- Eyes: high-contrast black dots with distinct spacing -->
+  <circle cx="22" cy="24" r="2.2" fill="#1D2D44"/>
+  <circle cx="42" cy="24" r="2.2" fill="#1D2D44"/>
+  <!-- Ears -->
+  <circle cx="14" cy="17" r="4" fill="#9E734D"/>
+  <circle cx="50" cy="17" r="4" fill="#9E734D"/>
+  <!-- Tiny navy collar at bottom rim -->
+  <path d="M22 50 C26 53 38 53 42 50" stroke="#1D2D44" stroke-width="3" stroke-linecap="round"/>
+</svg>
