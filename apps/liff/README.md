@@ -1,7 +1,9 @@
 # Winner Court — booking demo (frontend only)
 
-The LIFF web app for Plan 01 (`documents/plans/01-frontend-booking-demo.md`). No backend:
-data is fixtures, payment and LINE are simulated.
+The booking demo for Plan 01 (`documents/plans/01-frontend-booking-demo.md`). It exists to
+show a venue owner what the product does, so it runs entirely on fixtures: no backend, no
+payment screen, and no LINE integration (Revision 5). Booking a court ends at
+*รอชำระที่หน้าร้าน*, which is what v1 will do.
 
 ```bash
 npm ci          # use the committed lockfile

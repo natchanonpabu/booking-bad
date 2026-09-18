@@ -59,8 +59,9 @@ export const api = {
   getBooking: (ref: string) =>
     lag(getState().bookings.find((b) => b.ref === ref) ?? null),
 
-  /** Holds every court in the selection. One block per court — the exclusion
-      constraint in Plan 03 is per court, so the shapes already match. */
+  /** Unused by the demo after Revision 5 (nothing waits between choosing and
+      confirming). Kept because Plan 04 needs a server-side hold, and the shape is
+      already right: one block per court, matching the per-court exclusion constraint. */
   createHold: (sel: SelectionRange) => {
     const holdId = `hold_${Math.round(now())}`;
     for (const courtId of sel.courtIds) {
@@ -89,13 +90,14 @@ export const api = {
     return lag(true);
   },
 
-  /** Turns a hold into a booking. The longest lag in the app: this is the
-      "waiting for the bank" beat of the pitch. */
+  /** Creates the booking. `method` defaults to paying at the counter, which is what
+      v1 does; `holdId` is optional because the demo books straight from the review
+      screen with nothing held in between. */
   confirmBooking: (
-    holdId: string,
     sel: SelectionRange,
     contactPhone: string,
-    method: PaymentMethodId,
+    method: PaymentMethodId = 'counter',
+    holdId = '',
   ) => {
     for (const courtId of sel.courtIds) {
       if (!isFree(sel.date, courtId, sel.startHour, sel.endHour, holdId)) throw new SlotTakenError();

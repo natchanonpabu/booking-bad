@@ -4,15 +4,13 @@ import Catalog from '@/screens/Catalog';
 import BookingReview from '@/screens/BookingReview';
 import BookingSuccess from '@/screens/BookingSuccess';
 import CourtProfile from '@/screens/CourtProfile';
-import HoldExpired from '@/screens/HoldExpired';
 import MyBookings from '@/screens/MyBookings';
 import NotFound from '@/screens/NotFound';
-import Payment from '@/screens/Payment';
-import QrDemo from '@/screens/QrDemo';
 import { AppShell } from './AppShell';
 
-/** Nine routes (Plan 01 §2.1). Hash router: works on any static host with no rewrite
-    rules; whether LIFF's `liff.state` survives it is verified on Day 15 (§3.5 #3). */
+/** Five screens plus the catch-all (Plan 01 §2.1, after Revision 5 cut the payment
+    screen, the QR landing page and the hold-expiry screen). Hash router: works on any
+    static host with no rewrite rules, and on a laptop shared over the venue's wifi. */
 export const router = createHashRouter(
   [
     {
@@ -21,11 +19,8 @@ export const router = createHashRouter(
         { index: true, element: <CourtProfile /> },
         { path: 'book', element: <BookingGrid /> },
         { path: 'book/review', element: <BookingReview /> },
-        { path: 'book/pay', element: <Payment /> },
         { path: 'book/success/:ref', element: <BookingSuccess /> },
-        { path: 'book/expired', element: <HoldExpired /> },
         { path: 'bookings', element: <MyBookings /> },
-        { path: 'qr-demo', element: <QrDemo /> },
         // Scratch route for the device pass; not linked from the app.
         { path: '__catalog', element: <Catalog /> },
         { path: '*', element: <NotFound /> },

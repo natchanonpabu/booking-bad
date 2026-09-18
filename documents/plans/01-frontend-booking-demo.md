@@ -12,6 +12,24 @@
 
 ---
 
+## Revision 5 — demo scope cut to the sales pitch (2026-09-18)
+
+The owner decided the demo has **one job: selling the idea to a venue owner.** It does not take money and it is not wired to LINE. Three cuts follow, and they are cuts of *work*, not of the pitch — the beat that sells this product is the grid, not the QR.
+
+| Cut | Why | What goes |
+|---|---|---|
+| **The payment screen** | v1 is book-online / pay-at-the-counter (§Revision 4, D19′), so a PromptPay screen demos a flow that will not ship | `/book/pay`, `/qr-demo`, `/book/expired`, `QrPanel`, `HoldBanner`, the 15-minute hold countdown, the `qrcode` dependency |
+| **The LINE integration** | No LIFF app, no LINE Login, no channel — the demo opens in an ordinary mobile browser | The Day-15 LIFF spike, `ShareToLine`, `OutsideLineNotice`, `liff.state` handling |
+| **The hold** | With nothing to wait for between choosing and confirming, a hold has no user-visible job in the demo | The countdown, the expiry chain, and the expired screen. `api.createHold` stays in the code, unused, because Plan 04 needs it |
+
+**The booking flow becomes three screens:** grid → review → success. Confirming creates the booking immediately as *rอชำระที่หน้าร้าน* (`paymentMethod: 'counter'`, `status: 'pending_payment'`), which is exactly what v1 will do.
+
+**Duration: 16 → ~13 working days.** Days 1–4 are done, so **~9 remain**. Gate 1 (clickable end to end on a phone) moves from Day 9 to **Day 8**.
+
+**Still true, and still needed before the demo is shown on someone else's phone:** somewhere to host the built files, or a laptop on the same wifi. That is not a LINE account and not a paid service.
+
+---
+
 ## Revision 4 — approved (2026-09-15)
 
 The owner answered the open questions. These are now decisions, not proposals:
@@ -121,16 +139,11 @@ Both clauses are required. The first alone gets a throwaway. The second alone ge
 | `/` | โปรไฟล์สนาม | `winner_court_1` | — |
 | `/book` | จองคอร์ทแบดมินตัน | `_1`, `2.`, `_2` | `selection.kind` · `day.soldOut` |
 | `/book/review` | ยืนยันข้อมูลการจอง (1/3) | `winner_court_2` | `payment.method` |
-| `/book/pay` | ชำระเงิน (2/3) | `promptpay_qr` | `hold.state` |
-| `/book/success/:ref` | จองคอร์ทสำเร็จ (3/3) | `line` | `payment.status` |
+| `/book/success/:ref` | จองคอร์ทสำเร็จ (2/2) | `line` | `payment.status` |
 | `/bookings` | การจองของฉัน | `_3`, `empty_state` | `bookings.length` |
-| `/qr-demo` | สแกน QR สำเร็จ — the QR landing page | ⟪none — invented⟫ | — (static) |
-| `/book/expired` | หมดเวลาจองชั่วคราว | ⟪none — invented⟫ | — |
 | `*` | ไม่พบหน้านี้ | ⟪none — invented⟫ | — |
 
-`/qr-demo` is the **only** thing the PromptPay QR encodes (§13). It takes no `:ref`, reads no flow state and cannot 404: it renders a fixed confirmation-style page — mascot, `สแกนสำเร็จ! นี่คือ QR สาธิตครับ`, a one-line note that no money moved and that the real QR is the venue's PromptPay, and a `ดูหน้าจองคอร์ท` link. It exists because the most physical moment of the pitch is handing a venue owner a phone to scan, and a QR pointed at `/book/success/:ref` lands a stranger's phone — with no `localStorage`, no booking, no flow — on S7's unknown-`:ref` state, i.e. `ไม่พบการจองนี้` (§9 S7). A demo QR that resolves to "not found" deflates the pitch at the exact second it is meant to land.
-
-The last two are not optional. The demo runs a real 15-minute hold; it **will** reach zero while someone is talking. The mockup's countdown freezes at `00:00 น.` with the CTA still enabled and nothing else happening — that is the single most likely on-stage failure in the whole flow.
+*(Revision 5 removed `/book/pay`, `/qr-demo` and `/book/expired` — see the table at the top of this file. Six routes remain: five screens plus the catch-all.)*
 
 ### 2.2 Out — named, so nobody has to ask
 
@@ -391,7 +404,6 @@ export function Icon({ name, size = 24, filled = false, label, ...rest }:
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^6.28.0",
-    "qrcode": "^1.5.4",
     "@radix-ui/react-dialog": "^1.1.19",
     "@radix-ui/react-slot": "^1.3.0",
     "@fontsource-variable/inter": "^5.1.0",
@@ -399,7 +411,6 @@ export function Icon({ name, size = 24, filled = false, label, ...rest }:
     "@fontsource/noto-sans": "^5.1.0"
   },
   "devDependencies": {
-    "@types/qrcode": "^1.5.5",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^4.3.4",
@@ -451,7 +462,7 @@ booking/                          ← ONE repository (decision 10): documents an
    └─ src/
       ├─ main.tsx
       ├─ app/
-      │  ├─ router.tsx            createHashRouter — 6 screens + qr-demo + expired + 404
+      │  ├─ router.tsx            createHashRouter — 5 screens + catalog + 404
       │  ├─ AppShell.tsx          <Outlet> + header + bottom nav + pt-16 pb-24 + .liff-column
       │  ├─ BookingFlowProvider.tsx   useReducer for selection/contact/method/hold
       │  └─ navConfig.ts          THE nav source of truth (D59) — 4 declared, 2 enabled
@@ -476,7 +487,6 @@ booking/                          ← ONE repository (decision 10): documents an
       ├─ platform/
       │  ├─ liff.ts               LiffAdapter interface + getLiff() + isInLine()
       │  ├─ mockLiff.ts           fixture profile; share → line.me/R/share
-      │  └─ qr.ts                 real scannable QR encoding the absolute `/qr-demo` URL;
       │                           PromptPay builder stubbed and throwing
       │
       ├─ lib/
@@ -496,14 +506,14 @@ booking/                          ← ONE repository (decision 10): documents an
       │  ├─ shell/                AppHeader · BottomNav · StepHeader · OutsideLineNotice
       │  └─ booking/              DateStrip · CourtMatrix · SlotCell · LegendBar
       │                           SelectionDrawer · PriceBreakdown · PaymentMethodCard
-      │                           HoldBanner · QrPanel · BookingTicket · BookingCard
+      │                           BookingTicket · BookingCard
       │                           RateCard · AvailabilityBanner · PhotoCarousel
-      │                           AmenityGrid · ShareToLine
+      │                           AmenityGrid
       │
       ├─ screens/
       │  ├─ CourtProfile.tsx · BookingGrid.tsx · BookingReview.tsx · Payment.tsx
       │  ├─ BookingSuccess.tsx · MyBookings.tsx · HoldExpired.tsx · NotFound.tsx
-      │  ├─ QrDemo.tsx           /qr-demo — the static page the demo QR resolves to (§2.1).
+      │  ├─ Catalog.tsx          /__catalog — every primitive in every state (§7).
       │                          No params, no state, no fetch; cannot render not-found.
       │
       └─ demo/
@@ -1508,15 +1518,15 @@ Build top to bottom and nothing is ever blocked. **Keep** = ships into the real 
 | 21 | `SelectionDrawer` | `selection; quote; quoting; onClear; onContinue` | **none** (instructional, CTA disabled) · **quoting** (shimmer total) · **selected** · **max reached** (caption). Announces via `aria-live="polite"`. ⚠️ **Non-modal** — the grid stays scrollable and tappable while it is up | Keep |
 | 22 | `PriceBreakdown` | `lines; total` | Iterates `QuoteLine[]` — a mixed range renders two rows automatically | Keep |
 | 23 | `PaymentMethodCard` | `id; title; tag?; subtitle; facts; selected; onSelect` | Real `role="radio"` + `aria-checked` in a `role="radiogroup"`, arrow keys via **`useRovingFocus`**. The mockups use bare `<button>`s, invisible to a screen reader | Keep |
-| 24 | `HoldBanner` | `expiresAt; onExpire` | normal (honey) · **expiring** (<60 s, `error-container` + pulse) · **expired** (grey, fires `onExpire`). mm:ss from wall clock | Keep |
-| 25 | `QrPanel` | `payload; amount; scheme` | THAI QR / พร้อมเพย์ badges, real rendered QR, centre mascot token, `QR สาธิต` caption | Adapt |
+| ~~24~~ | ~~`HoldBanner`~~ — **cut, Revision 5** | `expiresAt; onExpire` | normal (honey) · **expiring** (<60 s, `error-container` + pulse) · **expired** (grey, fires `onExpire`). mm:ss from wall clock | Keep |
+| ~~25~~ | ~~`QrPanel`~~ — **cut, Revision 5** | `payload; amount; scheme` | THAI QR / พร้อมเพย์ badges, real rendered QR, centre mascot token, `QR สาธิต` caption | Adapt |
 | 26 | `BookingTicket` | `booking; venue; court` | bleed header (ref), 4 label/value rows, bleed payment strip. Paid / counter variants | Keep |
 | 27 | `BookingCard` | `booking; court; variant: 'hero'\|'compact'\|'past'; onAction` | **confirmed** (success pill + countdown chip, `bg-secondary` accent) · **pending** (honey pulsing pill, `bg-secondary-container` accent) · **past** (grey `เสร็จสิ้น`) | Keep |
 | 28 | `RateCard` | `rules; hours` | Rows rendered from `RATE_RULES` — no hardcoded prices anywhere (D05) | Keep |
 | 29 | `AvailabilityBanner` | `date; freeSlotCount; bands` | Navy hero with mascot watermark; per-band badge tone comfortable / urgent | Adapt |
 | 30 | `PhotoCarousel` | `slides` | `snap-x snap-mandatory`, dots, `1 / 3` counter. **Every slide has a real Thai `alt`** — 0 images in 48 files do | Keep |
 | 31 | `AmenityGrid` | `items` | 2-col, 6 tiles | Keep |
-| 32 | `ShareToLine` | `text` | idle / sharing / failed. `navigator.share` → `line.me/R/share` fallback | Adapt |
+| ~~32~~ | ~~`ShareToLine`~~ — **cut, Revision 5** | `text` | idle / sharing / failed. `navigator.share` → `line.me/R/share` fallback | Adapt |
 
 ### Tier 3 — demo scaffolding (Day 14, ~0.5 day)
 
@@ -1604,7 +1614,7 @@ Two consequences worth stating so nobody re-derives them:
 | grid refetch (retry, focus regain, hold sweep) | if any selected hour is no longer `available`: `S = none` + assertive toast **`ช่วงเวลาที่เลือกไว้เพิ่งถูกจองไปครับ กรุณาเลือกใหม่`** |
 | navigate to `/book/review` | freeze `S` into the flow reducer; `S` survives Back |
 | Back from review | restore `S`, scroll `startHour` into view |
-| hold expiry on `/book/pay` | `S = none`; release the hold; route to `/book/expired` |
+| ~~hold expiry~~ | *(cut, Revision 5 — no hold in the demo)* |
 
 **Out of scope, stated explicitly:** long-press, drag-to-select, multi-court selection, cross-midnight ranges, sub-hour granularity.
 
@@ -1749,7 +1759,9 @@ Fixes:
 
 **States:** default · submitting (CTA spinner + `กำลังยืนยัน…`, inputs disabled) · validation error · **slot taken while deciding** — a modal `ช่วงเวลานี้เพิ่งถูกจองไปเมื่อครู่` / `มีคนจอง {court} {time} ไปก่อนหน้าคุณ ลองเลือกเวลาอื่นดูไหมครับ` with `กลับไปเลือกเวลาใหม่` (→ grid, selection cleared, refetched). Trigger with `?conflict=1`. This is the most likely real failure of the flow and it exists in no mockup.
 
-### S6 · `/book/pay` — ชำระเงิน (2/3) *(Day 9, hardened Day 14)*
+### ~~S6 · `/book/pay`~~ — **cut in Revision 5.** The section below is kept only as the spec to restore from if prepayment ever ships.
+
+#### (archived) ชำระเงิน (2/3)
 
 Guard: requires a hold with `expiresAt`. Absent → redirect to `/book`.
 

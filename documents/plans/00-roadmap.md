@@ -35,7 +35,7 @@ Adopt this on day 1, in the first commit. It is what stops the same argument bei
 | # | Plan | Delivers | Depends on | Rough size |
 |---|---|---|---|---|
 | **00** | **Roadmap** (this file) | Order, supersession rule, open questions | — | — |
-| **01** | **Frontend booking demo** ✅ *approved 2026-09-15* | The 9 booking mockups clickable end-to-end on a phone; production-grade tokens, slot-selection state machine + tests, typed fixture, booking-ref generator | Nothing | **16 working days, 1 dev** · Gate 1 (clickable) day 9 |
+| **01** | **Frontend booking demo** ✅ *approved 2026-09-15* | The 9 booking mockups clickable end-to-end on a phone; production-grade tokens, slot-selection state machine + tests, typed fixture, booking-ref generator | Nothing | **~13 working days, 1 dev** · Gate 1 (clickable) day 8 · *Revision 5 cut the payment screen and the LINE integration: the demo is a sales tool, v1 is pay-at-the-counter* |
 | **02** | **Pre-development decisions & external clocks** | Signed venue facts, register closed, v1 cut line signed, four external clocks started (venue, PSP/prepay, legal, slip vendor) | A founder with a calendar and a real venue | **~4 weeks calendar, ~2 person-weeks** · runs **in parallel with 01** |
 | **03** | **Foundations: repo, tokens package, schema** | pnpm workspace, stack ADR, `packages/tokens` promoted out of Plan 01, `0001_core.sql` with the exclusion constraint, fixture-as-specification | 02 (venue facts) | 1.5–2 weeks |
 | **04** | **Real booking** | LIFF auth + ID-token verification, availability view, server-side hold, confirm; Plan 01's UI rewired to a real API; `MockLiff` and webhook replay harness | 01, 03 | 3–4 weeks |
