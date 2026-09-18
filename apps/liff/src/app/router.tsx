@@ -1,5 +1,6 @@
 import { createHashRouter } from 'react-router-dom';
 import BookingGrid from '@/screens/BookingGrid';
+import Catalog from '@/screens/Catalog';
 import BookingReview from '@/screens/BookingReview';
 import BookingSuccess from '@/screens/BookingSuccess';
 import CourtProfile from '@/screens/CourtProfile';
@@ -25,6 +26,8 @@ export const router = createHashRouter(
         { path: 'book/expired', element: <HoldExpired /> },
         { path: 'bookings', element: <MyBookings /> },
         { path: 'qr-demo', element: <QrDemo /> },
+        // Scratch route for the device pass; not linked from the app.
+        { path: '__catalog', element: <Catalog /> },
         { path: '*', element: <NotFound /> },
       ],
     },
