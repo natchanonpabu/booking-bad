@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useMemo, useRef, useState, type ReactNode } from 'react';
-import { cn } from '@/lib/cn';
+import { cn } from '@/lib/utils';
 
 type Tone = 'neutral' | 'success' | 'error';
 interface Toast { id: number; message: string; tone: Tone; assertive: boolean }

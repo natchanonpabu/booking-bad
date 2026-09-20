@@ -1,6 +1,6 @@
 import { useId } from 'react';
 import { useRovingFocus } from '@/lib/useRovingFocus';
-import { cn } from '@/lib/cn';
+import { cn } from '@/lib/utils';
 
 export interface TabItem { id: string; label: string; count?: number }
 

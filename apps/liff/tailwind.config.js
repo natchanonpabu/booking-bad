@@ -10,6 +10,31 @@ export default {
   theme: {
     extend: {
       colors: {
+        /* ---- shadcn compatibility layer ----
+           shadcn's components are written against these names. Ours stay authoritative
+           (the 38 generated mockup configs use the M3 set), so this layer only ADDS the
+           names shadcn needs and points them at our palette. Two notes:
+             · `primary` and `secondary` already exist here and keep OUR meaning. A copied
+               component that says `bg-secondary` therefore renders our dark brown, which
+               is wrong for a muted button — those two class names are rewritten to our
+               surface tokens when a component is pasted in (see src/components/ui).
+             · No `*-foreground` name collides with anything, so they are plain aliases. */
+        'primary-foreground': '#ffffff',       // = on-primary
+        background: '#fbf9f5',                 // = surface
+        foreground: '#1b1c1a',                 // = on-surface
+        card: '#ffffff',                       // = surface-container-lowest
+        'card-foreground': '#1b1c1a',
+        popover: '#ffffff',
+        'popover-foreground': '#1b1c1a',
+        muted: '#efeeea',                      // = surface-container
+        'muted-foreground': '#44474d',         // = on-surface-variant
+        accent: '#eae8e4',                     // = surface-container-high (hover surface)
+        'accent-foreground': '#1b1c1a',
+        destructive: '#ba1a1a',                // = error
+        'destructive-foreground': '#ffffff',
+        input: '#c5c6cd',                      // = outline-variant
+        ring: '#fdbd77',                       // = secondary-container, the focus ring
+
         /* ---- PRIMARY / NAVY ---- */
         primary: '#07182e',                 // headings, primary CTA fill (near-black)
         'on-primary': '#ffffff',
@@ -70,6 +95,7 @@ export default {
         'on-surface-variant': '#44474d',
         outline: '#75777e',                 // 4.47:1 — borders / ≥18px text only
         'outline-variant': '#c5c6cd',
+        border: '#c5c6cd',                     // shadcn's `border-border`
         'inverse-surface': '#30312e',
         'inverse-on-surface': '#f2f0ed',
 

@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { ENABLED_NAV } from '@/app/navConfig';
 import { Icon } from '@/components/ui/Icon';
-import { cn } from '@/lib/cn';
+import { cn } from '@/lib/utils';
 
 export function BottomNav() {
   return (

@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import { AppHeader } from '@/components/shell/AppHeader';
 import { BottomNav } from '@/components/shell/BottomNav';
-import { cn } from '@/lib/cn';
+import { cn } from '@/lib/utils';
 import { NAV_HIDDEN_PREFIXES } from './navConfig';
 
 export function AppShell() {

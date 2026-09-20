@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/Card';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { CopyButton } from '@/components/ui/CopyButton';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Icon, ICON_NAMES } from '@/components/ui/Icon';
 import { Modal } from '@/components/ui/Modal';
-import { Pill } from '@/components/ui/Pill';
+import { Badge } from '@/components/ui/badge';
 import { SegmentedTabs } from '@/components/ui/SegmentedTabs';
 import { Sheet } from '@/components/ui/Sheet';
 import { Spinner } from '@/components/ui/Spinner';
@@ -42,14 +42,14 @@ export default function Catalog() {
       </section>
 
       <section className="space-y-space-sm">
-        <h2 className="font-label-lg text-label-lg text-on-surface-variant">Pill</h2>
+        <h2 className="font-label-lg text-label-lg text-on-surface-variant">Badge</h2>
         <div className="flex flex-wrap gap-space-xs">
-          <Pill tone="success" dot>ยืนยันแล้ว</Pill>
-          <Pill tone="peak" icon="bolt">ช่วงพีค</Pill>
-          <Pill tone="error" dot pulse>รอชำระเงิน</Pill>
-          <Pill tone="neutral">ที่ผ่านมา</Pill>
-          <Pill tone="info" icon="info">ข้อมูลสาธิต</Pill>
-          <Pill tone="line" icon="chat">LINE</Pill>
+          <Badge tone="success" dot>ยืนยันแล้ว</Badge>
+          <Badge tone="peak" icon="bolt">ช่วงพีค</Badge>
+          <Badge tone="error" dot pulse>รอชำระเงิน</Badge>
+          <Badge tone="neutral">ที่ผ่านมา</Badge>
+          <Badge tone="info" icon="info">ข้อมูลสาธิต</Badge>
+          <Badge tone="line" icon="chat">LINE</Badge>
         </div>
       </section>
 
@@ -119,7 +119,7 @@ export default function Catalog() {
         <h2 className="font-label-lg text-label-lg text-on-surface-variant">EmptyState</h2>
         <EmptyState
           mascot="sleep"
-          badge={<Pill tone="error" dot>เต็มทุกช่วงเวลา</Pill>}
+          badge={<Badge tone="error" dot>เต็มทุกช่วงเวลา</Badge>}
           headline="วันนี้คอร์ทเต็มแล้วครับ"
           body="ลองดูวันพรุ่งนี้ไหมครับ ยังมีช่วงค่ำว่างอยู่"
           primaryAction={<Button fullWidth>ดูวันถัดไป</Button>}

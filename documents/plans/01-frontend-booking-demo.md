@@ -12,6 +12,27 @@
 
 ---
 
+## Revision 6 — shadcn/ui adopted (2026-09-20)
+
+Revision 3 rejected shadcn/ui. The owner asked for it anyway, so it was tested instead of argued about, and **the rejection was overstated.** What the test actually found:
+
+| Claim in Revision 3 | What happened when it was run |
+|---|---|
+| "The shadcn CLI favours Tailwind v4" | `init` **succeeds** on our pinned 3.4.17 — validates the config, writes `components.json`, updates the CSS |
+| "It blocks adoption" | The build failed on one thing: `text-foreground` did not exist. Adding shadcn's token names to `tailwind.config.js` fixed it in minutes |
+| — (not previously tested) | The **current** registry (`shadcn@4`, style `radix-nova`) emits Tailwind v4 syntax — `ring-3`, `has-data-*`, `in-data-*`, `aria-invalid:*`, `not-aria-*`. Compiled against 3.4.17 those produce **nothing**, silently: no focus-ring width, no invalid-field styling |
+| — | **`shadcn@2.1.8` emits clean Tailwind 3 components** — `focus-visible:ring-1`, `h-9`, `[&_svg]:size-4`, importing `@radix-ui/react-slot` and `cva` only |
+
+**Decision: adopt shadcn from the 2.x (Tailwind 3) registry.** `components.json` is committed so the CLI keeps working. Base components are `button`, `card`, `badge`, `input`, `label`, `radio-group`, `skeleton`, `separator`.
+
+**Token names stay ours** (owner's call). The M3 set is what 38 generated mockup configs use, so `tailwind.config.js` *adds* the names shadcn needs — `background`, `foreground`, `card`, `muted`, `accent`, `destructive`, `border`, `input`, `ring`, `*-foreground` — pointing at our palette. `primary` and `secondary` keep our meaning; a pasted component that says `bg-secondary` is rewritten to our surface tokens, because ours is a dark brown for peak pricing, not a muted button.
+
+**Three things deliberately not taken from shadcn:** `lucide-react` (no racket, tennis, badminton or shuttlecock glyph — `sports_tennis` is our main tab), `sonner` (§8.6 needs two live regions at different politeness levels), and the Geist font (no Thai). `scripts/gate.mjs` fails the build if any of them reappears.
+
+**One trap, worth the sentence.** shadcn's `cn` uses `tailwind-merge`, which knew neither our type scale nor our colour names, decided `text-on-primary` and `text-label-lg` were the same kind of class, and dropped the first. Every primary button rendered navy text on a navy fill — no error, no failing test, just invisible labels. `src/lib/utils.ts` now extends tailwind-merge with our `font-size` group, and `utils.test.ts` locks it. **`tailwind-merge` is pinned to v2**; v3 targets Tailwind 4 and would mis-merge the same way.
+
+---
+
 ## Revision 5 — demo scope cut to the sales pitch (2026-09-18)
 
 The owner decided the demo has **one job: selling the idea to a venue owner.** It does not take money and it is not wired to LINE. Three cuts follow, and they are cuts of *work*, not of the pitch — the beat that sells this product is the grid, not the QR.

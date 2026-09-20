@@ -1,54 +1,61 @@
+import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
 import { Icon, type IconName } from './Icon';
 import { Spinner } from './Spinner';
-import { cn } from '@/lib/cn';
 
-type Variant = 'primary' | 'tonal' | 'ghost' | 'line' | 'danger';
-type Size = 'md' | 'lg';
+/**
+ * shadcn's button, adapted (Plan 01 §4.5, revised 2026-09-20):
+ *  · variants are ours, not shadcn's — `bg-secondary` in the stock file is our dark
+ *    brown, which is wrong for a muted button, so those classes are rewritten here
+ *  · sizes are 48px minimum, because every target in this app is thumb-sized
+ *  · `line` hard-codes navy text: white on the LINE green is 2.26:1 and fails AA
+ */
+const buttonVariants = cva(
+  'inline-flex shrink-0 items-center justify-center gap-space-xs whitespace-nowrap rounded-xl transition-all active:scale-98 disabled:pointer-events-none disabled:opacity-40 [&_svg]:pointer-events-none [&_svg]:shrink-0',
+  {
+    variants: {
+      variant: {
+        primary: 'bg-primary text-on-primary hover:bg-primary/90',
+        tonal: 'bg-secondary-container text-on-secondary-container hover:bg-secondary-container/80',
+        ghost: 'text-primary hover:bg-accent',
+        outline: 'border border-outline-variant bg-surface-container-lowest text-primary hover:bg-accent',
+        line: 'bg-line text-primary-container hover:bg-line-hover',
+        danger: 'bg-error text-on-error hover:bg-error/90',
+      },
+      size: {
+        md: 'min-h-touch px-space-md font-label-lg text-label-lg',
+        lg: 'min-h-[52px] px-space-lg font-body-lg text-body-lg font-semibold',
+        icon: 'size-11 rounded-full px-0',
+      },
+      fullWidth: { true: 'w-full', false: '' },
+    },
+    defaultVariants: { variant: 'primary', size: 'md', fullWidth: false },
+  },
+);
 
-const VARIANTS: Record<Variant, string> = {
-  primary: 'bg-primary text-on-primary',
-  tonal: 'bg-secondary-container text-on-secondary-container',
-  ghost: 'bg-transparent text-primary',
-  // White on the LINE green is 2.26:1 and fails AA, so this variant hard-codes navy
-  // text and there is no prop that can change it (Plan 01 §5.1, correction 1).
-  line: 'bg-line text-primary-container',
-  danger: 'bg-error text-on-error',
-};
-
-const SIZES: Record<Size, string> = {
-  md: 'min-h-touch px-space-md gap-space-xs text-label-lg font-label-lg',
-  lg: 'min-h-[52px] px-space-lg gap-space-sm text-body-lg font-body-lg font-semibold',
-};
-
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: Variant;
-  size?: Size;
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
   leadingIcon?: IconName;
   trailingIcon?: IconName;
   loading?: boolean;
-  fullWidth?: boolean;
-  /** Render as the child element (a router <Link>, say) keeping these styles. */
-  asChild?: boolean;
-  children?: ReactNode;
 }
 
-export function Button({
-  variant = 'primary', size = 'md', leadingIcon, trailingIcon, loading = false,
-  fullWidth = false, asChild = false, className, disabled, children, ...rest
+function Button({
+  className, variant, size, fullWidth, asChild = false,
+  leadingIcon, trailingIcon, loading = false, disabled, children, ...props
 }: ButtonProps) {
   const Comp = asChild ? Slot : 'button';
   return (
     <Comp
-      className={cn(
-        'inline-flex items-center justify-center rounded-xl transition-transform',
-        'disabled:opacity-40 disabled:pointer-events-none active:scale-98',
-        VARIANTS[variant], SIZES[size], fullWidth && 'w-full', className,
-      )}
+      data-slot="button"
+      className={cn(buttonVariants({ variant, size, fullWidth, className }))}
       aria-busy={loading || undefined}
       disabled={asChild ? undefined : disabled || loading}
-      {...rest}
+      {...props}
     >
       {loading ? <Spinner size={20} /> : leadingIcon && <Icon name={leadingIcon} size={20} />}
       {children}
@@ -56,3 +63,5 @@ export function Button({
     </Comp>
   );
 }
+
+export { Button, buttonVariants };

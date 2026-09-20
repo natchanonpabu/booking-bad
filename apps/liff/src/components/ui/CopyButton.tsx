@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, type ButtonProps } from './Button';
+import { Button, type ButtonProps } from './button';
 import { useToast } from './Toast';
 
 interface CopyButtonProps extends Omit<ButtonProps, 'children' | 'onClick'> {

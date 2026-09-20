@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { cn } from '@/lib/cn';
+import { cn } from '@/lib/utils';
 
 /**
  * NON-MODAL sticky bottom card. It hosts the selection drawer, so it must never trap
