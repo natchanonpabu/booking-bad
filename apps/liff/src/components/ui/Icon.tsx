@@ -80,7 +80,7 @@ const ICONS = {
 
 export type IconName = keyof typeof ICONS;
 export const ICON_NAMES = Object.keys(ICONS) as IconName[];
-export type IconSize = 16 | 18 | 20 | 24 | 28 | 32 | 36;
+export type IconSize = 14 | 16 | 18 | 20 | 24 | 28 | 32 | 36;
 
 type IconProps = Omit<SVGProps<SVGSVGElement>, 'name'> & {
   name: IconName;
