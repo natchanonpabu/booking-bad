@@ -5,15 +5,18 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it } from 'vitest';
 import '@testing-library/jest-dom/vitest';
 import BookingGrid from './BookingGrid';
+import { BookingFlowProvider } from '@/app/BookingFlowProvider';
 import { ToastProvider } from '@/components/ui/Toast';
 import { resetDb } from '@/data/db';
 
-afterEach(() => { cleanup(); resetDb(); });
+afterEach(() => { cleanup(); resetDb(); localStorage.clear(); });
 
 const renderGrid = () =>
   render(
     <MemoryRouter>
-      <ToastProvider><BookingGrid /></ToastProvider>
+      <ToastProvider>
+        <BookingFlowProvider><BookingGrid /></BookingFlowProvider>
+      </ToastProvider>
     </MemoryRouter>,
   );
 

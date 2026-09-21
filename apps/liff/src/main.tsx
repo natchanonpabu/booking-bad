@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
+import { BookingFlowProvider } from './app/BookingFlowProvider';
 import { ToastProvider } from './components/ui/Toast';
 import './styles/fonts';
 import './styles/index.css';
@@ -12,7 +13,9 @@ if (!root) throw new Error('#root is missing from index.html');
 createRoot(root).render(
   <StrictMode>
     <ToastProvider>
-      <RouterProvider router={router} future={{ v7_startTransition: true }} />
+      <BookingFlowProvider>
+        <RouterProvider router={router} future={{ v7_startTransition: true }} />
+      </BookingFlowProvider>
     </ToastProvider>
   </StrictMode>,
 );

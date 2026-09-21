@@ -12,6 +12,7 @@ import { countAvailableSlots, isDayFull, type DayGrid } from '@/data/availabilit
 import { COURTS, D, VENUE } from '@/data/fixtures';
 import { priceForHour } from '@/data/rates';
 import type { ISODate } from '@/data/types';
+import { useBookingFlow } from '@/app/BookingFlowProvider';
 import { useSlotSelection } from '@/features/booking/useSlotSelection';
 import { addDays, defaultDemoDate, today } from '@/lib/clock';
 import { thb } from '@/lib/money';
@@ -21,6 +22,7 @@ const DAY_COUNT = 14;
 
 export default function BookingGrid() {
   const navigate = useNavigate();
+  const { dispatch } = useBookingFlow();
   const [date, setDate] = useState<ISODate>(defaultDemoDate());
   const [grid, setGrid] = useState<DayGrid | null>(null);
   const [error, setError] = useState(false);
@@ -107,7 +109,11 @@ export default function BookingGrid() {
           canContinue={selection.canContinue}
           announcement={selection.announcement}
           onClear={selection.clear}
-          onContinue={() => navigate('/book/review')}
+          onContinue={() => {
+            if (selection.selection.kind !== 'range') return;
+            dispatch({ type: 'select', draft: selection.selection });
+            navigate('/book/review');
+          }}
         />
       )}
     </div>

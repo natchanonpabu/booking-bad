@@ -48,19 +48,27 @@ function Button({
   className, variant, size, fullWidth, asChild = false,
   leadingIcon, trailingIcon, loading = false, disabled, children, ...props
 }: ButtonProps) {
-  const Comp = asChild ? Slot : 'button';
+  const classes = cn(buttonVariants({ variant, size, fullWidth, className }));
+
+  // Radix Slot merges props onto exactly ONE child element. Injecting an icon beside
+  // `children` gives it three, and it throws — so an `asChild` button renders its child
+  // untouched, and the caller puts any icon inside the link.
+  if (asChild) {
+    return <Slot data-slot="button" className={classes} {...props}>{children}</Slot>;
+  }
+
   return (
-    <Comp
+    <button
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, fullWidth, className }))}
+      className={classes}
       aria-busy={loading || undefined}
-      disabled={asChild ? undefined : disabled || loading}
+      disabled={disabled || loading}
       {...props}
     >
       {loading ? <Spinner size={20} /> : leadingIcon && <Icon name={leadingIcon} size={20} />}
       {children}
       {trailingIcon && !loading && <Icon name={trailingIcon} size={20} />}
-    </Comp>
+    </button>
   );
 }
 

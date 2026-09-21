@@ -125,15 +125,34 @@ export const api = {
       createdAt: now(),
       holdExpiresAt: null,
     };
-    setState((s) => ({
-      // The hold becomes the booking's block: same court-hours, no gap in between.
-      blocks: s.blocks.map((b) =>
-        b.id === holdId || b.id.startsWith(`${holdId}_`)
+    const heldByThisFlow = (id: string) =>
+      // `holdId` is empty in the demo, and `''.startsWith('')` is true for EVERY block —
+      // which silently turned maintenance windows into bookings. Guard it explicitly.
+      holdId !== '' && (id === holdId || id.startsWith(`${holdId}_`));
+
+    setState((s) => {
+      const converted = s.blocks.map((b) =>
+        heldByThisFlow(b.id)
           ? { ...b, kind: 'booked' as const, expiresAt: undefined, bookingId: booking.id }
           : b,
-      ),
-      bookings: [booking, ...s.bookings],
-    }));
+      );
+      const alreadyBlocked = converted.some((b) => b.bookingId === booking.id);
+      // With no hold to convert, the booking inserts its own blocks — one per court,
+      // matching the per-court exclusion constraint Plan 03 puts in the database.
+      const inserted: AvailabilityBlock[] = alreadyBlocked
+        ? []
+        : sel.courtIds.map((courtId, i) => ({
+          id: `${booking.id}_${i}`,
+          venueId: VENUE.id,
+          courtId,
+          date: sel.date,
+          startMinutes,
+          endMinutes,
+          kind: 'booked',
+          bookingId: booking.id,
+        }));
+      return { blocks: [...converted, ...inserted], bookings: [booking, ...s.bookings] };
+    });
     return lag(booking, 900);
   },
 
