@@ -31,6 +31,8 @@ export function slotLabel(courtName: string, slot: Slot, selected: boolean): str
 }
 
 export interface SlotCellProps {
+  /** 1-based column, counting the time axis as column 1. */
+  colIndex: number;
   slot: Slot;
   courtName: string;
   selected: boolean;
@@ -43,7 +45,7 @@ export interface SlotCellProps {
 }
 
 export function SlotCell({
-  slot, courtName, selected, edge, focusable, onTap, onKeyDown, cellRef,
+  slot, courtName, selected, edge, focusable, colIndex, onTap, onKeyDown, cellRef,
 }: SlotCellProps) {
   const blocked = slot.status !== 'available';
   const radius =
@@ -57,6 +59,7 @@ export function SlotCell({
       ref={cellRef}
       type="button"
       role="gridcell"
+      aria-colindex={colIndex}
       aria-label={slotLabel(courtName, slot, selected)}
       aria-selected={selected}
       // Never `disabled`: a screen-reader user must be able to arrow onto a booked hour

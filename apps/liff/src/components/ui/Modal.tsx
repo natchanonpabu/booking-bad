@@ -30,7 +30,7 @@ export function Modal({ open, onOpenChange, title, description, trigger, childre
         <Dialog.Content className="fixed inset-x-0 bottom-0 z-nav mx-auto w-full max-w-liff rounded-t-xl bg-surface-container-lowest p-space-lg pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] shadow-sheet">
           <div className="flex items-start justify-between gap-space-sm">
             <Dialog.Title className="font-headline-sm text-headline-sm text-primary">{title}</Dialog.Title>
-            <Dialog.Close aria-label="ปิด" className="grid size-11 shrink-0 place-items-center rounded-full text-on-surface-variant">
+            <Dialog.Close aria-label="ปิด" className="grid size-12 shrink-0 place-items-center rounded-full text-on-surface-variant">
               <Icon name="close" size={20} />
             </Dialog.Close>
           </div>

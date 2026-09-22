@@ -57,15 +57,23 @@ export function CourtMatrix({ grid, courts, selection, onTap }: CourtMatrixProps
     <div className="overflow-x-auto no-scrollbar">
       {/* Sized so all six courts fit a 430px column: a venue owner wants to see their
           whole venue at once, and a horizontal scroll hides half of it in the pitch. */}
-      <div role="grid" aria-label="ตารางเวลาว่างของแต่ละคอร์ท" lang="th" className="min-w-[336px]">
+      <div
+        role="grid"
+        aria-label="ตารางเวลาว่างของแต่ละคอร์ท"
+        aria-rowcount={grid.hours.length + 1}
+        aria-colcount={courts.length + 1}
+        lang="th"
+        className="min-w-[336px]"
+      >
         {/* Not sticky: the page scrolls as one, so a sticky header sits 64px down the
             viewport and covers the 09:00 row at the top of the grid. */}
-        <div role="row" className="flex gap-1 pb-1">
+        <div role="row" aria-rowindex={1} className="flex gap-1 pb-1">
           <div className="w-12 shrink-0" />
-          {courts.map((court) => (
+          {courts.map((court, index) => (
             <div
               key={court.id}
               role="columnheader"
+              aria-colindex={index + 2}
               className="flex min-w-0 flex-1 flex-col items-center rounded-lg bg-muted px-0.5 py-1"
             >
               <span className="font-label-lg text-label-lg text-primary">{court.number}</span>
@@ -77,9 +85,10 @@ export function CourtMatrix({ grid, courts, selection, onTap }: CourtMatrixProps
         {grid.hours.map((hour, hourIndex) => {
           const peak = courts.some((c) => grid.slots[c.id]?.[hour]?.isPeak);
           return (
-            <div role="row" key={hour} className={cn('flex gap-1 py-0.5', peak && 'bg-secondary-container/10')}>
+            <div role="row" key={hour} aria-rowindex={hourIndex + 2} className={cn('flex gap-1 py-0.5', peak && 'bg-secondary-container/10')}>
               <div
                 role="rowheader"
+                aria-colindex={1}
                 className="slot-time flex w-12 shrink-0 items-center justify-end gap-0.5 pr-1 font-label-sm text-label-sm text-muted-foreground"
               >
                 {peak && <Icon name="bolt" size={14} className="text-secondary" />}
@@ -90,9 +99,10 @@ export function CourtMatrix({ grid, courts, selection, onTap }: CourtMatrixProps
                 if (!slot) return <div key={court.id} className="min-w-0 flex-1" />;
                 const isFocusTarget = focus.current.court === courtIndex && focus.current.hour === hourIndex;
                 return (
-                  <div key={court.id} className="min-w-0 flex-1">
+                  <div key={court.id} role="presentation" className="min-w-0 flex-1">
                     <SlotCell
                       slot={slot}
+                      colIndex={courtIndex + 2}
                       courtName={court.name}
                       selected={edgeFor(court.id, hour) !== 'none'}
                       edge={edgeFor(court.id, hour)}

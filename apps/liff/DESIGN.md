@@ -155,7 +155,7 @@ regions), Geist (no Thai). The CI gate fails if they reappear.
 
 ### Touch and focus
 
-- Minimum target **48×48** (`min-h-touch`). Icon buttons are `size-11` (44px) minimum.
+- Minimum target **48×48** (`min-h-touch`). Icon buttons are `size-12` (48px).
 - Every interactive element gets the global honey focus ring. Never `outline-none`
   without a `focus-visible` replacement on the same line.
 - Press feedback is `active:scale-98`. No hover-only affordances.

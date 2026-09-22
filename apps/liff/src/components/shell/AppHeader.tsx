@@ -12,7 +12,7 @@ export function AppHeader() {
         <Link
           to="/"
           aria-label="หน้าแรก"
-          className="grid size-11 shrink-0 place-items-center rounded-full text-primary transition-transform active:scale-98"
+          className="grid size-12 shrink-0 place-items-center rounded-full text-primary transition-transform active:scale-98"
         >
           <Icon name="home" />
         </Link>

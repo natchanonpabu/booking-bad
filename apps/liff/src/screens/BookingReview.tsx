@@ -62,7 +62,7 @@ export default function BookingReview() {
           type="button"
           aria-label="ย้อนกลับ"
           onClick={() => navigate(-1)}
-          className="grid size-11 place-items-center rounded-full text-primary"
+          className="grid size-12 place-items-center rounded-full text-primary"
         >
           <Icon name="arrow_back_ios_new" size={20} />
         </button>
