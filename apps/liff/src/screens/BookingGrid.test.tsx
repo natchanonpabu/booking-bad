@@ -71,6 +71,20 @@ describe('/book — the screen the whole demo rests on', () => {
     expect(booked.getAttribute('aria-label')).toMatch(/ถูกจองแล้ว/);
   });
 
+  it('shows every selected hour as selected, with its price — not one tick and a blank', async () => {
+    const user = userEvent.setup();
+    renderGrid();
+    await screen.findByRole('grid', {}, { timeout: 3000 });
+    await user.click(cell('3', 19));
+    await user.click(cell('3', 20));
+
+    const selected = screen.getAllByRole('gridcell').filter((c) => c.getAttribute('aria-selected') === 'true');
+    expect(selected).toHaveLength(2);
+    // The second cell rendered empty before this test existed, which read as a broken
+    // cell rather than a two-hour booking.
+    for (const c of selected) expect(c.textContent).toMatch(/฿\d/);
+  });
+
   it('clearing empties the drawer', async () => {
     const user = userEvent.setup();
     renderGrid();

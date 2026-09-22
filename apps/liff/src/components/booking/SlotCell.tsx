@@ -72,16 +72,20 @@ export function SlotCell({
         'relative flex h-11 w-full flex-col items-center justify-center border border-outline-variant/60 transition-colors',
         radius,
         selected ? 'border-primary-container bg-primary-container text-on-primary' : STATUS_CLASS[slot.status],
+        // The rows are 4px apart; without this the block looks like separate chips.
+        selected && (edge === 'top' || edge === 'middle') &&
+          'after:absolute after:inset-x-0 after:-bottom-1 after:h-1 after:bg-primary-container after:content-[""]',
         blocked && 'cursor-not-allowed',
       )}
     >
       {selected ? (
-        edge === 'single' || edge === 'top' ? (
-          <>
-            <Icon name="check_circle" size={16} filled />
-            <span className="font-label-sm text-label-sm">เลือกแล้ว</span>
-          </>
-        ) : null
+        // Every selected hour keeps its price. An earlier version showed the tick on the
+        // first cell and left the rest blank, which read as a broken cell rather than a
+        // two-hour selection — the exact thing this screen has to make obvious.
+        <>
+          {(edge === 'single' || edge === 'top') && <Icon name="check_circle" size={14} filled />}
+          <span className="price font-label-md text-label-md">{thb(slot.price)}</span>
+        </>
       ) : slot.status === 'available' ? (
         <span className={cn('price font-label-md text-label-md', slot.isPeak ? 'text-secondary' : 'text-success')}>
           {thb(slot.price)}
