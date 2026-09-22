@@ -31,6 +31,8 @@ export interface Venue {
       'Asia/Bangkok' here. Its absence is what let a runtime-local date bug into
       clock.ts (§6.2); a venue's calendar is never the runtime's calendar. */
   timezone: string;
+  /** Rendered in the app header. Derived once here so no screen re-types it. */
+  openHoursLabel: string;       // 'เปิดบริการ 09:00 - 22:00'
   openMinutes: Minutes;         // 540  = 09:00   (D02)
   closeMinutes: Minutes;        // 1320 = 22:00
   // Policy, not identity: `number`, never a literal type. A second venue on 90-minute

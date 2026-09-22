@@ -46,6 +46,7 @@ export const VENUE: Venue = {
   mapsUrl: 'https://maps.google.com/?q=Winner+Court+Badminton+Ramkhamhaeng',
   lineOaUrl: '',                 // no real OA in the demo; nothing links to it
   timezone: 'Asia/Bangkok',
+  openHoursLabel: 'เปิดบริการ 09:00 - 22:00',
   openMinutes: 9 * 60,
   closeMinutes: 22 * 60,
   slotMinutes: 60,

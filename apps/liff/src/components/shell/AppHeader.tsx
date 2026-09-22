@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Icon } from '@/components/ui/Icon';
-import { VENUE_DISPLAY } from '@/data/venueDisplay';
+import { VENUE } from '@/data/fixtures';
 import { asset } from '@/lib/asset';
 
 export function AppHeader() {
@@ -18,11 +18,11 @@ export function AppHeader() {
         </Link>
         <div className="min-w-0 flex-1">
           <p className="truncate font-headline-sm text-headline-sm text-primary">
-            {VENUE_DISPLAY.displayName}
+            {VENUE.displayName}
           </p>
           <p className="inline-flex items-center gap-1.5 rounded-full bg-surface-container-high px-2 font-label-sm text-label-sm text-on-surface-variant">
             <span className="size-1.5 rounded-full bg-success" aria-hidden="true" />
-            {VENUE_DISPLAY.openHoursLabel}
+            {VENUE.openHoursLabel}
           </p>
         </div>
         <img
