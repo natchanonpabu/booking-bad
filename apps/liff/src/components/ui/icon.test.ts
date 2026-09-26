@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { ICON_NAMES, hasFilled } from './Icon';
+import { ICON_NAMES, hasFilled } from './icon';
 
 describe('Icon registry', () => {
   it('registers all 69 glyphs used by the nine booking mockups (Plan 01 §4.5)', () => {

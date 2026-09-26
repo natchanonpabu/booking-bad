@@ -1,5 +1,5 @@
 import { useId } from 'react';
-import { useRovingFocus } from '@/lib/useRovingFocus';
+import { useRovingFocus } from '@/lib/use-roving-focus';
 import { cn } from '@/lib/utils';
 
 export interface TabItem { id: string; label: string; count?: number }

@@ -130,6 +130,22 @@ Every screen lives inside `.liff-column` — full width, clamped to **430px**, c
 
 ## 6. Components
 
+### File naming
+
+**Every file under `src/` is kebab-case.** `booking-card.tsx`, `use-slot-selection.ts`,
+`nav-config.ts`. Exported identifiers keep their own casing — a component stays
+`BookingCard` because JSX reads an initial capital as "this is a component, not an
+HTML tag" — so the filename and the export deliberately do not match.
+
+Three reasons this is the rule and not a preference:
+
+- `shadcn add` writes kebab-case and matches by filename when it overwrites. Rename
+  `radio-group.tsx` and the next `add` drops a second copy beside it.
+- `git config core.ignorecase` is `true` on macOS, `false` on the CI runner. One
+  `Badge.tsx` next to a `badge.tsx` is invisible here and two files there.
+- `icons/` mirrors the Material Symbols glyph name, which is `snake_case` upstream and
+  is the key `ui/icon.tsx` looks up: `sports_tennis` ↔ `./sports-tennis`.
+
 Base components come from **shadcn on the Tailwind 3 registry (`shadcn@2.x`)**, adapted
 to the tokens above. `components.json` is committed, so `pnpm dlx shadcn@2.1.8 add …`
 keeps working. After adding one, always: rewrite `bg-secondary`/`bg-primary` usages to
@@ -209,5 +225,5 @@ someone's hand:
 - [ ] Tab through it: every control reachable, focus ring visible on each.
 - [ ] Thai text at the largest iOS text size does not clip or overlap.
 - [ ] Loading, empty and error states exist and are reachable in the demo.
-- [ ] No raw hex, no hard-coded price, no nav label outside `navConfig.ts`.
+- [ ] No raw hex, no hard-coded price, no nav label outside `nav-config.ts`.
 - [ ] `pnpm check` is green (gate, types, lint, tests, build).

@@ -1,6 +1,6 @@
 import { now } from '@/lib/clock';
 import { buildGrid } from './availability';
-import { nextBookingRef } from './bookingRef';
+import { nextBookingRef } from './booking-ref';
 import { COURTS, RATE_RULES, USER, VENUE } from './fixtures';
 import { quote } from './rates';
 import { getState, setState, sweepHolds } from './db';

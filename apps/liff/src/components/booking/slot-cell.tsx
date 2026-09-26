@@ -1,4 +1,4 @@
-import { Icon } from '@/components/ui/Icon';
+import { Icon } from '@/components/ui/icon';
 import { thb } from '@/lib/money';
 import { cn } from '@/lib/utils';
 import type { Slot, SlotStatus } from '@/data/types';

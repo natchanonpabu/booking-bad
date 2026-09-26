@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PriceBreakdown } from '@/components/booking/PriceBreakdown';
+import { PriceBreakdown } from '@/components/booking/price-breakdown';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Icon } from '@/components/ui/Icon';
+import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { useToast } from '@/components/ui/Toast';
-import { useBookingFlow } from '@/app/providers/BookingFlowProvider';
+import { useToast } from '@/components/ui/toast';
+import { useBookingFlow } from '@/app/providers/booking-flow-provider';
 import { api, SlotTakenError } from '@/data/api';
 import { COURTS, VENUE } from '@/data/fixtures';
 import { quote as computeQuote } from '@/data/rates';
 import { rangeLabel } from '@/features/booking/selection';
-import { thaiDateLong } from '@/lib/thaiDate';
+import { thaiDateLong } from '@/lib/thai-date';
 import { cn } from '@/lib/utils';
 
 const PHONE_OK = /^0[0-9]{8,9}$/;

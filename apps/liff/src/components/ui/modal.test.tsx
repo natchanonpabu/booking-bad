@@ -5,8 +5,8 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it } from 'vitest';
 import { cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
-import { Modal } from './Modal';
-import { SegmentedTabs } from './SegmentedTabs';
+import { Modal } from './modal';
+import { SegmentedTabs } from './segmented-tabs';
 
 afterEach(cleanup);
 

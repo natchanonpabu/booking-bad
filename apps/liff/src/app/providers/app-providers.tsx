@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import { ToastProvider } from '@/components/ui/Toast';
-import { BookingFlowProvider } from './BookingFlowProvider';
+import { ToastProvider } from '@/components/ui/toast';
+import { BookingFlowProvider } from './booking-flow-provider';
 
 /** Every context that wraps the whole app, in one place, so `main.tsx` stays a mount
     and adding the next provider (LIFF profile, theme) is one line here — not a nested

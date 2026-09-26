@@ -1,8 +1,8 @@
 import { Outlet, useLocation } from 'react-router-dom';
-import { AppHeader } from './AppHeader';
-import { BottomNav } from './BottomNav';
+import { AppHeader } from './app-header';
+import { BottomNav } from './bottom-nav';
 import { cn } from '@/lib/utils';
-import { NAV_HIDDEN_PREFIXES } from './navConfig';
+import { NAV_HIDDEN_PREFIXES } from './nav-config';
 
 export function AppLayout() {
   const { pathname } = useLocation();

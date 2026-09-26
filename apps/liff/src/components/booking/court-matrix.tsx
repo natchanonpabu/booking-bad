@@ -1,9 +1,9 @@
 import { useRef } from 'react';
 import type { DayGrid } from '@/data/availability';
 import type { Court, Selection } from '@/data/types';
-import { Icon } from '@/components/ui/Icon';
+import { Icon } from '@/components/ui/icon';
 import { cn } from '@/lib/utils';
-import { SlotCell } from './SlotCell';
+import { SlotCell } from './slot-cell';
 
 interface CourtMatrixProps {
   grid: DayGrid;

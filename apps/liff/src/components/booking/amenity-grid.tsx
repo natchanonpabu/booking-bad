@@ -1,4 +1,4 @@
-import { Icon, type IconName } from '@/components/ui/Icon';
+import { Icon, type IconName } from '@/components/ui/icon';
 import type { Amenity } from '@/data/types';
 
 export function AmenityGrid({ items }: { items: Amenity[] }) {

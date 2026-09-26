@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
-import { Icon, type IconName } from './Icon';
-import { Spinner } from './Spinner';
+import { Icon, type IconName } from './icon';
+import { Spinner } from './spinner';
 
 /**
  * shadcn's button, adapted (Plan 01 §4.5, revised 2026-09-20):

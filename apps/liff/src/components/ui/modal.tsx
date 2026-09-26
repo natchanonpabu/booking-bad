@@ -1,6 +1,6 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import type { ReactNode } from 'react';
-import { Icon } from './Icon';
+import { Icon } from './icon';
 
 /**
  * The one Radix primitive in the project (Plan 01 §4.5). It buys focus trapping,

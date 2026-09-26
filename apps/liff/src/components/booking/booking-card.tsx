@@ -1,12 +1,12 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Icon } from '@/components/ui/Icon';
+import { Icon } from '@/components/ui/icon';
 import { COURTS } from '@/data/fixtures';
 import type { Booking } from '@/data/types';
 import { rangeLabel } from '@/features/booking/selection';
 import { thb } from '@/lib/money';
-import { thaiDateLong } from '@/lib/thaiDate';
+import { thaiDateLong } from '@/lib/thai-date';
 
 const STATUS: Record<Booking['status'], { label: string; tone: 'success' | 'peak' | 'neutral' | 'error'; accent: string }> = {
   confirmed: { label: 'ยืนยันแล้ว', tone: 'success', accent: 'bg-success' },

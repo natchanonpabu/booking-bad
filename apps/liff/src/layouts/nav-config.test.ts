@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { ENABLED_NAV, NAV_ITEMS } from './navConfig';
+import { ENABLED_NAV, NAV_ITEMS } from './nav-config';
 
 describe('navConfig (D59, D61′)', () => {
   it('declares four tabs and renders exactly two', () => {

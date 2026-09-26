@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AmenityGrid } from '@/components/booking/AmenityGrid';
-import { PhotoCarousel } from '@/components/booking/PhotoCarousel';
-import { RateCard } from '@/components/booking/RateCard';
+import { AmenityGrid } from '@/components/booking/amenity-grid';
+import { PhotoCarousel } from '@/components/booking/photo-carousel';
+import { RateCard } from '@/components/booking/rate-card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Icon } from '@/components/ui/Icon';
+import { Icon } from '@/components/ui/icon';
 import { Skeleton } from '@/components/ui/skeleton';
 import { api } from '@/data/api';
 import { countAvailableSlots, type DayGrid } from '@/data/availability';
 import { COURTS, RATE_RULES, VENUE } from '@/data/fixtures';
 import { defaultDemoDate } from '@/lib/clock';
-import { thaiDateLong } from '@/lib/thaiDate';
+import { thaiDateLong } from '@/lib/thai-date';
 
 export default function CourtProfile() {
   const [grid, setGrid] = useState<DayGrid | null>(null);

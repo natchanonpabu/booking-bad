@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { PriceBreakdown } from '@/components/booking/PriceBreakdown';
+import { PriceBreakdown } from '@/components/booking/price-breakdown';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { CopyButton } from '@/components/ui/CopyButton';
-import { EmptyState } from '@/components/ui/EmptyState';
-import { Icon } from '@/components/ui/Icon';
+import { CopyButton } from '@/components/ui/copy-button';
+import { EmptyState } from '@/components/ui/empty-state';
+import { Icon } from '@/components/ui/icon';
 import { Skeleton } from '@/components/ui/skeleton';
 import { api } from '@/data/api';
 import { COURTS, VENUE } from '@/data/fixtures';
 import type { Booking } from '@/data/types';
 import { rangeLabel } from '@/features/booking/selection';
-import { thaiDateLong } from '@/lib/thaiDate';
+import { thaiDateLong } from '@/lib/thai-date';
 import { asset } from '@/lib/asset';
 
 export default function BookingSuccess() {

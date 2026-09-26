@@ -1,5 +1,5 @@
-import { useRovingFocus } from '@/lib/useRovingFocus';
-import { thaiDayShort, thaiMonthShort } from '@/lib/thaiDate';
+import { useRovingFocus } from '@/lib/use-roving-focus';
+import { thaiDayShort, thaiMonthShort } from '@/lib/thai-date';
 import { cn } from '@/lib/utils';
 import type { ISODate } from '@/data/types';
 

@@ -1,22 +1,22 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CourtMatrix } from '@/components/booking/CourtMatrix';
-import { DateStrip, type DateOption } from '@/components/booking/DateStrip';
-import { LegendBar } from '@/components/booking/LegendBar';
-import { SelectionDrawer } from '@/components/booking/SelectionDrawer';
+import { CourtMatrix } from '@/components/booking/court-matrix';
+import { DateStrip, type DateOption } from '@/components/booking/date-strip';
+import { LegendBar } from '@/components/booking/legend-bar';
+import { SelectionDrawer } from '@/components/booking/selection-drawer';
 import { Button } from '@/components/ui/button';
-import { EmptyState } from '@/components/ui/EmptyState';
+import { EmptyState } from '@/components/ui/empty-state';
 import { Skeleton } from '@/components/ui/skeleton';
 import { api } from '@/data/api';
 import { countAvailableSlots, isDayFull, type DayGrid } from '@/data/availability';
 import { COURTS, D, VENUE } from '@/data/fixtures';
 import { priceForHour } from '@/data/rates';
 import type { ISODate } from '@/data/types';
-import { useBookingFlow } from '@/app/providers/BookingFlowProvider';
-import { useSlotSelection } from '@/features/booking/useSlotSelection';
+import { useBookingFlow } from '@/app/providers/booking-flow-provider';
+import { useSlotSelection } from '@/features/booking/use-slot-selection';
 import { addDays, defaultDemoDate, today } from '@/lib/clock';
 import { thb } from '@/lib/money';
-import { thaiDateLong } from '@/lib/thaiDate';
+import { thaiDateLong } from '@/lib/thai-date';
 
 const DAY_COUNT = 14;
 

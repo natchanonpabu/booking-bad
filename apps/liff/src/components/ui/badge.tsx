@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
-import { Icon, type IconName } from './Icon';
+import { Icon, type IconName } from './icon';
 
 /** shadcn's badge with our tones. One tone per meaning: the mockups shipped three
     different visual languages for "confirmed / paid / available" (D51, D52). */

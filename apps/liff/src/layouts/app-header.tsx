@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Icon } from '@/components/ui/Icon';
+import { Icon } from '@/components/ui/icon';
 import { VENUE } from '@/data/fixtures';
 import { asset } from '@/lib/asset';
 

@@ -36,7 +36,7 @@ const gates = [
     files: [join(root, 'package.json')],
     test: (l) => /"tailwind-merge":\s*"(?!\^?2\.)/.test(l) },
   { id: 'modal-drawer', why: 'Sheet and SelectionDrawer must stay non-modal (Plan 01 §4.5)',
-    files: ['src/components/ui/Sheet.tsx', 'src/components/booking/SelectionDrawer.tsx']
+    files: ['src/components/ui/sheet.tsx', 'src/components/booking/selection-drawer.tsx']
       .map((p) => join(root, p)).filter(existsSync),
     test: (l) => l.includes('react-dialog') },
   { id: 'raw-hex', why: 'colours come from tailwind.config.js only (§11.3)',

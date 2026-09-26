@@ -3,7 +3,7 @@ import type { DayGrid } from '@/data/availability';
 import { VENUE } from '@/data/fixtures';
 import { quote as computeQuote } from '@/data/rates';
 import type { Court, CourtId, Quote, Selection } from '@/data/types';
-import { useToast } from '@/components/ui/Toast';
+import { useToast } from '@/components/ui/toast';
 import { rangeLabel, reconcile, tap as applyTap, type Feedback } from './selection';
 import { thb } from '@/lib/money';
 

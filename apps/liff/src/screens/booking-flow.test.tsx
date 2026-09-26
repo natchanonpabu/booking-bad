@@ -4,12 +4,12 @@ import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it } from 'vitest';
 import '@testing-library/jest-dom/vitest';
-import BookingGrid from './BookingGrid';
-import BookingReview from './BookingReview';
-import BookingSuccess from './BookingSuccess';
-import MyBookings from './MyBookings';
-import { BookingFlowProvider } from '@/app/providers/BookingFlowProvider';
-import { ToastProvider } from '@/components/ui/Toast';
+import BookingGrid from './booking-grid';
+import BookingReview from './booking-review';
+import BookingSuccess from './booking-success';
+import MyBookings from './my-bookings';
+import { BookingFlowProvider } from '@/app/providers/booking-flow-provider';
+import { ToastProvider } from '@/components/ui/toast';
 import { resetDb } from '@/data/db';
 
 afterEach(() => { cleanup(); resetDb(); localStorage.clear(); });

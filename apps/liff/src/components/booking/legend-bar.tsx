@@ -1,4 +1,4 @@
-import { Icon } from '@/components/ui/Icon';
+import { Icon } from '@/components/ui/icon';
 
 /** Four keys, each showing the same non-colour encoding the grid uses (DESIGN.md §2). */
 export function LegendBar({ standard, peak }: { standard: string; peak: string }) {
