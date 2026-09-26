@@ -26,7 +26,7 @@ export function AppHeader() {
           </p>
         </div>
         <img
-          src={asset('mascot/capybara-avatar.svg')}
+          src={asset('mascot/capybara-avatar.webp')}
           alt=""
           width={32}
           height={32}

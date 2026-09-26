@@ -54,7 +54,7 @@ export default function BookingSuccess() {
   return (
     <div className="py-space-lg">
       <div className="flex flex-col items-center text-center">
-        <img src={asset('mascot/capybara-cheer.svg')} alt="คาปิบาร่าชูแร็กเกตดีใจ" width={120} height={120} className="size-30" />
+        <img src={asset('mascot/capybara-cheer.webp')} alt="คาปิบาร่าชูแร็กเกตดีใจ" width={120} height={120} className="size-30" />
         <h1 className="mt-space-sm font-headline-md text-headline-md text-primary">จองคอร์ทสำเร็จแล้วครับ</h1>
         <p className="mt-1 font-body-md text-body-md text-muted-foreground">
           ล็อกคอร์ทเรียบร้อย เจอกันที่สนามครับ

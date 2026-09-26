@@ -11,27 +11,39 @@ illustration prompt** — that is what keeps the line weight identical across al
 **8 images to generate.** Five are illustrations that share one line style; three are
 photographs, which cannot share it (see §5).
 
-| # | Asset | File | Size | Used in | Prompt |
-|---|---|---|---|---|---|
-| 1 | Logo mark | `public/brand/logo-mark.png` | 1024×1024, transparent | Favicon · app icon · share card · print | §3.1 |
-| 2 | Mascot — idle | `public/mascot/capybara-idle.png` | 1024×1024, transparent | Empty "ยังไม่มีนัดตีแบด" · 404 | §3.2 |
-| 3 | Mascot — cheering | `public/mascot/capybara-cheer.png` | 1024×1024, transparent | Booking success screen | §3.3 |
-| 4 | Mascot — sleeping | `public/mascot/capybara-sleep.png` | 1024×1024, transparent | Fully booked day | §3.4 |
-| 5 | Mascot — avatar | `public/mascot/capybara-avatar.png` | 512×512, transparent | App header (32px) · user picture | §3.5 |
-| 6 | Venue photo 1 | `public/venue/court-1.webp` | 1720×960 → 860×480 | Photo carousel, slide 1 | §4.1 |
-| 7 | Venue photo 2 | `public/venue/court-2.webp` | 1720×960 → 860×480 | Photo carousel, slide 2 | §4.2 |
-| 8 | Venue photo 3 | `public/venue/court-3.webp` | 1720×960 → 860×480 | Photo carousel, slide 3 | §4.3 |
+| # | Asset | File in the app | Size | Used in |
+|---|---|---|---|---|
+| 1 | Logo mark | `public/brand/logo-mark.png` | 512² transparent | Share card, print master |
+| 1a | Favicon | `public/brand/favicon-32.png` · `favicon-180.png` | 32² · 180² | Browser tab · iOS home screen |
+| 1b | App icon | `public/brand/icon-512.png` | 512², navy square | Home-screen icon |
+| 2 | Mascot — idle | `public/mascot/capybara-idle.webp` | 400² transparent | Empty "ยังไม่มีนัดตีแบด" · 404 |
+| 3 | Mascot — cheering | `public/mascot/capybara-cheer.webp` | 400² transparent | Booking success |
+| 4 | Mascot — sleeping | `public/mascot/capybara-sleep.webp` | 400² transparent | Fully booked day |
+| 5 | Mascot — avatar | `public/mascot/capybara-avatar.webp` | 128² transparent | App header (32px) · user picture |
+| 6–8 | Venue photos | `public/venue/court-1..3.webp` | 860×484 | Photo carousel |
+
+**Delivered on 2026-09-26.** Masters are in `documents/design/raw/`. Three things the
+generator did that had to be corrected on the way in, worth knowing before the next round:
+
+- It painted a **checkerboard** into the picture instead of writing real transparency,
+  and saved JPEG. `scratchpad/dechecker.py` floods that pattern from the edges inward,
+  which also correctly opens the gaps between the racket strings. Ask for **PNG with a
+  real alpha channel** next time and this step disappears.
+- Everything came out **1408×768 landscape**, not square. The cutter re-centres and pads
+  to a square itself, so this was harmless — but a square request costs nothing.
+- Each court photo carries the generator's **sparkle watermark** in the bottom-right.
+  They are cropped to 92% width at 16:9 to cut it off, losing a little foreground.
 
 ### Where the logo appears — 4 places, one file
 
-There is **no logo today.** The capybara avatar is standing in for one in three places.
-Generate asset #1 once and it covers all four:
+The logo now exists. The header keeps the *avatar* — it reads as "your profile" — and
+the logo does the other three jobs:
 
 | Place | File to update | Note |
 |---|---|---|
 | Browser tab / bookmark | `index.html` → `<link rel="icon">` | Export 32, 180, 512px from the 1024 master |
 | Home-screen icon | `public/brand/icon-512.png` + a web manifest | Needs a solid background — see §3.1 variant B |
-| App header, top-right | `src/components/shell/AppHeader.tsx` | Currently `capybara-avatar.svg`. Decide: logo **or** user avatar — not both |
+| App header, top-right | `src/components/shell/AppHeader.tsx` | Uses `capybara-avatar.webp` — the avatar, deliberately, not the logo |
 | Share preview | `og-image.png`, 1200×630 | Composed, not generated: logo mark + venue photo + Thai title |
 
 **Recommendation:** keep the *avatar* in the header (it reads as "your profile") and use

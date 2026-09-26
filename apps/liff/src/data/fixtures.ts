@@ -108,7 +108,7 @@ export const USER: User = {
   displayName: 'คุณต้น',
   fullName: 'คุณต้น (Ton Jiraphat)',
   lineId: '@ton_badminton',
-  pictureUrl: '/mascot/capybara-avatar.svg',
+  pictureUrl: '/mascot/capybara-avatar.webp',
   phone: '089-111-2345',      // deliberately NOT the venue number
 };
 

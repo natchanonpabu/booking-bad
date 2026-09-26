@@ -4,9 +4,9 @@ import { asset } from '@/lib/asset';
 type Pose = 'idle' | 'cheer' | 'sleep';
 
 const MASCOT: Record<Pose, { src: string; alt: string }> = {
-  idle: { src: 'mascot/capybara-idle.svg', alt: 'คาปิบาร่าถือแร็กเกตยืนรออยู่' },
-  cheer: { src: 'mascot/capybara-cheer.svg', alt: 'คาปิบาร่าชูแร็กเกตดีใจ' },
-  sleep: { src: 'mascot/capybara-sleep.svg', alt: 'คาปิบาร่านอนหลับ' },
+  idle: { src: 'mascot/capybara-idle.webp', alt: 'คาปิบาร่าถือแร็กเกตยืนรออยู่' },
+  cheer: { src: 'mascot/capybara-cheer.webp', alt: 'คาปิบาร่าชูแร็กเกตดีใจ' },
+  sleep: { src: 'mascot/capybara-sleep.webp', alt: 'คาปิบาร่านอนหลับ' },
 };
 
 export function EmptyState({ mascot = 'idle', badge, headline, body, primaryAction, secondary }: {
