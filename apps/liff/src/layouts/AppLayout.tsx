@@ -1,10 +1,10 @@
 import { Outlet, useLocation } from 'react-router-dom';
-import { AppHeader } from '@/components/shell/AppHeader';
-import { BottomNav } from '@/components/shell/BottomNav';
+import { AppHeader } from './AppHeader';
+import { BottomNav } from './BottomNav';
 import { cn } from '@/lib/utils';
 import { NAV_HIDDEN_PREFIXES } from './navConfig';
 
-export function AppShell() {
+export function AppLayout() {
   const { pathname } = useLocation();
   const showNav = !NAV_HIDDEN_PREFIXES.some((prefix) => pathname.startsWith(prefix));
 

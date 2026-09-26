@@ -43,7 +43,7 @@ the logo does the other three jobs:
 |---|---|---|
 | Browser tab / bookmark | `index.html` → `<link rel="icon">` | Export 32, 180, 512px from the 1024 master |
 | Home-screen icon | `public/brand/icon-512.png` + a web manifest | Needs a solid background — see §3.1 variant B |
-| App header, top-right | `src/components/shell/AppHeader.tsx` | Uses `capybara-avatar.webp` — the avatar, deliberately, not the logo |
+| App header, top-right | `src/layouts/AppHeader.tsx` | Uses `capybara-avatar.webp` — the avatar, deliberately, not the logo |
 | Share preview | `og-image.png`, 1200×630 | Composed, not generated: logo mark + venue photo + Thai title |
 
 **Recommendation:** keep the *avatar* in the header (it reads as "your profile") and use
@@ -259,7 +259,7 @@ anything.
 2. **Convert the mascots to SVG if you can** (`svgtrace`, Illustrator Image Trace, or
    redraw). The app renders them at 160px and 32px; vector stays crisp and stays small.
    If you keep PNG, export at 2× (320px and 64px) and update the file extensions in
-   `src/components/ui/EmptyState.tsx`, `src/components/shell/AppHeader.tsx`,
+   `src/components/ui/EmptyState.tsx`, `src/layouts/AppHeader.tsx`,
    `src/screens/BookingSuccess.tsx` and `src/data/fixtures.ts`.
 3. **Photos:** resize to 860px wide, convert to WebP quality 80. Each file should land
    under ~90 KB.

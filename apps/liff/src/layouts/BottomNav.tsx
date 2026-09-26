@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { ENABLED_NAV } from '@/app/navConfig';
+import { ENABLED_NAV } from './navConfig';
 import { Icon } from '@/components/ui/Icon';
 import { cn } from '@/lib/utils';
 

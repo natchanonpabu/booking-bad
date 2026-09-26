@@ -6,7 +6,7 @@ import BookingSuccess from '@/screens/BookingSuccess';
 import CourtProfile from '@/screens/CourtProfile';
 import MyBookings from '@/screens/MyBookings';
 import NotFound from '@/screens/NotFound';
-import { AppShell } from './AppShell';
+import { AppLayout } from '@/layouts/AppLayout';
 
 /** Five screens plus the catch-all (Plan 01 §2.1, after Revision 5 cut the payment
     screen, the QR landing page and the hold-expiry screen). Hash router: works on any
@@ -14,7 +14,7 @@ import { AppShell } from './AppShell';
 export const router = createHashRouter(
   [
     {
-      element: <AppShell />,
+      element: <AppLayout />,
       children: [
         { index: true, element: <CourtProfile /> },
         { path: 'book', element: <BookingGrid /> },
