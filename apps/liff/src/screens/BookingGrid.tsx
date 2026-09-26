@@ -12,7 +12,7 @@ import { countAvailableSlots, isDayFull, type DayGrid } from '@/data/availabilit
 import { COURTS, D, VENUE } from '@/data/fixtures';
 import { priceForHour } from '@/data/rates';
 import type { ISODate } from '@/data/types';
-import { useBookingFlow } from '@/app/BookingFlowProvider';
+import { useBookingFlow } from '@/app/providers/BookingFlowProvider';
 import { useSlotSelection } from '@/features/booking/useSlotSelection';
 import { addDays, defaultDemoDate, today } from '@/lib/clock';
 import { thb } from '@/lib/money';

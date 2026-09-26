@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it } from 'vitest';
 import '@testing-library/jest-dom/vitest';
 import BookingGrid from './BookingGrid';
-import { BookingFlowProvider } from '@/app/BookingFlowProvider';
+import { BookingFlowProvider } from '@/app/providers/BookingFlowProvider';
 import { ToastProvider } from '@/components/ui/Toast';
 import { resetDb } from '@/data/db';
 

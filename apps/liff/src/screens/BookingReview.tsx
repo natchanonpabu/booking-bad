@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/components/ui/Toast';
-import { useBookingFlow } from '@/app/BookingFlowProvider';
+import { useBookingFlow } from '@/app/providers/BookingFlowProvider';
 import { api, SlotTakenError } from '@/data/api';
 import { COURTS, VENUE } from '@/data/fixtures';
 import { quote as computeQuote } from '@/data/rates';

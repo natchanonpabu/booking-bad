@@ -8,7 +8,7 @@ import BookingGrid from './BookingGrid';
 import BookingReview from './BookingReview';
 import BookingSuccess from './BookingSuccess';
 import MyBookings from './MyBookings';
-import { BookingFlowProvider } from '@/app/BookingFlowProvider';
+import { BookingFlowProvider } from '@/app/providers/BookingFlowProvider';
 import { ToastProvider } from '@/components/ui/Toast';
 import { resetDb } from '@/data/db';
 

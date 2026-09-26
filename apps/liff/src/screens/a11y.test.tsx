@@ -7,7 +7,7 @@ import '@testing-library/jest-dom/vitest';
 import BookingGrid from './BookingGrid';
 import CourtProfile from './CourtProfile';
 import MyBookings from './MyBookings';
-import { BookingFlowProvider } from '@/app/BookingFlowProvider';
+import { BookingFlowProvider } from '@/app/providers/BookingFlowProvider';
 import { ToastProvider } from '@/components/ui/Toast';
 import { resetDb } from '@/data/db';
 
