@@ -41,40 +41,67 @@ the *logo mark* for tab, home screen and share. They are different jobs.
 
 ## 2. The style block — paste into every illustration prompt
 
+**Changed on 2026-09-26: the house style is shoujo manga, not flat vector.** The
+assembled, copy-paste versions live in `prompts-ready-to-paste.md`; this section exists
+to explain the choices behind them.
+
 ```
-STYLE: flat vector illustration, clean geometric line art. Uniform outline
-weight throughout — 3% of the canvas width, no thick-thin variation, rounded
-line caps and rounded joins. Outlines in deep navy #1D2D44. Flat fill colours
-only: warm sand #E8DCC8, honey #FDBD77, olive green #606C38, deep navy #1D2D44,
-warm cream #FBF9F5. No gradients, no shading, no texture, no drop shadows, no
-highlights, no ambient occlusion. Simple friendly shapes, generous rounded
-corners, minimal internal detail. Single subject centred on a fully transparent
-background with even padding on all four sides, about 8% of the canvas. Flat
-front-facing or gentle three-quarter view, no perspective, no horizon line, no
-ground plane, no cast shadow. Calm, warm, modern Thai sports-club branding.
-Sticker-like, printable at small size.
+STYLE: soft shoujo manga illustration, in the tradition of 1990s-2000s
+Japanese girls' comics. Delicate tapered ink linework — lines thin out at their
+ends and thicken slightly on the shadow side, drawn with a fine nib, never
+uniform and never harsh. Large expressive eyes with a thick upper lash line, a
+soft gradient iris and two or three round white highlight dots. Rosy blush
+across the cheeks. Gentle cel shading with soft pastel gradients and a light
+dusting of screentone dots in the shadows. Floating decorative accents around
+the subject: small four-point sparkles, tiny flower petals, soft bubbles.
+Dreamy, warm, tender, gently romantic mood. Colour palette: deep navy #1D2D44
+for the ink and the scarf, warm cream #FBF9F5 as the base, honey #FDBD77, soft
+sand #E8DCC8, olive green #606C38 used sparingly, pale rose pink for blush,
+white for highlights. Single subject centred on a fully transparent background
+with even padding on all four sides, about 8% of the canvas. Soft, clean,
+printable.
 
-NEGATIVE: photorealism, 3D render, gradients, drop shadows, glow, neon, outer
-space, text, letters, numbers, watermark, signature, busy background, scenery,
-multiple characters, cropped limbs, cut-off objects touching the canvas edge,
-sketchy lines, variable line weight, cross-hatching, anime style, cute big
-sparkly eyes, extra fingers, distorted anatomy.
+NEGATIVE: photorealism, 3D render, western cartoon style, chunky uniform
+outlines, heavy solid black fills, harsh contrast, grunge, horror, text,
+letters, numbers, speech bubbles, watermark, signature, panel borders, manga
+page layout, busy background scenery, multiple characters, cropped limbs,
+objects touching or cut off by the canvas edge, extra fingers, distorted
+anatomy, muddy colours, oversaturated neon.
 ```
 
-**Two rules that matter more than the wording:**
+**The palette is what keeps this on brand.** The linework, the shading and the sparkles
+all changed; the five hex values did not. A shoujo capybara in navy, cream and honey
+still belongs to the same product as the UI around it.
 
-1. **Generate all five illustrations in one session, same model, same seed family.**
-   Line weight drifts between sessions more than any prompt can control. If your tool
-   supports it, generate #2 first, then use it as a style reference for #1, #3, #4, #5.
+### Three consequences of the switch, stated plainly
+
+1. **Detail dies at 32px.** Tapered lines, screentone and multi-dot eye highlights are
+   invisible on the header avatar and the browser tab. Prompts **B**, **B2** and **E**
+   are therefore deliberately reduced versions — same eye shape and mood, no screentone,
+   no sparkles, bold masses. Treat them as a second style tier, not as failures.
+2. **Keep the mascots as PNG, not SVG.** Gradients and screentone do not trace to clean
+   vector. The app currently loads `.svg`; it will load `.png` instead, at 2× the
+   rendered size (320px for empty states, 64px for the avatar).
+3. **The UI stays flat.** `DESIGN.md` §2 forbids gradients in the interface, and that
+   rule is unchanged — it governs buttons, cards and chips. The mascot is the one place
+   the product is allowed to be lush. Flat UI plus one richly drawn character is a
+   deliberate contrast, not an inconsistency; if the illustrations start leaking their
+   gradients into components, that is the line being crossed.
+
+### Two rules that matter more than the wording
+
+1. **Generate all five illustrations in one session, same model, same seed family, and
+   use A as a style reference for the rest.** Shoujo drifts *more* than flat line art
+   does — eye size, lash weight and blush intensity wander between prompts.
 2. **Nothing may touch the canvas edge.** The racket in the original Stitch art is
-   clipped off the artboard at exactly the focal point of the victory illustration —
-   the padding instruction above exists to stop that happening again.
-
----
+   clipped off the artboard at exactly the focal point of the victory illustration.
 
 ## 3. Illustration prompts
 
 Each one is: **SUBJECT + the §2 style block + the §2 negative block.**
+
+> **The subjects below are the flat-vector originals, kept for reference. The shoujo
+> versions that are actually in use are in `prompts-ready-to-paste.md`.**
 
 ### 3.1 Logo mark
 
