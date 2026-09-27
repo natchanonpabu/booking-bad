@@ -1,14 +1,9 @@
 // @vitest-environment jsdom
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it } from 'vitest';
 import '@testing-library/jest-dom/vitest';
-import BookingGrid from '@/features/booking/routes/booking-grid';
-import CourtProfile from '@/features/venue/routes/court-profile';
-import MyBookings from '@/features/booking/routes/my-bookings';
-import { BookingFlowProvider } from './providers/booking-flow-provider';
-import { ToastProvider } from '@/components/ui/toast';
+import { renderAt } from '@/testing/render-app';
 import { resetDb } from '@/data/db';
 
 afterEach(() => { cleanup(); resetDb(); localStorage.clear(); });
@@ -21,21 +16,6 @@ async function tabToGrid(user: ReturnType<typeof userEvent.setup>) {
   }
   throw new Error('never reached the grid by tabbing');
 }
-
-const renderAt = (path: string) =>
-  render(
-    <MemoryRouter initialEntries={[path]}>
-      <ToastProvider>
-        <BookingFlowProvider>
-          <Routes>
-            <Route path="/" element={<CourtProfile />} />
-            <Route path="/book" element={<BookingGrid />} />
-            <Route path="/bookings" element={<MyBookings />} />
-          </Routes>
-        </BookingFlowProvider>
-      </ToastProvider>
-    </MemoryRouter>,
-  );
 
 /** These are the defects the audit found across all 48 mockups. They are asserted here
     so a future screen cannot quietly reintroduce them. */

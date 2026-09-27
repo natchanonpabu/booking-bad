@@ -153,6 +153,11 @@ they test the composition rather than a feature.
 react-router matches `app/routes.tsx` and nothing else. No folder mirrors a URL, so
 adding a route means adding a line there and a page in the owning feature.
 
+Because that table is the only description of the app's URLs, **a test that needs routes
+reads it** — `testing/render-app.tsx` builds `<Routes>` from `ROUTES`. Never re-declare a
+`<Route>` in a test: the two cross-feature tests used to, and renaming `:ref` to `:code`
+in the real table left all 16 of them green while the success screen was broken.
+
 ### File naming
 
 **Every file under `src/` is kebab-case.** `booking-card.tsx`, `use-slot-selection.ts`,

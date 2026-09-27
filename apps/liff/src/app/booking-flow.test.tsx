@@ -1,34 +1,14 @@
 // @vitest-environment jsdom
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it } from 'vitest';
 import '@testing-library/jest-dom/vitest';
-import BookingGrid from '@/features/booking/routes/booking-grid';
-import BookingReview from '@/features/booking/routes/booking-review';
-import BookingSuccess from '@/features/booking/routes/booking-success';
-import MyBookings from '@/features/booking/routes/my-bookings';
-import { BookingFlowProvider } from './providers/booking-flow-provider';
-import { ToastProvider } from '@/components/ui/toast';
+import { renderAt } from '@/testing/render-app';
 import { resetDb } from '@/data/db';
 
 afterEach(() => { cleanup(); resetDb(); localStorage.clear(); });
 
-const renderApp = () =>
-  render(
-    <MemoryRouter initialEntries={['/book']}>
-      <ToastProvider>
-        <BookingFlowProvider>
-          <Routes>
-            <Route path="/book" element={<BookingGrid />} />
-            <Route path="/book/review" element={<BookingReview />} />
-            <Route path="/book/success/:ref" element={<BookingSuccess />} />
-            <Route path="/bookings" element={<MyBookings />} />
-          </Routes>
-        </BookingFlowProvider>
-      </ToastProvider>
-    </MemoryRouter>,
-  );
+const renderApp = () => renderAt('/book');
 
 const cell = (court: string, hour: number) =>
   screen.getByRole('gridcell', { name: new RegExp(`^คอร์ท ${court} เวลา ${String(hour).padStart(2, '0')}:00`) });
