@@ -132,28 +132,26 @@ Every screen lives inside `.liff-column` — full width, clamped to **430px**, c
 
 ### Where a file goes
 
-`src/routes/` mirrors the URL: `routes/book/review/index.tsx` serves `/book/review`,
-and `:ref` becomes `$ref`. A route folder holds only its page, that page's test, its
-hooks, and its child routes — so what you see at that level is what the URL does. Components go one level down in `components/`, shared inside a subtree at
-the subtree root (`routes/book/components/price-breakdown.tsx`, used by review and
-success). `components/ui` and `components/icons` are for what the whole app shares,
-`features/` for domain logic that spans routes.
+Code is grouped by **feature**, not by kind. A feature owns its pages, its components
+and its hooks, and is a leaf in the import graph:
 
-A page is its folder's `index.tsx`, so an import reads as the URL —
-`@/routes/book/success/$ref`, not `.../booking-success`. `$ref` rather than Next's
-`[ref]` keeps glob metacharacters out of a directory name. Nothing asserts the filename:
-the table imports the folder, so a page named anything else fails to resolve and takes
-the build down. What the test does assert is that a route folder holds *exactly one*
-non-test `.tsx`, which is what stops a component being left at route level. Tests keep
-descriptive names (`book/booking-grid.test.tsx`) — they are never imported, so they gain
-nothing from `index`.
+    features/booking/    routes/  components/  hooks/  selection.ts
+    features/venue/      routes/  components/
 
-react-router matches the table in `app/routes.tsx`, **not** the folders — unlike Next,
-a directory cannot enforce its own URL. `routes/routes.test.ts` is what binds them: it
-fails if a declared path has no folder, if a page has no route, if a param is renamed
-on one side only, or if a route folder holds more than one page — each verified by
-breaking it. Adding a route is a
-line in the table plus the folder the test names.
+`features/features.test.ts` enforces the only rule that makes the nesting worth it: **a
+feature never imports another feature, and nothing shared imports a feature.** Anything
+two features both need moves up — `data/` for the fixtures and the fake API, `lib/` for
+money, dates and `cn`, `components/ui` and `components/icons` for shared UI, `layouts/`
+for the app chrome. If you reach sideways, the answer is to move the thing up, not to
+add the import.
+
+`app/` is the wiring: `routes.tsx` (the only place that knows every URL), `router.tsx`,
+`providers/`, and `pages/` for the two screens that belong to no feature — a 404, and
+the `/__catalog` sheet for `components/ui`. Cross-feature tests live there too, because
+they test the composition rather than a feature.
+
+react-router matches `app/routes.tsx` and nothing else. No folder mirrors a URL, so
+adding a route means adding a line there and a page in the owning feature.
 
 ### File naming
 

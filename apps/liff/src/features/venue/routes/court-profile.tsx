@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AmenityGrid } from './components/amenity-grid';
-import { PhotoCarousel } from './components/photo-carousel';
-import { RateCard } from './components/rate-card';
+import { AmenityGrid } from '@/features/venue/components/amenity-grid';
+import { PhotoCarousel } from '@/features/venue/components/photo-carousel';
+import { RateCard } from '@/features/venue/components/rate-card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';

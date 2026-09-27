@@ -4,11 +4,11 @@ import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it } from 'vitest';
 import '@testing-library/jest-dom/vitest';
-import BookingGrid from './book';
-import BookingReview from './book/review';
-import BookingSuccess from './book/success/$ref';
-import MyBookings from './bookings';
-import { BookingFlowProvider } from '@/app/providers/booking-flow-provider';
+import BookingGrid from '@/features/booking/routes/booking-grid';
+import BookingReview from '@/features/booking/routes/booking-review';
+import BookingSuccess from '@/features/booking/routes/booking-success';
+import MyBookings from '@/features/booking/routes/my-bookings';
+import { BookingFlowProvider } from './providers/booking-flow-provider';
 import { ToastProvider } from '@/components/ui/toast';
 import { resetDb } from '@/data/db';
 
