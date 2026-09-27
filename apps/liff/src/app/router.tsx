@@ -1,30 +1,16 @@
 import { createHashRouter } from 'react-router-dom';
-import BookingGrid from '@/routes/book/page';
-import Catalog from '@/routes/__catalog/page';
-import BookingReview from '@/routes/book/review/page';
-import BookingSuccess from '@/routes/book/success/[ref]/page';
-import CourtProfile from '@/routes/home/page';
-import MyBookings from '@/routes/bookings/page';
-import NotFound from '@/routes/not-found/page';
 import { AppLayout } from '@/layouts/app-layout';
+import { ROUTES } from './routes';
 
-/** Five screens plus the catch-all (Plan 01 §2.1, after Revision 5 cut the payment
-    screen, the QR landing page and the hold-expiry screen). Hash router: works on any
-    static host with no rewrite rules, and on a laptop shared over the venue's wifi. */
+/** Hash router: works on any static host with no rewrite rules, and on a laptop
+    shared over the venue's wifi. The table itself lives in ./routes. */
 export const router = createHashRouter(
   [
     {
       element: <AppLayout />,
-      children: [
-        { index: true, element: <CourtProfile /> },
-        { path: 'book', element: <BookingGrid /> },
-        { path: 'book/review', element: <BookingReview /> },
-        { path: 'book/success/:ref', element: <BookingSuccess /> },
-        { path: 'bookings', element: <MyBookings /> },
-        // Scratch route for the device pass; not linked from the app.
-        { path: '__catalog', element: <Catalog /> },
-        { path: '*', element: <NotFound /> },
-      ],
+      children: ROUTES.map(({ path, element }) =>
+        path === null ? { index: true, element } : { path, element },
+      ),
     },
   ],
   {

@@ -130,6 +130,21 @@ Every screen lives inside `.liff-column` — full width, clamped to **430px**, c
 
 ## 6. Components
 
+### Where a file goes
+
+`src/routes/` mirrors the URL, Next-style: `routes/book/review/page.tsx` serves
+`/book/review`, and `:ref` becomes `[ref]`. A part used by one route lives in that
+route's folder; one shared inside a subtree sits at the subtree root
+(`routes/book/price-breakdown.tsx`, used by review and success). `components/ui` and
+`components/icons` are for what the whole app shares, `features/` for domain logic
+that spans routes.
+
+react-router matches the table in `app/routes.tsx`, **not** the folders — unlike Next,
+a directory cannot enforce its own URL. `routes/routes.test.ts` is what binds them: it
+fails if a declared path has no folder, if a `page.tsx` has no route, or if a param is
+renamed on one side only. Adding a route is a line in the table plus the folder the
+test names.
+
 ### File naming
 
 **Every file under `src/` is kebab-case.** `booking-card.tsx`, `use-slot-selection.ts`,
