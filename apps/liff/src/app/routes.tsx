@@ -1,11 +1,11 @@
 import type { ReactElement } from 'react';
-import BookingGrid from '@/routes/book/page';
-import Catalog from '@/routes/__catalog/page';
-import BookingReview from '@/routes/book/review/page';
-import BookingSuccess from '@/routes/book/success/[ref]/page';
-import CourtProfile from '@/routes/home/page';
-import MyBookings from '@/routes/bookings/page';
-import NotFound from '@/routes/not-found/page';
+import BookingGrid from '@/routes/book/booking-grid';
+import Catalog from '@/routes/__catalog/catalog';
+import BookingReview from '@/routes/book/review/booking-review';
+import BookingSuccess from '@/routes/book/success/$ref/booking-success';
+import CourtProfile from '@/routes/home/court-profile';
+import MyBookings from '@/routes/bookings/my-bookings';
+import NotFound from '@/routes/not-found/not-found';
 
 export interface RouteDef {
   /** What react-router matches. `null` is the index route. */

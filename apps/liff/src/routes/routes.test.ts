@@ -6,44 +6,51 @@ import { ROUTES } from '@/app/routes';
 
 const ROOT = fileURLToPath(new URL('.', import.meta.url));
 
-/** react-router matches the table in app/router.tsx; the folders under src/routes are
+/** react-router matches the table in app/routes.tsx; the folders under src/routes are
     only a convention. These tests are what makes the convention hold — move a page
     without touching the table, or add a path without its folder, and one of them fails.
 
     The mapping, in both directions:
-      null              → home/            (the index route)
-      '*'               → not-found/        (the catch-all)
-      'book/success/:ref' → book/success/[ref]/   (':param' as '[param]', like Next) */
+      null                → home/
+      '*'                 → not-found/
+      'book/success/:ref' → book/success/$ref/    (':param' as '$param') */
 const folderFor = (path: string | null): string => {
   if (path === null) return 'home';
   if (path === '*') return 'not-found';
-  return path.split('/').map((s) => (s.startsWith(':') ? `[${s.slice(1)}]` : s)).join('/');
+  return path.split('/').map((s) => (s.startsWith(':') ? `$${s.slice(1)}` : s)).join('/');
 };
 
-/** Every directory under src/routes that holds a page.tsx. */
+/** A route folder's page: the one .tsx sitting directly in it that is not a test.
+    Its components belong a level down in components/, which is why finding two here
+    is a failure and not a judgement call. */
+const pagesIn = (dir: string): string[] =>
+  existsSync(dir)
+    ? readdirSync(dir).filter((f) => f.endsWith('.tsx') && !f.endsWith('.test.tsx'))
+    : [];
+
+/** Every folder under src/routes that holds a page, components/ subtrees aside. */
 const pageFolders = (dir = ROOT): string[] =>
   readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
-    if (!e.isDirectory()) return [];
+    if (!e.isDirectory() || e.name === 'components') return [];
     const sub = join(dir, e.name);
-    return [
-      ...(existsSync(join(sub, 'page.tsx')) ? [relative(ROOT, sub)] : []),
-      ...pageFolders(sub),
-    ];
+    return [...(pagesIn(sub).length ? [relative(ROOT, sub)] : []), ...pageFolders(sub)];
   });
 
 describe('src/routes mirrors the route table', () => {
-  it('gives every declared route a folder with a page.tsx', () => {
-    const missing = ROUTES
-      .map((r) => folderFor(r.path))
-      .filter((f) => !existsSync(join(ROOT, f, 'page.tsx')))
-      .map((f) => `src/routes/${f}/page.tsx`);
-    expect(missing).toEqual([]);
+  it('gives every declared route a folder holding exactly one page', () => {
+    const wrong = ROUTES.map((r) => {
+      const folder = folderFor(r.path);
+      const found = pagesIn(join(ROOT, folder));
+      if (!existsSync(join(ROOT, folder))) return `${folder}/ — ไม่มีโฟลเดอร์`;
+      if (found.length !== 1) return `${folder}/ — เจอ page ${found.length} ไฟล์: ${found.join(', ')}`;
+      return null;
+    }).filter(Boolean);
+    expect(wrong).toEqual([]);
   });
 
-  it('leaves no page.tsx that no route points at', () => {
+  it('leaves no page that no route points at', () => {
     const declared = ROUTES.map((r) => folderFor(r.path));
-    const orphans = pageFolders().filter((f) => !declared.includes(f));
-    expect(orphans).toEqual([]);
+    expect(pageFolders().filter((f) => !declared.includes(f))).toEqual([]);
   });
 
   it('declares each path once', () => {
@@ -51,3 +58,4 @@ describe('src/routes mirrors the route table', () => {
     expect(new Set(paths).size).toBe(paths.length);
   });
 });
+

@@ -132,19 +132,24 @@ Every screen lives inside `.liff-column` — full width, clamped to **430px**, c
 
 ### Where a file goes
 
-`src/routes/` mirrors the URL, Next-style: `routes/book/review/page.tsx` serves
-`/book/review`, and `:ref` becomes `[ref]`. A route folder holds only `page.tsx`, its
-test, its hooks, and its child routes — so what you see at that level is what the URL
-does. Its components go one level down in `components/`, shared inside a subtree at the
-subtree root (`routes/book/components/price-breakdown.tsx`, used by review and success).
-`components/ui` and `components/icons` are for what the whole app shares, `features/`
-for domain logic that spans routes.
+`src/routes/` mirrors the URL: `routes/book/review/booking-review.tsx` serves
+`/book/review`, and `:ref` becomes `$ref`. A route folder holds only its page, that
+page's test, its hooks, and its child routes — so what you see at that level is what
+the URL does. Components go one level down in `components/`, shared inside a subtree at
+the subtree root (`routes/book/components/price-breakdown.tsx`, used by review and
+success). `components/ui` and `components/icons` are for what the whole app shares,
+`features/` for domain logic that spans routes.
+
+Pages keep their own names rather than a fixed `page.tsx`, so an editor tab and Cmd+P
+still say `booking-grid`; `$ref` rather than Next's `[ref]` keeps glob metacharacters
+out of a directory name. The test finds a page as *the one non-test `.tsx` directly in
+a route folder*, which is also what stops a component being left at that level.
 
 react-router matches the table in `app/routes.tsx`, **not** the folders — unlike Next,
 a directory cannot enforce its own URL. `routes/routes.test.ts` is what binds them: it
-fails if a declared path has no folder, if a `page.tsx` has no route, or if a param is
-renamed on one side only. Adding a route is a line in the table plus the folder the
-test names.
+fails if a declared path has no folder, if a page has no route, if a param is renamed
+on one side only, or if a route folder holds more than one page. Adding a route is a
+line in the table plus the folder the test names.
 
 ### File naming
 
