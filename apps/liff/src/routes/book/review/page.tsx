@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PriceBreakdown } from '@/routes/book/price-breakdown';
+import { PriceBreakdown } from '@/routes/book/components/price-breakdown';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Icon } from '@/components/ui/icon';

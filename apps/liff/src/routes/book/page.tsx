@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CourtMatrix } from './court-matrix';
-import { DateStrip, type DateOption } from './date-strip';
-import { LegendBar } from './legend-bar';
-import { SelectionDrawer } from './selection-drawer';
+import { CourtMatrix } from './components/court-matrix';
+import { DateStrip, type DateOption } from './components/date-strip';
+import { LegendBar } from './components/legend-bar';
+import { SelectionDrawer } from './components/selection-drawer';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import { Skeleton } from '@/components/ui/skeleton';

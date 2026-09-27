@@ -133,11 +133,12 @@ Every screen lives inside `.liff-column` — full width, clamped to **430px**, c
 ### Where a file goes
 
 `src/routes/` mirrors the URL, Next-style: `routes/book/review/page.tsx` serves
-`/book/review`, and `:ref` becomes `[ref]`. A part used by one route lives in that
-route's folder; one shared inside a subtree sits at the subtree root
-(`routes/book/price-breakdown.tsx`, used by review and success). `components/ui` and
-`components/icons` are for what the whole app shares, `features/` for domain logic
-that spans routes.
+`/book/review`, and `:ref` becomes `[ref]`. A route folder holds only `page.tsx`, its
+test, its hooks, and its child routes — so what you see at that level is what the URL
+does. Its components go one level down in `components/`, shared inside a subtree at the
+subtree root (`routes/book/components/price-breakdown.tsx`, used by review and success).
+`components/ui` and `components/icons` are for what the whole app shares, `features/`
+for domain logic that spans routes.
 
 react-router matches the table in `app/routes.tsx`, **not** the folders — unlike Next,
 a directory cannot enforce its own URL. `routes/routes.test.ts` is what binds them: it

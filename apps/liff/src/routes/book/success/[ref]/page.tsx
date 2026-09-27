@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { PriceBreakdown } from '@/routes/book/price-breakdown';
+import { PriceBreakdown } from '@/routes/book/components/price-breakdown';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
