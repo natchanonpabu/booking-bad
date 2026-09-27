@@ -4,7 +4,7 @@ import { VENUE } from '@/data/fixtures';
 import { quote as computeQuote } from '@/data/rates';
 import type { Court, CourtId, Quote, Selection } from '@/data/types';
 import { useToast } from '@/components/ui/toast';
-import { rangeLabel, reconcile, tap as applyTap, type Feedback } from './selection';
+import { rangeLabel, reconcile, tap as applyTap, type Feedback } from '@/features/booking/selection';
 import { thb } from '@/lib/money';
 
 /** The React skin over the pure rules in selection.ts: state, toasts, the debounced

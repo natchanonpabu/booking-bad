@@ -1,11 +1,11 @@
 import { createHashRouter } from 'react-router-dom';
-import BookingGrid from '@/screens/booking-grid';
-import Catalog from '@/screens/catalog';
-import BookingReview from '@/screens/booking-review';
-import BookingSuccess from '@/screens/booking-success';
-import CourtProfile from '@/screens/court-profile';
-import MyBookings from '@/screens/my-bookings';
-import NotFound from '@/screens/not-found';
+import BookingGrid from '@/routes/book/page';
+import Catalog from '@/routes/__catalog/page';
+import BookingReview from '@/routes/book/review/page';
+import BookingSuccess from '@/routes/book/success/[ref]/page';
+import CourtProfile from '@/routes/home/page';
+import MyBookings from '@/routes/bookings/page';
+import NotFound from '@/routes/not-found/page';
 import { AppLayout } from '@/layouts/app-layout';
 
 /** Five screens plus the catch-all (Plan 01 §2.1, after Revision 5 cut the payment
