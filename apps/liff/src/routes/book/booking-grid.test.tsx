@@ -4,7 +4,7 @@ import { cleanup, render, screen, waitFor, within } from '@testing-library/react
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it } from 'vitest';
 import '@testing-library/jest-dom/vitest';
-import BookingGrid from './booking-grid';
+import BookingGrid from './';
 import { BookingFlowProvider } from '@/app/providers/booking-flow-provider';
 import { ToastProvider } from '@/components/ui/toast';
 import { resetDb } from '@/data/db';

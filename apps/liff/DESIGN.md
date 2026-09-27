@@ -132,23 +132,27 @@ Every screen lives inside `.liff-column` — full width, clamped to **430px**, c
 
 ### Where a file goes
 
-`src/routes/` mirrors the URL: `routes/book/review/booking-review.tsx` serves
-`/book/review`, and `:ref` becomes `$ref`. A route folder holds only its page, that
-page's test, its hooks, and its child routes — so what you see at that level is what
-the URL does. Components go one level down in `components/`, shared inside a subtree at
+`src/routes/` mirrors the URL: `routes/book/review/index.tsx` serves `/book/review`,
+and `:ref` becomes `$ref`. A route folder holds only its page, that page's test, its
+hooks, and its child routes — so what you see at that level is what the URL does. Components go one level down in `components/`, shared inside a subtree at
 the subtree root (`routes/book/components/price-breakdown.tsx`, used by review and
 success). `components/ui` and `components/icons` are for what the whole app shares,
 `features/` for domain logic that spans routes.
 
-Pages keep their own names rather than a fixed `page.tsx`, so an editor tab and Cmd+P
-still say `booking-grid`; `$ref` rather than Next's `[ref]` keeps glob metacharacters
-out of a directory name. The test finds a page as *the one non-test `.tsx` directly in
-a route folder*, which is also what stops a component being left at that level.
+A page is its folder's `index.tsx`, so an import reads as the URL —
+`@/routes/book/success/$ref`, not `.../booking-success`. `$ref` rather than Next's
+`[ref]` keeps glob metacharacters out of a directory name. Nothing asserts the filename:
+the table imports the folder, so a page named anything else fails to resolve and takes
+the build down. What the test does assert is that a route folder holds *exactly one*
+non-test `.tsx`, which is what stops a component being left at route level. Tests keep
+descriptive names (`book/booking-grid.test.tsx`) — they are never imported, so they gain
+nothing from `index`.
 
 react-router matches the table in `app/routes.tsx`, **not** the folders — unlike Next,
 a directory cannot enforce its own URL. `routes/routes.test.ts` is what binds them: it
 fails if a declared path has no folder, if a page has no route, if a param is renamed
-on one side only, or if a route folder holds more than one page. Adding a route is a
+on one side only, or if a route folder holds more than one page — each verified by
+breaking it. Adding a route is a
 line in the table plus the folder the test names.
 
 ### File naming

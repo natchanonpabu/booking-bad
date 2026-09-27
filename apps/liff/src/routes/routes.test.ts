@@ -20,9 +20,12 @@ const folderFor = (path: string | null): string => {
   return path.split('/').map((s) => (s.startsWith(':') ? `$${s.slice(1)}` : s)).join('/');
 };
 
-/** A route folder's page: the one .tsx sitting directly in it that is not a test.
-    Its components belong a level down in components/, which is why finding two here
-    is a failure and not a judgement call. */
+/** A route folder's page is its index.tsx, so an import reads as the URL —
+    '@/routes/book/review'. Nothing here asserts that name: the table imports the folder,
+    so a page not called index.tsx fails to resolve and takes the build with it, which is
+    a louder failure than a test. What this collects instead is *every* non-test .tsx
+    directly in the folder, so a second one fails here rather than quietly sitting at
+    route level where a component does not belong. */
 const pagesIn = (dir: string): string[] =>
   existsSync(dir)
     ? readdirSync(dir).filter((f) => f.endsWith('.tsx') && !f.endsWith('.test.tsx'))
