@@ -1,6 +1,6 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { join, relative } from 'node:path';
+import { basename, join, relative, sep } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 const ROOT = fileURLToPath(new URL('.', import.meta.url));
@@ -44,3 +44,43 @@ describe('features are independent', () => {
   });
 });
 
+/** Per-page colocation only means something if a page's components/ is private to it.
+    The moment a second page imports one, the file belongs to the feature, not the page,
+    and has to move up to features/<f>/components — the way price-breakdown did once
+    review and success both wanted it. */
+describe('a page owns its components', () => {
+  const pageDirs = FEATURES.flatMap((f) => {
+    const routes = join(ROOT, f, 'routes');
+    return readdirSync(routes, { withFileTypes: true })
+      .filter((e) => e.isDirectory())
+      .map((e) => join(routes, e.name));
+  });
+
+  it('has the pages this app is sliced into', () => {
+    expect(pageDirs.map((d) => relative(ROOT, d)).sort()).toEqual([
+      'booking/routes/booking-grid',
+      'booking/routes/booking-review',
+      'booking/routes/booking-success',
+      'booking/routes/my-bookings',
+      'venue/routes/court-profile',
+    ]);
+  });
+
+  it.each(pageDirs.map((d) => [relative(ROOT, d), d] as const))(
+    '%s keeps its own components to itself',
+    (_label, pageDir) => {
+      const owned = walk(pageDir).filter((f) => f.includes(`${sep}components${sep}`));
+      const outsiders = FEATURES.flatMap((f) => walk(join(ROOT, f)))
+        .concat(walk(join(ROOT, '..', 'app')))
+        .filter((f) => !f.startsWith(pageDir + sep));
+      const offenders = outsiders.flatMap((f) => {
+        const body = readFileSync(f, 'utf8');
+        return owned
+          .filter((o) => body.includes(basename(o).replace(/\.tsx?$/, '')))
+          .filter((o) => new RegExp(`from '[^']*/${basename(o).replace(/\.tsx?$/, '')}'`).test(body))
+          .map((o) => `${relative(ROOT, f)} → ${relative(pageDir, o)}`);
+      });
+      expect(offenders).toEqual([]);
+    },
+  );
+});

@@ -132,14 +132,29 @@ Every screen lives inside `.liff-column` — full width, clamped to **430px**, c
 
 ### Where a file goes
 
-Code is grouped by **feature**, not by kind. A feature owns its pages, its components
-and its hooks, and is a leaf in the import graph:
+Code is grouped by **feature**, not by kind — *package by feature*, and a page is a
+folder that owns everything only it uses:
 
-    features/booking/    routes/  components/  hooks/  selection.ts
-    features/venue/      routes/  components/
+    features/booking/
+      routes/booking-grid/    index.tsx  components/ (5)  hooks/  booking-grid.test.tsx
+      routes/booking-review/  index.tsx
+      routes/booking-success/ index.tsx
+      routes/my-bookings/     index.tsx  components/ (1)
+      components/             price-breakdown  <- review and success both use it
+      selection.ts
+    features/venue/
+      routes/court-profile/   index.tsx  components/ (3)
 
-`features/features.test.ts` enforces the only rule that makes the nesting worth it: **a
-feature never imports another feature, and nothing shared imports a feature.** Anything
+A page is its folder's `index.tsx`, so it imports as the folder —
+`@/features/booking/routes/booking-grid`. Its `components/` is **private to that page**;
+the moment a second page wants one, it moves up to `features/<f>/components`, which is
+how price-breakdown got there. Deeper is not better: a component used by two pages in
+the same feature belongs to the feature, not copied into both.
+
+`features/features.test.ts` enforces the two rules that make the nesting worth it: **a
+feature never imports another feature, and nothing shared imports a feature** — and **a
+page's `components/` is reached by nothing but that page.** It also pins the list of
+features and of pages, so adding either is a deliberate edit. Anything
 two features both need moves up — `data/` for the fixtures and the fake API, `lib/` for
 money, dates and `cn`, `components/ui` and `components/icons` for shared UI, `layouts/`
 for the app chrome. If you reach sideways, the answer is to move the thing up, not to
