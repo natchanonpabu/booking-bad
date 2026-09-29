@@ -482,7 +482,12 @@ booking/                          ← ONE repository (decision 10): documents an
    │                               resized to 860px wide, WebP q80, ~60 KB each.
    │                               Replaces 136 remote lh3.googleusercontent.com refs.)
    │
-   └─ src/
+   └─ src/          ⚠️ AS PLANNED, 2026-09. NOT THE SHIPPED TREE — see apps/liff/README.md.
+      │                Revision 5 cut platform/, demo/, Payment.tsx, HoldExpired.tsx,
+      │                PaymentMethodCard, BookingTicket, AvailabilityBanner, StepHeader,
+      │                OutsideLineNotice, cn.ts and useCountdown.ts; what was built has
+      │                since moved to package-by-feature (DESIGN.md §6). Left as written
+      │                because this document is the argument, not the map.
       ├─ main.tsx
       ├─ app/
       │  ├─ router.tsx            createHashRouter — 5 screens + catalog + 404
