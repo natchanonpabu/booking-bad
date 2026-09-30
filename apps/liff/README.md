@@ -20,14 +20,16 @@ pnpm build && pnpm preview   # the static bundle, as a venue owner would see it
 <!-- tree:start -->
 ```
 src/
-  app/                              the wiring, and the only place that knows a URL
-    pages/                          screens no feature owns: 404, /__catalog
+  app/                              the wiring; routes.tsx is the only list of URLs
+    pages/                          screens no feature owns
+      catalog/                      /__catalog — every primitive in every state
+      not-found/
     providers/                      every context that wraps the app
   features/                         package by feature; a feature never imports a feature
     booking/
       components/                   shared by more than one booking page
-      routes/
-        booking-grid/               a page = a folder = one route in app/routes.tsx
+      pages/
+        booking-grid/               a page = a folder = one line in app/routes.tsx
           components/               private to this page
           hooks/
         booking-review/
@@ -35,7 +37,7 @@ src/
         my-bookings/
           components/
     venue/
-      routes/
+      pages/
         court-profile/
           components/
   components/                       shared by the whole app
@@ -56,7 +58,7 @@ rather than rots. Add a folder and the failure message prints the block to paste
 
 | You are adding | It goes |
 |---|---|
-| A route | a line in `app/routes.tsx`, plus a page folder in the owning feature |
+| A route | a line in `app/routes.tsx`, plus `<feature>/pages/<page>/index.tsx` — or `app/pages/` if no feature owns it |
 | A component one page uses | that page's `components/` |
 | A component two pages in one feature use | `features/<feature>/components/` |
 | A component two features use | `components/ui/` |

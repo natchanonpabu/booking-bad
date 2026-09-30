@@ -50,7 +50,7 @@ describe('features are independent', () => {
     review and success both wanted it. */
 describe('a page owns its components', () => {
   const pageDirs = FEATURES.flatMap((f) => {
-    const routes = join(ROOT, f, 'routes');
+    const routes = join(ROOT, f, 'pages');
     return readdirSync(routes, { withFileTypes: true })
       .filter((e) => e.isDirectory())
       .map((e) => join(routes, e.name));
@@ -58,11 +58,11 @@ describe('a page owns its components', () => {
 
   it('has the pages this app is sliced into', () => {
     expect(pageDirs.map((d) => relative(ROOT, d)).sort()).toEqual([
-      'booking/routes/booking-grid',
-      'booking/routes/booking-review',
-      'booking/routes/booking-success',
-      'booking/routes/my-bookings',
-      'venue/routes/court-profile',
+      'booking/pages/booking-grid',
+      'booking/pages/booking-review',
+      'booking/pages/booking-success',
+      'booking/pages/my-bookings',
+      'venue/pages/court-profile',
     ]);
   });
 
@@ -83,4 +83,45 @@ describe('a page owns its components', () => {
       expect(offenders).toEqual([]);
     },
   );
+});
+
+/** app/pages holds the screens no feature owns — a 404, the /__catalog sheet. They are
+    pages, so they are shaped like pages: a folder whose page is index.tsx. Getting this
+    wrong once is what prompted the rule; `pages` is the word everywhere, and `routes.tsx`
+    is the table, which is also why the folder cannot be called routes/. */
+describe('every page in the app has the same shape', () => {
+  const pageDirs = [
+    ...FEATURES.flatMap((f) =>
+      readdirSync(join(ROOT, f, 'pages'), { withFileTypes: true })
+        .filter((e) => e.isDirectory())
+        .map((e) => join(ROOT, f, 'pages', e.name)),
+    ),
+    ...readdirSync(join(ROOT, '..', 'app', 'pages'), { withFileTypes: true })
+      .filter((e) => e.isDirectory())
+      .map((e) => join(ROOT, '..', 'app', 'pages', e.name)),
+  ];
+
+  it('finds a page folder for every route in the table', () => {
+    expect(pageDirs).toHaveLength(7);
+  });
+
+  it.each(pageDirs.map((d) => [relative(join(ROOT, '..'), d), d] as const))(
+    '%s is a folder whose page is index.tsx',
+    (_label, dir) => {
+      const top = readdirSync(dir).filter((f) => /\.tsx$/.test(f) && !f.endsWith('.test.tsx'));
+      expect(top).toEqual(['index.tsx']);
+    },
+  );
+
+  it('leaves no page as a bare file beside the folders', () => {
+    const strays = [
+      ...FEATURES.map((f) => join(ROOT, f, 'pages')),
+      join(ROOT, '..', 'app', 'pages'),
+    ].flatMap((d) =>
+      readdirSync(d, { withFileTypes: true })
+        .filter((e) => e.isFile())
+        .map((e) => relative(join(ROOT, '..'), join(d, e.name))),
+    );
+    expect(strays).toEqual([]);
+  });
 });

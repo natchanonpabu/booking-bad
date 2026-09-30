@@ -136,14 +136,20 @@ Code is grouped by **feature**, not by kind — *package by feature*, and a page
 folder that owns everything only it uses:
 
     features/booking/
-      routes/booking-grid/    index.tsx  components/ (5)  hooks/  booking-grid.test.tsx
-      routes/booking-review/  index.tsx
-      routes/booking-success/ index.tsx
-      routes/my-bookings/     index.tsx  components/ (1)
+      pages/booking-grid/     index.tsx  components/ (5)  hooks/  booking-grid.test.tsx
+      pages/booking-review/   index.tsx
+      pages/booking-success/  index.tsx
+      pages/my-bookings/      index.tsx  components/ (1)
       components/             price-breakdown  <- review and success both use it
       selection.ts
     features/venue/
-      routes/court-profile/   index.tsx  components/ (3)
+      pages/court-profile/    index.tsx  components/ (3)
+    app/pages/catalog/, app/pages/not-found/    screens no feature owns
+
+**`pages/` is the folder, `routes.tsx` is the table** — one word per thing, which is also
+why the folder is not called `routes/`: `app/routes.tsx` would shadow `app/routes/`. Every
+page has the same shape wherever it lives, `app/pages` included: a folder whose page is
+`index.tsx`. A page with no components of its own is still a folder.
 
 A page is its folder's `index.tsx`, so it imports as the folder —
 `@/features/booking/routes/booking-grid`. Its `components/` is **private to that page**;

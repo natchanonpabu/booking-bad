@@ -1,10 +1,10 @@
 import type { ReactElement } from 'react';
-import BookingGrid from '@/features/booking/routes/booking-grid';
+import BookingGrid from '@/features/booking/pages/booking-grid';
 import Catalog from './pages/catalog';
-import BookingReview from '@/features/booking/routes/booking-review';
-import BookingSuccess from '@/features/booking/routes/booking-success';
-import CourtProfile from '@/features/venue/routes/court-profile';
-import MyBookings from '@/features/booking/routes/my-bookings';
+import BookingReview from '@/features/booking/pages/booking-review';
+import BookingSuccess from '@/features/booking/pages/booking-success';
+import CourtProfile from '@/features/venue/pages/court-profile';
+import MyBookings from '@/features/booking/pages/my-bookings';
 import NotFound from './pages/not-found';
 
 export interface RouteDef {
