@@ -13,6 +13,9 @@ pnpm install     # honours the committed pnpm-lock.yaml
 pnpm dev         # http://localhost:5173  (also on your LAN IP, for testing on a phone)
 pnpm check       # gate → typecheck → lint → test → build
 pnpm build && pnpm preview   # the static bundle, as a venue owner would see it
+# Deploy: push to main → .github/workflows/pages.yml runs `pnpm check` and publishes
+# apps/liff/dist to GitHub Pages (enable Settings → Pages → Source: GitHub Actions once).
+# Hash router + base './' mean no rewrite rules and no path config are needed.
 ```
 
 ## Where things live

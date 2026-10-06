@@ -10,6 +10,7 @@ interface CourtMatrixProps {
   courts: Court[];
   selection: Selection;
   onTap: (courtId: string, hour: number) => void;
+  onClear: () => void;
 }
 
 /**
@@ -17,7 +18,7 @@ interface CourtMatrixProps {
  * screen reader intercepts the arrow keys of a data table, so the key map below would
  * never reach the user it was written for (DESIGN.md §6, Plan 01 §3.5 #5).
  */
-export function CourtMatrix({ grid, courts, selection, onTap }: CourtMatrixProps) {
+export function CourtMatrix({ grid, courts, selection, onTap, onClear }: CourtMatrixProps) {
   const focus = useRef({ court: 0, hour: 0 });
   const cells = useRef(new Map<string, HTMLButtonElement | null>());
   const key = (c: number, h: number) => `${c}:${h}`;
@@ -30,11 +31,53 @@ export function CourtMatrix({ grid, courts, selection, onTap }: CourtMatrixProps
   };
 
   const onKeyDown = (event: React.KeyboardEvent, c: number, h: number) => {
+    const lastCourt = courts.length - 1;
+    const lastHour = grid.hours.length - 1;
+
+    if (event.key === 'Escape') {
+      if (selection.kind !== 'range') return;
+      event.preventDefault();
+      onClear();
+      return;
+    }
+
+    // Shift+↓ extends the selection by one hour, Shift+↑ shrinks it from the bottom.
+    // Both go through `onTap`, so the rules (cap, gaps, blocked hours) stay in one place.
+    if (event.shiftKey && (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
+      event.preventDefault();
+      const courtId = courts[c]!.id;
+      const mine = selection.kind === 'range' && selection.courtIds.includes(courtId) ? selection : null;
+      if (!mine) {
+        onTap(courtId, grid.hours[h]!);
+        return;
+      }
+      if (event.key === 'ArrowDown') {
+        const target = mine.endHour;
+        const targetIndex = grid.hours.indexOf(target);
+        if (targetIndex === -1) return;
+        onTap(courtId, target);
+        move(c, targetIndex);
+      } else {
+        const target = mine.endHour - 1;
+        onTap(courtId, target);
+        move(c, Math.max(0, grid.hours.indexOf(target) - 1));
+      }
+      return;
+    }
+
+    // Ctrl+Home / Ctrl+End jump to the first / last cell of the whole grid (APG grid).
+    if (event.ctrlKey && (event.key === 'Home' || event.key === 'End')) {
+      event.preventDefault();
+      if (event.key === 'Home') move(0, 0);
+      else move(lastCourt, lastHour);
+      return;
+    }
+
     const moves: Record<string, [number, number]> = {
       ArrowUp: [c, h - 1], ArrowDown: [c, h + 1],
       ArrowLeft: [c - 1, h], ArrowRight: [c + 1, h],
-      Home: [0, h], End: [courts.length - 1, h],
-      PageUp: [c, 0], PageDown: [c, grid.hours.length - 1],
+      Home: [0, h], End: [lastCourt, h],
+      PageUp: [c, 0], PageDown: [c, lastHour],
     };
     const next = moves[event.key];
     if (!next) return;

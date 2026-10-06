@@ -9,8 +9,13 @@ import { thb } from '@/lib/money';
 
 /** The React skin over the pure rules in selection.ts: state, toasts, the debounced
     quote and the one sentence the drawer announces politely (Plan 01 §8.5, §8.6). */
-export function useSlotSelection({ grid, courts }: { grid: DayGrid | null; courts: Court[] }) {
-  const [selection, setSelection] = useState<Selection>({ kind: 'none' });
+export function useSlotSelection({ grid, courts, initial }: {
+  grid: DayGrid | null;
+  courts: Court[];
+  /** Restores a draft (Back from review); `reconcile` still drops it if it went stale. */
+  initial?: Selection;
+}) {
+  const [selection, setSelection] = useState<Selection>(initial ?? { kind: 'none' });
   const [quote, setQuote] = useState<Quote | null>(null);
   const [quoting, setQuoting] = useState(false);
   const toast = useToast();

@@ -165,7 +165,7 @@ const ALTERNATE: AvailabilityBlock[] = [
   b('bk41', 'c4', D.alternate, 20, 1, 'booked'),
 ];
 
-export const AVAILABILITY_BLOCKS: AvailabilityBlock[] =
+const SCRIPTED_BLOCKS: AvailabilityBlock[] =
   [...CANONICAL, ...NEXT, ...BUSY, ...SOLD_OUT, ...ALTERNATE];
 
 /* ── Seed bookings — drive `_3` before you book anything ───────────────────── */
@@ -220,6 +220,25 @@ export const SEED_BOOKINGS: Booking[] = [
     createdAt: at(addDays(BASE, -8), 21), holdExpiresAt: null,
   },
 ];
+
+/** A seeded booking that still holds its court must block the grid exactly as a booking
+    made during the demo does (one block per court, `${booking.id}_${i}`, same as
+    `confirmBooking`) — otherwise the card on `_3` promises a slot `_1` still sells. */
+const seedBlocks = (): AvailabilityBlock[] =>
+  SEED_BOOKINGS
+    .filter((bk) => bk.status === 'confirmed' || bk.status === 'pending_payment')
+    .flatMap((bk) => bk.courtIds.map((courtId, i): AvailabilityBlock => ({
+      id: `${bk.id}_${i}`,
+      venueId: bk.venueId,
+      courtId,
+      date: bk.date,
+      startMinutes: bk.startMinutes,
+      endMinutes: bk.endMinutes,
+      kind: 'booked',
+      bookingId: bk.id,
+    })));
+
+export const AVAILABILITY_BLOCKS: AvailabilityBlock[] = [...SCRIPTED_BLOCKS, ...seedBlocks()];
 
 /** Seeded so the first booking made during a demo is WC-YYMM-0042. */
 export const REF_SEQUENCE_SEED = 41;

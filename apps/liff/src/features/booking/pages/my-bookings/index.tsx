@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BookingCard } from './components/booking-card';
 import { Button } from '@/components/ui/button';
@@ -9,7 +9,6 @@ import { SegmentedTabs } from '@/components/ui/segmented-tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/components/ui/toast';
 import { api } from '@/data/api';
-import { useDb } from '@/data/db';
 import { today } from '@/lib/clock';
 import type { Booking } from '@/data/types';
 
@@ -19,10 +18,15 @@ export default function MyBookings() {
   const [cancelling, setCancelling] = useState<Booking | null>(null);
   const toast = useToast();
 
-  // Read through the store so the list updates the moment a booking is cancelled.
-  const bookings = useDb((s) => s.bookings);
+  const [bookings, setBookings] = useState<Booking[]>([]);
 
-  useEffect(() => { api.getBookings().then(() => setLoading(false)); }, []);
+  // Through `api`, never the store: Plan 04 swaps this call for a fetch, and a page that
+  // reads the store directly would keep showing the demo's data after the swap.
+  const load = useCallback(
+    () => api.getBookings().then((next) => { setBookings(next); setLoading(false); }),
+    [],
+  );
+  useEffect(() => { void load(); }, [load]);
 
   const { upcoming, past } = useMemo(() => {
     const now = today();
@@ -37,6 +41,7 @@ export default function MyBookings() {
   const confirmCancel = async () => {
     if (!cancelling) return;
     await api.cancelBooking(cancelling.id);
+    await load();
     toast.show('ยกเลิกการจองแล้ว คอร์ทถูกปล่อยกลับสู่ระบบ', { tone: 'success' });
     setCancelling(null);
   };

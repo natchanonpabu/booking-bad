@@ -22,8 +22,10 @@ const DAY_COUNT = 14;
 
 export default function BookingGrid() {
   const navigate = useNavigate();
-  const { dispatch } = useBookingFlow();
-  const [date, setDate] = useState<ISODate>(defaultDemoDate());
+  const { state: flow, dispatch } = useBookingFlow();
+  // Back from review lands here with the draft still in the provider: reopen its day.
+  const [date, setDate] = useState<ISODate>(() => flow.draft?.date ?? defaultDemoDate());
+  const [attempt, setAttempt] = useState(0);
   const [grid, setGrid] = useState<DayGrid | null>(null);
   const [error, setError] = useState(false);
 
@@ -35,9 +37,9 @@ export default function BookingGrid() {
       .then((next) => { if (live) setGrid(next); })
       .catch(() => { if (live) setError(true); });
     return () => { live = false; };
-  }, [date]);
+  }, [date, attempt]);
 
-  const selection = useSlotSelection({ grid, courts: COURTS });
+  const selection = useSlotSelection({ grid, courts: COURTS, initial: flow.draft ?? undefined });
 
   const days: DateOption[] = useMemo(() => {
     const start = today();
@@ -74,7 +76,7 @@ export default function BookingGrid() {
           <p className="mt-1 font-body-md text-body-md text-muted-foreground">
             ลองใหม่อีกครั้งได้เลยครับ
           </p>
-          <Button className="mt-space-md" leadingIcon="refresh" onClick={() => setDate(date)}>
+          <Button className="mt-space-md" leadingIcon="refresh" onClick={() => setAttempt((n) => n + 1)}>
             ลองอีกครั้ง
           </Button>
         </div>
@@ -95,7 +97,7 @@ export default function BookingGrid() {
         />
       ) : (
         <div className="mt-space-sm">
-          <CourtMatrix grid={grid} courts={COURTS} selection={selection.selection} onTap={selection.tap} />
+          <CourtMatrix grid={grid} courts={COURTS} selection={selection.selection} onTap={selection.tap} onClear={selection.clear} />
         </div>
       )}
 

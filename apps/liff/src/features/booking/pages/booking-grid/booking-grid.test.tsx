@@ -2,14 +2,16 @@
 import { MemoryRouter } from 'react-router-dom';
 import { cleanup, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom/vitest';
 import BookingGrid from './';
 import { BookingFlowProvider } from '@/app/providers/booking-flow-provider';
 import { ToastProvider } from '@/components/ui/toast';
+import { api } from '@/data/api';
 import { resetDb } from '@/data/db';
+import { defaultDemoDate } from '@/lib/clock';
 
-afterEach(() => { cleanup(); resetDb(); localStorage.clear(); });
+afterEach(() => { cleanup(); resetDb(); localStorage.clear(); vi.restoreAllMocks(); });
 
 const renderGrid = () =>
   render(
@@ -107,5 +109,64 @@ describe('/book — the screen the whole demo rests on', () => {
     expect(
       await screen.findByText('วันนี้คอร์ทเต็มทุกช่วงเวลาแล้วครับ', {}, { timeout: 3000 }),
     ).toBeInTheDocument();
+  });
+
+  it('retry after a failed load actually refetches', async () => {
+    const user = userEvent.setup();
+    const real = api.getAvailability;
+    const spy = vi.spyOn(api, 'getAvailability').mockRejectedValueOnce(new Error('offline'));
+    renderGrid();
+    await user.click(await screen.findByRole('button', { name: 'ลองอีกครั้ง' }));
+    await screen.findByRole('grid', {}, { timeout: 3000 });
+    expect(spy).toHaveBeenCalledTimes(2);
+    spy.mockRestore();
+    expect(api.getAvailability).toBe(real);
+  });
+
+  it('Back from review restores the draft: same day, same hours, CTA enabled', async () => {
+    localStorage.setItem('wc.flow.v1', JSON.stringify({
+      draft: { kind: 'range', date: defaultDemoDate(), courtIds: ['c3'], startHour: 19, endHour: 21 },
+    }));
+    renderGrid();
+    await screen.findByRole('grid', {}, { timeout: 3000 });
+    expect(await screen.findByText('19:00 - 21:00 น.')).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByRole('button', { name: /จองทันที/ })).toBeEnabled());
+  });
+
+  describe('keyboard', () => {
+    it('Shift+↓ extends one hour at a time and Shift+↑ shrinks from the bottom', async () => {
+      const user = userEvent.setup();
+      renderGrid();
+      await screen.findByRole('grid', {}, { timeout: 3000 });
+      cell('3', 19).focus();
+      await user.keyboard('{Shift>}{ArrowDown}{/Shift}');
+      await waitFor(() => expect(screen.getByText(/คอร์ท 3 · 1 ชั่วโมง/)).toBeInTheDocument());
+      await user.keyboard('{Shift>}{ArrowDown}{/Shift}');
+      await waitFor(() => expect(screen.getByText(/คอร์ท 3 · 2 ชั่วโมง/)).toBeInTheDocument());
+      expect(cell('3', 20)).toHaveFocus();
+      await user.keyboard('{Shift>}{ArrowUp}{/Shift}');
+      await waitFor(() => expect(screen.getByText(/คอร์ท 3 · 1 ชั่วโมง/)).toBeInTheDocument());
+    });
+
+    it('Escape clears the selection', async () => {
+      const user = userEvent.setup();
+      renderGrid();
+      await screen.findByRole('grid', {}, { timeout: 3000 });
+      await user.click(cell('3', 19));
+      await waitFor(() => expect(screen.getByText(/คอร์ท 3 · 1 ชั่วโมง/)).toBeInTheDocument());
+      await user.keyboard('{Escape}');
+      expect(await screen.findByText('ยังไม่ได้เลือกคอร์ท')).toBeInTheDocument();
+    });
+
+    it('Ctrl+Home and Ctrl+End jump to the first and last cell of the grid', async () => {
+      const user = userEvent.setup();
+      renderGrid();
+      await screen.findByRole('grid', {}, { timeout: 3000 });
+      cell('3', 14).focus();
+      await user.keyboard('{Control>}{End}{/Control}');
+      expect(cell('6', 21)).toHaveFocus();
+      await user.keyboard('{Control>}{Home}{/Control}');
+      expect(cell('1', 9)).toHaveFocus();
+    });
   });
 });

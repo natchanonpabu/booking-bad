@@ -3,7 +3,7 @@
 
 | | |
 |---|---|
-| **Status** | **Built** at `apps/liff/` (branch `frontend-demo`). Approved 2026-09-15 (Revision 4); scope cut 2026-09-18 (Revision 5); reconciled with the code 2026-10-06 (Revision 7). Open: a static host, and the gaps listed in §11. |
+| **Status** | **Built** at `apps/liff/` (branch `frontend-demo`). Approved 2026-09-15 (Revision 4); scope cut 2026-09-18 (Revision 5); reconciled with the code 2026-10-06 (Revision 7). Open: first deploy (workflow in `.github/workflows/pages.yml`; enable Pages once). |
 | **Owner** | 1 developer (React/TS). A second person is useful for the device pass on Day 15 and nowhere else. |
 | **Duration** | Planned at 16 working days, then ~13 after Revision 5 (§10). Built 2026-09-16 → 2026-09-30. |
 | **Depends on** | Nothing. No backend, no accounts, no vendor, no venue signature. |

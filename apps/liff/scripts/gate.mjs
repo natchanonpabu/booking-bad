@@ -36,9 +36,14 @@ const gates = [
     files: [join(root, 'package.json')],
     test: (l) => /"tailwind-merge":\s*"(?!\^?2\.)/.test(l) },
   { id: 'modal-drawer', why: 'Sheet and SelectionDrawer must stay non-modal (Plan 01 §4.5)',
-    files: ['src/components/ui/sheet.tsx', 'src/components/booking/selection-drawer.tsx']
-      .map((p) => join(root, p)).filter(existsSync),
+    files: ['src/components/ui/sheet.tsx', 'src/features/booking/pages/booking-grid/components/selection-drawer.tsx']
+      .map((p) => join(root, p)),
     test: (l) => l.includes('react-dialog') },
+  { id: 'db-direct', why: 'the store is the demo\'s server — UI reads go through api.ts so Plan 04 can swap them for fetches',
+    files: src.filter((p) => /\.(ts|tsx)$/.test(p)
+      && !relative(join(root, 'src'), p).startsWith('data')
+      && !/\.test\.tsx?$/.test(p) && !p.includes('testing')),
+    test: (l) => /from '(@\/data\/db|\.{1,2}\/.*\/db)'/.test(l) },
   { id: 'raw-hex', why: 'colours come from tailwind.config.js only (§11.3)',
     files: src.filter((p) => /\.(ts|tsx)$/.test(p) && !p.includes(`${join('components', 'icons')}`)),
     test: (l) => /#[0-9a-fA-F]{6}\b/.test(l) },
@@ -48,6 +53,8 @@ let failures = 0;
 for (const gate of gates) {
   const hits = [];
   for (const file of gate.files) {
+    // A gate pointed at a moved file used to pass silently (modal-drawer did, for weeks).
+    if (!existsSync(file)) { hits.push(`${relative(root, file)}: file not found — update the gate`); continue; }
     read(file).split('\n').forEach((line, i) => {
       if (gate.test(line)) hits.push(`${relative(root, file)}:${i + 1}: ${line.trim()}`);
     });

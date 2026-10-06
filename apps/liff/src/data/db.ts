@@ -9,7 +9,7 @@ export interface DbState {
   bookings: Booking[];
 }
 
-const KEY = 'wc.db.v1';
+const KEY = 'wc.db.v2'  // v2: seeded bookings now own availability blocks;
 
 const seed = (): DbState => ({
   blocks: [...AVAILABILITY_BLOCKS],
