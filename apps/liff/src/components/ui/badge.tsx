@@ -6,7 +6,7 @@ import { Icon, type IconName } from './icon';
 /** shadcn's badge with our tones. One tone per meaning: the mockups shipped three
     different visual languages for "confirmed / paid / available" (D51, D52). */
 const badgeVariants = cva(
-  'inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 font-label-sm text-label-sm',
+  'inline-flex shrink-0 items-center whitespace-nowrap gap-1.5 rounded-full px-2.5 py-0.5 font-label-sm text-label-sm',
   {
     variants: {
       tone: {

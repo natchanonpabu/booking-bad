@@ -29,7 +29,8 @@ const buttonVariants = cva(
         lg: 'min-h-[52px] px-space-lg font-body-lg text-body-lg font-semibold',
         icon: 'size-11 rounded-full px-0',
       },
-      fullWidth: { true: 'w-full', false: '' },
+      // `shrink` beats the base `shrink-0`, so two fullWidth buttons share a row instead of overflowing it.
+      fullWidth: { true: 'w-full min-w-0 shrink', false: '' },
     },
     defaultVariants: { variant: 'primary', size: 'md', fullWidth: false },
   },

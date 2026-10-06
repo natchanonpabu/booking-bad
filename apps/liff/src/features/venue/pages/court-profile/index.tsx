@@ -93,8 +93,8 @@ export default function CourtProfile() {
       </div>
 
       {/* Sticky, because this is the only thing the screen wants the user to do. */}
-      <div className="pointer-events-none fixed inset-x-0 bottom-nav-safe z-drawer px-gutter-mobile">
-        <div className="pointer-events-auto mx-auto w-full max-w-liff">
+      <div className="pointer-events-none fixed inset-x-0 bottom-nav-safe z-drawer">
+        <div className="pointer-events-auto mx-auto w-full max-w-liff px-gutter-mobile">
           <Button size="lg" fullWidth asChild className="shadow-sheet">
             <Link to="/book">
               จองคอร์ทเลย

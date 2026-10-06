@@ -452,7 +452,7 @@ export function Icon({ name, size = 24, filled = false, label, ...rest }: IconPr
     "lint": "eslint src --max-warnings 0",
     "typecheck": "tsc --noEmit",
     "gate": "node scripts/gate.mjs",
-    "check": "npm run gate && npm run typecheck && npm run lint && npm test && npm run build"
+    "check": "pnpm gate && pnpm typecheck && pnpm lint && pnpm test && pnpm build"
   },
   "dependencies": {
     "@fontsource-variable/inter": "5.3.0",

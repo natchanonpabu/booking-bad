@@ -10,16 +10,19 @@ export function Sheet({ open = true, elevation = 'sheet', className, children }:
   open?: boolean; elevation?: 'sheet' | 'sticky-bar'; className?: string; children: ReactNode;
 }) {
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-nav-safe z-drawer px-gutter-mobile" aria-hidden={!open}>
-      <div
-        className={cn(
-          'pointer-events-auto mx-auto w-full max-w-liff rounded-xl bg-surface-container-lowest p-space-md transition-transform',
-          elevation === 'sheet' ? 'shadow-sheet' : 'shadow-sticky-bar',
-          open ? 'translate-y-0' : 'translate-y-[120%]',
-          className,
-        )}
-      >
-        {children}
+    <div className="pointer-events-none fixed inset-x-0 bottom-nav-safe z-drawer" aria-hidden={!open}>
+      {/* The gutter lives inside the clamp, so the card lines up with the page content. */}
+      <div className="mx-auto w-full max-w-liff px-gutter-mobile">
+        <div
+          className={cn(
+            'pointer-events-auto rounded-xl bg-surface-container-lowest p-space-md transition-transform',
+            elevation === 'sheet' ? 'shadow-sheet' : 'shadow-sticky-bar',
+            open ? 'translate-y-0' : 'translate-y-[120%]',
+            className,
+          )}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );
