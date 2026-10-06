@@ -8,5 +8,9 @@ export default defineConfig({
   base: './',
   plugins: [react()],
   resolve: { alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) } },
-  test: { environment: 'node', include: ['src/**/*.test.{ts,tsx}'] },
+  test: {
+    environment: 'node',
+    include: ['src/**/*.test.{ts,tsx}'],
+    setupFiles: ['./src/testing/setup.ts'],
+  },
 });
