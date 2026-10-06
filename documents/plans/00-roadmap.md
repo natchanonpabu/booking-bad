@@ -35,7 +35,7 @@ Adopt this on day 1, in the first commit. It is what stops the same argument bei
 | # | Plan | Delivers | Depends on | Rough size |
 |---|---|---|---|---|
 | **00** | **Roadmap** (this file) | Order, supersession rule, open questions | — | — |
-| **01** | **Frontend booking demo** ✅ *approved 2026-09-15* | The 9 booking mockups clickable end-to-end on a phone; production-grade tokens, slot-selection state machine + tests, typed fixture, booking-ref generator | Nothing | **~13 working days, 1 dev** · Gate 1 (clickable) day 8 · *Revision 5 cut the payment screen and the LINE integration: the demo is a sales tool, v1 is pay-at-the-counter* |
+| **01** | **Frontend booking demo** ✅ *built 2026-09-30* | Five booking screens (from the 9 mockups) clickable end-to-end on a phone; production-grade tokens, slot-selection state machine + tests, typed fixture, booking-ref generator | Nothing | **~13 working days, 1 dev** · Gate 1 (clickable) day 8 · *Revision 5 cut the payment screen and the LINE integration: the demo is a sales tool, v1 is pay-at-the-counter* |
 | **02** | **Pre-development decisions & external clocks** | Signed venue facts, register closed, v1 cut line signed, four external clocks started (venue, PSP/prepay, legal, slip vendor) | A founder with a calendar and a real venue | **~4 weeks calendar, ~2 person-weeks** · runs **in parallel with 01** |
 | **03** | **Foundations: repo, tokens package, schema** | pnpm workspace, stack ADR, `packages/tokens` promoted out of Plan 01, `0001_core.sql` with the exclusion constraint, fixture-as-specification | 02 (venue facts) | 1.5–2 weeks |
 | **04** | **Real booking** | LIFF auth + ID-token verification, availability view, server-side hold, confirm; Plan 01's UI rewired to a real API; `MockLiff` and webhook replay harness | 01, 03 | 3–4 weeks |
@@ -60,8 +60,8 @@ The honest reading of the pre-development draft (`documents/audit/predevelopment
 Plan 01 is that work, and it is safe for three specific reasons:
 
 1. **It settles only cheap decisions.** Tokens, the booked/maintenance chip inversion, one nav model, the slot-selection rules, the reference format. None of these are facts about a building; all are already unanimous across the mockups or are pure engineering calls. Plan 01 does not touch the expensive ones — prepayment, tenancy, the owner console, PDPA.
-2. **Reversal is cheap by construction.** Rates, hours, court count and the peak window live in `data/rates.ts` as **data, not constants** (D05). If the venue signs and says eight courts, 08:00–23:00, ฿250 peak, that is a fixture edit, not a rebuild. Plan 01 flags its four deviations from the register (D04′, D19′, D23′, D61′) at its own foot precisely so a reversal is a one-line diff against a named row.
-3. **It produces the foundation regardless of outcome.** Four artifacts are built to production quality and carried into Plan 03 unchanged: `tailwind.config.js`, `useSlotSelection.ts` + its 19 tests, `data/types.ts` / `rates.ts` / `bookingRef.ts`, and the `CourtMatrix` / `SlotCell` accessibility semantics. Everything in `screens/` is openly labelled scaffolding. There is no scenario in which Plan 02's answers make a correct token set or a tested state machine worthless.
+2. **Reversal is cheap by construction.** Rates, hours, court count and the peak window live in `data/fixtures.ts` as **data, not constants** (D05), priced by `data/rates.ts`. If the venue signs and says eight courts, 08:00–23:00, ฿250 peak, that is a fixture edit, not a rebuild. Plan 01 flags its four deviations from the register (D04′, D19′, D23′, D61′) at its own foot precisely so a reversal is a one-line diff against a named row.
+3. **It produces the foundation regardless of outcome.** Four artifacts are built to production quality and carried into Plan 03 unchanged: `tailwind.config.js`, `features/booking/selection.ts` + its 21 tests, `data/types.ts` / `rates.ts` / `booking-ref.ts`, and the `CourtMatrix` / `SlotCell` accessibility semantics. The page markup under `features/*/pages/` is openly labelled scaffolding. There is no scenario in which Plan 02's answers make a correct token set or a tested state machine worthless.
 
 And it buys something Plan 02 cannot buy on its own: **a thing to put in front of a venue owner.** Plan 02's hardest task is getting a signature from someone who has been pitched court-booking systems before. Walking in with a phone that books a court beats walking in with a PDF. Plan 01's Gate 1 lands on day 9 — inside the same fortnight as the first venue conversations, and the shell is openable from a real LINE chat from day 2.
 
@@ -147,8 +147,8 @@ Summary only. The authoritative list is **`documents/audit/register.md`** — 72
 | Plan | State |
 |---|---|
 | 00 Roadmap | This document — living |
-| 01 Frontend booking demo | **Approved 2026-09-15.** Built at `booking/apps/liff/`. `documents/plans/01-frontend-booking-demo.md` |
+| 01 Frontend booking demo | **Built** at `apps/liff/` (approved 2026-09-15, reconciled with the code 2026-10-06 — open gaps in its §11). `documents/plans/01-frontend-booking-demo.md` |
 | 02 Pre-development decisions | Outlined here. Should start the same week as 01 |
 | 03–11 | Outlined here only. Written when the plan before is approved |
 
-**Next action:** approve or amend Plan 01, and — independently of that decision — send Plan 02's four emails.
+**Next action:** close the Plan 01 gaps listed in its Revision 7 before the demo is shown, and — independently of that — send Plan 02's four emails.

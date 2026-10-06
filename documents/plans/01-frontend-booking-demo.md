@@ -3,12 +3,27 @@
 
 | | |
 |---|---|
-| **Status** | **Approved 2026-09-15** — decisions recorded in Revision 4 below. Open only: static host and LINE Developers account (not needed until Day 1–2 and Day 15). |
+| **Status** | **Built** at `apps/liff/` (branch `frontend-demo`). Approved 2026-09-15 (Revision 4); scope cut 2026-09-18 (Revision 5); reconciled with the code 2026-10-06 (Revision 7). Open: a static host, and the gaps listed in §11. |
 | **Owner** | 1 developer (React/TS). A second person is useful for the device pass on Day 15 and nowhere else. |
-| **Duration** | **16 working days.** Demoable end-to-end on a phone at the end of **Day 9** (Gate 1). |
+| **Duration** | Planned at 16 working days, then ~13 after Revision 5 (§10). Built 2026-09-16 → 2026-09-30. |
 | **Depends on** | Nothing. No backend, no accounts, no vendor, no venue signature. |
-| **Blocks** | Plan 02 (backend + real booking). Plan 01's `types.ts` is Plan 02's API contract. |
+| **Blocks** | Plans 03–04 (foundations, real booking). Plan 01's `types.ts` is their API contract. |
 | **Source precedence** | mockup markup > `booking-screens.json` > `ds.md` > `register.md` > `prd.md` (last, and it loses every conflict). |
+
+---
+
+## Revision 7 — reconciled with the shipped code (2026-10-06)
+
+The body of this plan now describes `apps/liff/` as built, not as first proposed. Where the build did less than the plan asked, the gap is written next to the plan's text — not deleted — so it stays visible.
+
+- **Code blocks in §4.5, §4.6, §5.1, §5.2, §6.1, §6.3, §6.4 and §6.6 are the committed files.** The differences were small except in `api.ts`, whose `confirmPayment` became `confirmBooking` (§6.6).
+- **§4.7 is the real tree**: package-by-feature, kebab-case, pages as folders. `apps/liff/README.md` holds the same tree under a test.
+- **§7–§9 are rewritten as built**, with a "Not built" list per screen. The state machine is `features/booking/selection.ts` (pure) plus a hook; there are 21 tests, not 19 (§8.7).
+- **§11 is a status checklist**: `[x]` holds in the code, `[ ]` does not yet, struck items were cut.
+- **§12–§13 follow the shipped flow**: grid → review → counter booking → success → `/bookings`. No QR, no LINE, no `DemoBar`.
+- Revisions 2–6 below are left as written. They are the record of how each decision was reached.
+
+**Gaps this reconciliation found** (in §8–§11, repeated here so they are not lost): the grid's retry button does not refetch; Back from review does not restore the selection; `Escape`, `Ctrl+Home/End` and `Shift+↑/↓` are not wired; the booking-ref counter restarts on reload and can repeat a ref; seeded upcoming bookings do not block their slots; `/bookings` reads `data/db` directly; the `modal-drawer` gate checks a path that moved.
 
 ---
 
@@ -117,9 +132,9 @@ The definition of done is the foundation-first one, but scoped to four artifacts
 | Built to production quality — will not be rewritten | Built to demo quality — expected to be replaced |
 |---|---|
 | `tailwind.config.js` + `index.css` — the token package (§5) | Every screen's layout and copy above the component layer |
-| `src/features/booking/useSlotSelection.ts` + its unit tests (§8) | `db.ts`, the fixture contents, all of `platform/mockLiff.ts` |
-| `src/data/types.ts` + `rates.ts` + `bookingRef.ts` (§6) | `DemoBar`, `FixtureBadge`, `clock.ts` |
-| `CourtMatrix` / `SlotCell` accessibility semantics (§8.6) | Everything in `screens/` — treat as scaffolding around the components |
+| `src/features/booking/selection.ts` (the state machine) + its unit tests (§8) | `db.ts` and the fixture contents |
+| `src/data/types.ts` + `rates.ts` + `booking-ref.ts` (§6) | `clock.ts`'s demo scaffolding (`defaultDemoDate`, `advance`) |
+| `CourtMatrix` / `SlotCell` accessibility semantics (§8.6) | Every `features/*/pages/*/index.tsx` — treat as scaffolding around the components |
 
 **Where the line falls, and why it falls there.** Those four survive because they encode *decisions*, not pixels. The state machine is thirteen behavioural rules that a backend will have to re-validate and that no mockup prototypes; getting them wrong later means re-litigating them with a customer in the room. The tokens are the only reconciliation of 48 divergent inline Tailwind configs that will ever be done. The types are the API contract — Plan 02's first task is to make a server return exactly `Booking`. The grid a11y is the one thing in this product that is genuinely hard to retrofit, because it changes the DOM shape of the core component. Everything else is markup, and markup is cheap to redo once the data underneath it is right.
 
@@ -143,7 +158,9 @@ The demo has three jobs, in priority order:
 
 ### Done condition
 
-> **A venue owner, handed an unlocked phone with a link and no explanation, books คอร์ท 3 on a Friday evening for 19:00–21:00 at ฿440 — grid → review → PromptPay → confirmation → "การจองของฉัน" — without being told what to tap; nothing on any screen contradicts anything on any other screen; and `useSlotSelection.ts`, `types.ts`, `rates.ts` and `tailwind.config.js` are merged as-is into Plan 02 without edits.**
+> **A venue owner, handed an unlocked phone with a link and no explanation, books คอร์ท 3 on a Friday evening for 19:00–21:00 at ฿440 — grid → review → confirmation → "การจองของฉัน" — without being told what to tap; nothing on any screen contradicts anything on any other screen; and `selection.ts`, `types.ts`, `rates.ts` and `tailwind.config.js` are merged as-is into Plan 02 without edits.**
+
+*Revision 5 removed the PromptPay step from this sentence: the booking ends at รอชำระที่หน้าร้าน.*
 
 Both clauses are required. The first alone gets a throwaway. The second alone gets a library nobody has validated.
 
@@ -196,11 +213,13 @@ Both clauses are required. The first alone gets a throwaway. The second alone ge
 - **~20 lines of instrumentation** (`lib/instrument.ts`, §4.9). The demo's stated first job is to *learn* (§12 step 3: "watch them, do not coach") and revision 1's only instrument was one person's memory.
 - **A 2-hour, non-blocking LIFF spike** on the last day (§10, Day 16). The largest unknown in this product is whether the flow survives `liff.init()`, the login redirect round-trip and `shareTargetPicker`. Discovering that in Plan 04 with a backend also in flight is the expensive version.
 
+> **As built (2026-10-06).** Revision 5 cut the QR, the card chip, the save-to-gallery affordance and the LIFF spike. Of the rest: the `สนามพาร์ทเนอร์` pill, the `เร็ว ๆ นี้` sheets, the waitlist toggle, the instrumentation and `DemoBar` were not built; the quote debounce shipped at 250 ms, not 0 (§8.5); `?fast=1` is the only query parameter the app reads; loading skeletons were built on `/book`, `/book/success`, `/bookings` and the `/` availability card. Cash at the counter is now the *only* method, not one of two. §7–§9 list what shipped.
+
 ---
 
 ## 3. Decisions this demo settles
 
-Every row below is settled **by the act of building** — the demo cannot render two prices, so it forces an answer. Each is a data or config edit to revert, which is why settling now is cheap. Output goes to `DECISIONS.md` at the repo root and feeds back into `register.md`.
+Every row below is settled **by the act of building** — the demo cannot render two prices, so it forces an answer. Each is a data or config edit to revert, which is why settling now is cheap. Output was planned for a `DECISIONS.md`, which was not written; this section and the Appendix are the record, and they feed back into `register.md`.
 
 ### 3.1 Venue facts and pricing
 
@@ -214,20 +233,20 @@ Every row below is settled **by the act of building** — the demo cannot render
 | **D06** | Court surfaces and climate? | **One table, six rows** (§6.3). Court 3 = ยาง BWF + แอร์; Courts 5–6 = พัดลม. Court 3 alone appears as ยางเขียว / ปาร์เกต์ / พื้นยาง BWF / พื้นยางเกรด BWF across four files. Marked `assumed` until the venue confirms. | A fixture table. Confirming it is a one-line edit per court. |
 | **D07** | Venue master record? | **One `VENUE` object.** One phone: `02-000-0000` / `tel:020000000` (a sample number, decision 9). The mockups ship three numbers, and reuse one of them as the *user's* emergency contact field. | Six call affordances read one field. |
 | **D08** | Ratings and reviews in v1? | **No.** Capsule cut. | Deleting is free. |
-| **D09** | Booking reference format? | **`WC-YYMM-NNNN`**, per-venue-per-month running sequence. Six competing schemes live in the mockups. Not random: a 4-char base32 suffix is a ~1.05M space and `critique.md` #14 shows the "zero collisions in 1M draws" criterion is unpassable there. | 12 lines in `bookingRef.ts`. Becomes a Postgres sequence per `(venue_id, yymm)`. |
+| **D09** | Booking reference format? | **`WC-YYMM-NNNN`**, per-venue-per-month running sequence. Six competing schemes live in the mockups. Not random: a 4-char base32 suffix is a ~1.05M space and `critique.md` #14 shows the "zero collisions in 1M draws" criterion is unpassable there. | 12 lines in `booking-ref.ts`. Becomes a Postgres sequence per `(venue_id, yymm)`. |
 
 ### 3.2 Booking rules
 
 | ID | Question | Answer for Plan 01 | Why cheap to settle now |
 |---|---|---|---|
-| **D15** | How long is a slot held? | **15 minutes** (ADR-001 §3.3), seeded from `VENUE.holdMinutes`, counted from a wall-clock deadline. Not the mockup's `9:42` seed, not `_3`'s `15 นาที` chip. | One integer. Copy interpolates it. |
+| **D15** | How long is a slot held? | **15 minutes** (ADR-001 §3.3), seeded from `VENUE.holdMinutes`, counted from a wall-clock deadline. Not the mockup's `9:42` seed, not `_3`'s `15 นาที` chip. *As built: the hold left the flow with Revision 5; `VENUE.holdMinutes` and `api.createHold` remain for Plan 04.* | One integer. Copy interpolates it. |
 | **D16** | Cancellation window? | **3 hours**, 100% refund. Mockups say 3 in two places; only the PRD says 4. | One integer, interpolated into two copy strings. No screen types the number. |
-| **D19′** | Payment methods in v1? | **PromptPay + cash at counter.** *Overrides D19 (online only) per `critique.md` #1.* Card is a disabled `เร็ว ๆ นี้` chip. | One extra radio, one extra `BookingStatus` variant. |
+| **D19′** | Payment methods in v1? | **PromptPay + cash at counter.** *Overrides D19 (online only) per `critique.md` #1.* Card is a disabled `เร็ว ๆ นี้` chip. *As built: counter only, after Revision 5 — one radio option, selected by default.* | One extra radio, one extra `BookingStatus` variant. |
 | **D21** | Max hours, contiguity, how far ahead? | **1–3 contiguous hours, 14 days ahead.** Contiguity is not enforced by a rule — it is unrepresentable in the `Selection` type (§8.1). The hour count is `venue.minBookingHours`/`maxBookingHours`, read as data, not as `1` and `3` (§8.2 R14). | Two fields on `VENUE`; the type does the rest. |
-| **D23′** | Waitlist? | **Toggle in the demo, feature stays cut.** Stores intent in `localStorage`, queues nothing, and says so. | One boolean. |
-| **NEW-1** | Slot taken while the user is deciding? | Build the conflict path: a modal on `/book/review`, triggerable from `DemoBar`. **This is why the hold is created at the *review* CTA and not at the *grid* CTA** — see §8.4. | The single most likely real-world failure of this flow; ~30 lines now, a re-architecture later. |
+| **D23′** | Waitlist? | **Toggle in the demo, feature stays cut.** Stores intent in `localStorage`, queues nothing, and says so. *As built: not built.* | One boolean. |
+| **NEW-1** | Slot taken while the user is deciding? | Build the conflict path: a modal on `/book/review`, triggerable from `DemoBar`. **This is why the hold is created at the *review* CTA and not at the *grid* CTA** — see §8.4. *As built: `api.confirmBooking` throws `SlotTakenError` and the review screen shows an assertive toast and returns to the grid; no modal, no trigger.* | The single most likely real-world failure of this flow; ~30 lines now, a re-architecture later. |
 | **NEW-4** | Is the hour you are standing in still sellable? | **No. The hour containing `now` is `past`; the first sellable hour is `currentHour + 1`.** A venue that sells 19:00–20:00 at 19:35 for ฿220 gets a phone call, not a booking. Flagged `assumed` — it is a venue decision, and a real one. | One comparison in `availability.ts`; §8.4's clock rule reads it. |
-| **NEW-5** | Six courts on one screen, or a legible price in each cell? | **Six on one screen: the cell width is a token, `--wc-slot-w`, set to 62px.** 6 × 62 + a 56px time axis = 428px, inside the 430px LIFF clamp, so the whole venue fits a 390px phone with no horizontal scroll. Revision 1's 95px cells were 634px wide — half the venue permanently off-screen, worse inside LINE. Decide the final value **with the owner in the room**; reverting to 95px + scroll is one token. | One token, one line in `CourtMatrix`. |
+| **NEW-5** | Six courts on one screen, or a legible price in each cell? | **Six on one screen: the cell width is a token, `--wc-slot-w`, set to 62px.** 6 × 62 + a 56px time axis = 428px, inside the 430px LIFF clamp, so the whole venue fits a 390px phone with no horizontal scroll. Revision 1's 95px cells were 634px wide — half the venue permanently off-screen, worse inside LINE. Decide the final value **with the owner in the room**; reverting to 95px + scroll is one token. *As built: the matrix is `min-w-[336px]`; all six courts fit with no horizontal scroll.* | One token, one line in `CourtMatrix`. |
 | **NEW-6** | Can a customer take two courts for the same two hours? | **Not in Plan 01's UI — but it is representable in the type.** `Selection.courtIds` is an array; the grid writes exactly one entry and the drawer renders one court. A ก๊วน of 8–12 routinely takes 2–3 courts, `_2`'s own contact card asks `ต้องการจัดก๊วนด่วน หรือเหมาคอร์ท?`, and this is the most likely question at §12 step 5. Deciding it now is free; deciding it after `types.ts` is Plan 02's API contract is not. | An array instead of a scalar in the one file that is not allowed to change later (§6.1). |
 
 ### 3.3 Design system
@@ -239,11 +258,11 @@ Every row below is settled **by the act of building** — the demo cannot render
 | **D54** | Radius scale? | The **compressed shipped scale** — `rounded-lg` is **8px**, not the 16px `DESIGN.md` prose claims. | Config values. |
 | **D55** | Dark mode? | **No.** `darkMode` omitted from the config entirely. | Not building it is free; leaving dead config in is not. |
 | **D57′** | Accessibility bar? | **WCAG 2.1 AA on the booking flow**, with five items CI-gated (§11.2). `focus-visible` appears **0 times in 48 files**; `user-scalable=no` in 38. | Retrofitting a11y into the grid means changing its DOM shape. Doing it once, now, is the only cheap moment. |
-| **D59** | Nav tabs? | **One `navConfig.ts`.** Four entries declared, **two rendered** (`จองคอร์ท`, `ประวัติจอง`). Typo `จองคอร์ด` → `จองคอร์ท` fixed at source (23 of 48 files). Active state derived from the router, never from a `DOMContentLoaded` script. | See D61′. |
-| **D61′** | The two tabs that lead nowhere? | **Not rendered in Plan 01**, but present in `navConfig.ts` with `enabled: false`. A greyed tab in a sales demo invites a question about unscoped work. | Restoring them is flipping one boolean. |
-| **NEW-2** | Which loading/error states get built? | **Three: grid skeleton, grid error + retry, payment "กำลังตรวจสอบยอดเงิน…".** Not six others. | See §3.5. |
+| **D59** | Nav tabs? | **One `layouts/nav-config.ts`.** Four entries declared, **two rendered** (`จองคอร์ท`, `ประวัติจอง`). Typo `จองคอร์ด` → `จองคอร์ท` fixed at source (23 of 48 files). Active state derived from the router, never from a `DOMContentLoaded` script. | See D61′. |
+| **D61′** | The two tabs that lead nowhere? | **Not rendered in Plan 01**, but present in `nav-config.ts` with `enabled: false`. A greyed tab in a sales demo invites a question about unscoped work. | Restoring them is flipping one boolean. |
+| **NEW-2** | Which loading/error states get built? | **Three: grid skeleton, grid error + retry, payment "กำลังตรวจสอบยอดเงิน…".** Not six others. *As built: grid skeleton and grid error built (the error is unreachable while the fake API never rejects); the payment state left with Revision 5; skeletons were also added on `/book/success`, `/bookings` and `/`.* | See §3.5. |
 | **NEW-3** | Fonts and icons? | Self-hosted `@fontsource` subsets (Thai + Latin). Icons: **Material Symbols Outlined copied from shadcn.io/icons** into `src/components/icons/`, committed, behind a typed `Icon.tsx`. Not the webfont, not lucide, no runtime icon package. | See §4.4–4.5. The mockups were approved with Material Symbols; changing family is a redesign, not a dependency swap. |
-| **NEW-8** | shadcn/ui for base components? | **No.** One Radix primitive — `@radix-ui/react-dialog` — for `Modal`; everything else hand-written on the M3 tokens, with a shared `useRovingFocus` hook. | See §4.5. It is a `package.json` decision on Day 1; after 30 components have been styled against it, it is not. |
+| **NEW-8** | shadcn/ui for base components? | **No.** One Radix primitive — `@radix-ui/react-dialog` — for `Modal`; everything else hand-written on the M3 tokens, with a shared `useRovingFocus` hook. *As built: superseded by Revision 6 — shadcn adopted from the 2.x registry (§4.5).* | See §4.5. It is a `package.json` decision on Day 1; after 30 components have been styled against it, it is not. |
 | **NEW-7** | Type scale for Thai? | **A line-height floor of 1.5–1.6 at every size ≤ 16px.** The M3 scale the mockups inherited is a Latin ratio set (11px/14px, 12px/16px) applied to a script that stacks สระ + วรรณยุกต์ above the x-height and descends below it. At 1.27–1.33 those clip in Noto Sans Thai — in the grid, the legend and the chips, which are exactly the sizes this product lives at. | Twelve `lineHeight` values in `tailwind.config.js` (§5.1). Nothing else changes. |
 
 ### 3.4 Copy fixes applied at source
@@ -258,9 +277,9 @@ Every row below is settled **by the act of building** — the demo cannot render
 | 2 | **Freeze the demo date, or use the real clock?** | **Real clock, relative day offsets.** | The frozen-date argument was that ฿440 needs a weekday evening. It does not: 19:00–21:00 is peak on **all seven days**, because weekends are peak all day. So the canonical spine survives free. Against freezing: a demo shown in three months displays last year's date, and a venue owner reads that as "this is old." One piece of scaffolding is kept — `defaultDemoDate()` opens the grid on tomorrow when the local clock is already past 18:00, so the 19:00 story never lands in the past (§6.2). |
 | 3 | **Hash or browser router?** | **`createHashRouter`.** | Works on any static host with no rewrite config — a Netlify drop, GitHub Pages, `python -m http.server` on a laptop at the venue, or a `file://` copy. A history-mode 404 on a deep link mid-pitch is unrecoverable in the room. One line to switch later. **Assumption to verify, not a fact:** revision 1 asserted that "LIFF appends its own query params and a hash route survives them." `liff.state` redirect handling and fragment routes have a history of interacting badly, and nobody here has tested it. It is checked on **Day 1** from a real LINE chat (§10) and again in the Day 16 spike; if it does not hold, the answer is a `liff.state` unwrapper in the router before any route matches, which is what Plan 04 does anyway. |
 | 4 | **Two nav tabs, three, or four?** | **Two rendered, four declared.** | See D61′. |
-| 5 | **Two synced scroll panes, or a real table?** | **A `<table>` carrying `role="grid"`** (§8.6) — `role="row"` / `role="columnheader"` / `role="rowheader"` / `role="gridcell"` with `aria-rowindex` and `aria-colindex`, `border-separate; border-spacing: 0`, sticky `<thead>` and sticky first column, and **one** scroll container. | The two-pane approach requires a scroll listener mirroring `scrollLeft`, which drifts, and it gives cells *no* row/column header association — a screen-reader user hears "เต็มแล้ว" with no idea which court or hour. A table gives that association for free and deletes the listener. **But a plain data table is the wrong construct here:** in browse mode VoiceOver and NVDA *intercept* the arrow keys for their own table navigation, so §8.6's key table never fires for the exact user it was written for. `role="grid"` is the one construct that keeps the header association *and* switches AT to application semantics. **Three implementation facts revision 1 did not acknowledge, all of which cost time** (which is why Day 2 is now a spike, §10): `position: sticky` fails inside any ancestor with `overflow: hidden` — both mockup matrix cards have it, 5 occurrences in `2.` and 3 in `_1`; `border-collapse: collapse` drops borders on sticky cells, so `border-separate` + `border-spacing: 0` is mandatory; and a sticky `<thead>` and a sticky first column **cannot live in two different scroll containers** — page-scroll for one and `overflow-x-auto` for the other means one element must stick to two things, which is impossible. The matrix therefore owns a single `overflow: auto` box that scrolls in both axes, with its own height budget (§9). |
+| 5 | **Two synced scroll panes, or a real table?** | **A `<table>` carrying `role="grid"`** (§8.6) — `role="row"` / `role="columnheader"` / `role="rowheader"` / `role="gridcell"` with `aria-rowindex` and `aria-colindex`, `border-separate; border-spacing: 0`, sticky `<thead>` and sticky first column, and **one** scroll container. *As built: one `div role="grid"` with ARIA rows, headers and indices instead of a `<table>`; the matrix fits the column, so there is no sticky header or axis and no scroll container (§8.6).* | The two-pane approach requires a scroll listener mirroring `scrollLeft`, which drifts, and it gives cells *no* row/column header association — a screen-reader user hears "เต็มแล้ว" with no idea which court or hour. A table gives that association for free and deletes the listener. **But a plain data table is the wrong construct here:** in browse mode VoiceOver and NVDA *intercept* the arrow keys for their own table navigation, so §8.6's key table never fires for the exact user it was written for. `role="grid"` is the one construct that keeps the header association *and* switches AT to application semantics. **Three implementation facts revision 1 did not acknowledge, all of which cost time** (which is why Day 2 is now a spike, §10): `position: sticky` fails inside any ancestor with `overflow: hidden` — both mockup matrix cards have it, 5 occurrences in `2.` and 3 in `_1`; `border-collapse: collapse` drops borders on sticky cells, so `border-separate` + `border-spacing: 0` is mandatory; and a sticky `<thead>` and a sticky first column **cannot live in two different scroll containers** — page-scroll for one and `overflow-x-auto` for the other means one element must stick to two things, which is impossible. The matrix therefore owns a single `overflow: auto` box that scrolls in both axes, with its own height budget (§9). |
 | 6 | **`disabled` or `aria-disabled` on booked cells?** | **`aria-disabled="true"`, never `disabled`.** | `disabled` removes the cell from the tab order. With a roving-tabindex grid, that means a screen-reader user arrowing down a column silently *skips* the booked hours and cannot tell a full evening from an empty one. Today `_1` renders booked cells as bare `<div>`s (not focusable, not announced) and `2.` renders them as fully-enabled `<button>`s with no disabled semantics at all — both wrong, in opposite directions. |
-| 7 | **Build loading/error states, or set latency to zero?** | **Build three, cut six.** | `api.ts` returns Promises with 120–350 ms of deliberate latency, so the seam is real. But only the states that are part of the *story* get built: the grid skeleton (the first thing anyone sees), the grid error + retry (the only recoverable failure), and payment verification (the beat where the venue owner is watching for the confirmation). Offline banners, stale-data footers and skeletons on the profile and bookings screens are cut — they are plumbing, and plumbing that nobody in the room will look at is the cheapest thing to defer. |
+| 7 | **Build loading/error states, or set latency to zero?** | **Build three, cut six.** *As built: the latency is real (§6.6); the grid skeleton and error were built, plus skeletons on three more screens (§9).* | `api.ts` returns Promises with 120–350 ms of deliberate latency, so the seam is real. But only the states that are part of the *story* get built: the grid skeleton (the first thing anyone sees), the grid error + retry (the only recoverable failure), and payment verification (the beat where the venue owner is watching for the confirmation). Offline banners, stale-data footers and skeletons on the profile and bookings screens are cut — they are plumbing, and plumbing that nobody in the room will look at is the cheapest thing to defer. |
 | 8 | **Court metadata table?** | **The AC-vs-fan split** (§6.3): Court 3 = ยาง BWF + แอร์, Court 4 = ปาร์เกต์, Courts 5–6 = พัดลม. | The most operationally meaningful distinction a customer chooses on, and it makes the grid header row carry information rather than repeat itself. Court 3's BWF label is what four screens already depend on. Flagged `assumed` pending D06. |
 
 ---
@@ -284,14 +303,14 @@ The hard part of this demo is one stateful component: a 6×13 matrix with contig
 
 **No state library.** Two mechanisms, each doing one job:
 
-- **Flow state** — the in-progress selection, contact phone, payment method, hold deadline and `ownHoldId`. Created on `/book`, read by three screens, must survive a refresh mid-pitch. → `useReducer` + Context in `BookingFlowProvider.tsx`, mirrored to `localStorage`. ~120 lines.
-- **"Server" state** — venue, courts, rate rules, availability blocks, bookings. Read by six screens, mutated by checkout and by hold expiry. → a module store with `useSyncExternalStore` in `data/db.ts`. ~60 lines, zero deps, no tearing.
+- **Flow state** — the in-progress selection (`draft`), contact phone and payment method. Created on `/book`, read by three screens, must survive a refresh mid-pitch. → `useReducer` + Context in `app/providers/booking-flow-provider.tsx`, mirrored to `localStorage` under `wc.flow.v1`. ~60 lines. *(The hold deadline and `ownHoldId` left with Revision 5.)*
+- **"Server" state** — venue, courts, rate rules, availability blocks, bookings. Read by six screens, mutated by checkout and by hold expiry. → a module store with `useSyncExternalStore` in `data/db.ts`, persisted under `wc.db.v1`. ~70 lines, zero deps, no tearing.
 
 **Rejected:** Redux Toolkit (ceremony for ~200 lines of state). Zustand/Jotai (genuinely fine — rejected only because `useSyncExternalStore` ships with React and does the identical job here). **TanStack Query** — it is a *server cache*, and there is no server; adopting it means writing query keys and invalidation rules against a synchronous object literal, which teaches the codebase nothing true. But `data/api.ts` is an async facade with real latency precisely so Query can be dropped in later without touching a screen.
 
 **MSW is rejected** for the same shape of reason, plus one worse: it puts a service worker inside the LINE in-app webview — a real registration/scope/update failure surface — for zero benefit while there is no network code. Revisit when `api.ts` issues real requests; it is the right tool *then*.
 
-**`localStorage`, not `sessionStorage`** *(reversed in revision 2)*. Revision 1 chose session scope so "a second person opening the same link gets clean canonical state." That benefit is already delivered by an explicit reset, and the cost is the failure that actually matters in the room: **LINE can spawn a fresh webview when the chat is reopened**, and a new webview is a new session — so the presenter who backgrounds LINE to answer a message loses the in-progress booking mid-pitch. Losing state you were mid-way through is a far worse demo failure than a second person seeing a booking the first person made. So: `localStorage`, namespaced `wc.*`, cleared by the `รีเซ็ตข้อมูลสาธิต` control in `DemoBar` (and by `?demo=1` + reset before handing the phone on). Every read and write is wrapped in try/catch and falls back to memory-only, because some webviews and private modes throw on access (§15 #10).
+**`localStorage`, not `sessionStorage`** *(reversed in revision 2)*. Revision 1 chose session scope so "a second person opening the same link gets clean canonical state." That benefit is already delivered by an explicit reset, and the cost is the failure that actually matters in the room: **LINE can spawn a fresh webview when the chat is reopened**, and a new webview is a new session — so the presenter who backgrounds LINE to answer a message loses the in-progress booking mid-pitch. Losing state you were mid-way through is a far worse demo failure than a second person seeing a booking the first person made. So: `localStorage`, namespaced `wc.*` (`wc.db.v1` for the store, `wc.flow.v1` for the flow). *The planned `รีเซ็ตข้อมูลสาธิต` control was not built: `resetDb()` exists and only the tests call it, so before handing the phone on, clear the site data.* Every read and write is wrapped in try/catch and falls back to memory-only, because some webviews and private modes throw on access (§15 #10).
 
 ### 4.3 Tailwind pinned to **3.4.17** — not v4
 
@@ -315,30 +334,31 @@ import '@fontsource/noto-sans/latin-600.css';
 import '@fontsource/noto-sans/latin-700.css';
 ```
 
-*Corrected on setup (2026-09-15): the `-variable` packages ship per-axis files (`wght.css`), not per-subset files — `thai.css` and `latin.css` do not exist. `wght.css` declares every subset behind `unicode-range`, so the browser still downloads only the Thai and Latin files a page uses.* ≈78 KB woff2 actually fetched, fingerprinted and long-cached by Vite. `<link rel="preload" as="font" crossorigin>` for the Thai face only.
+*Corrected on setup (2026-09-15): the `-variable` packages ship per-axis files (`wght.css`), not per-subset files — `thai.css` and `latin.css` do not exist. `wght.css` declares every subset behind `unicode-range`, so the browser still downloads only the Thai and Latin files a page uses.* ≈78 KB woff2 actually fetched, fingerprinted and long-cached by Vite. *No font preload shipped:* Vite fingerprints the woff2 files, so a hand-written `<link rel="preload">` in `index.html` would point at a name that changes every build. Add one through a Vite plugin if the device pass shows a Thai reflow on cold open.
 
-### 4.5 Components and icons — one Radix primitive, Material Symbols from shadcn.io
+### 4.5 Components and icons — shadcn 2.x on our tokens, Material Symbols from shadcn.io
 
-#### Components: shadcn/ui is not adopted
+#### Components: shadcn/ui from the Tailwind 3 registry (Revision 6)
 
-shadcn/ui is a generator that copies component source into the repo. It was evaluated against this plan and rejected. **One** Radix primitive underneath it is adopted. Each reason below was checked against the actual packages in the local npm cache.
+*Revision 3 rejected shadcn/ui; Revision 6 tested it and adopted it from the 2.x registry. This subsection describes what shipped. The evidence for both calls is in those two revisions at the top of this file.*
 
-| Finding | Evidence | Consequence |
+| Primitive in `src/components/ui/` | Origin | Built on |
 |---|---|---|
-| **The shadcn CLI favours Tailwind v4.** | `shadcn` 4.7.0: 2 `tailwindVersion==="v3"` branches vs 7 for `"v4"`. Its `tailwind-merge` dependency is on the v3 line, which targets Tailwind v4; Tailwind 3 needs `tailwind-merge` v2. | Copying a component and installing its helpers on this repo gives wrong class merges with **no error**. That is the same silent failure §4.3 pins Tailwind 3.4.17 to avoid. |
-| **The token names collide.** | shadcn emits `bg-secondary text-secondary-foreground`. Here `secondary` is `#835418`, a dark brown; `*-foreground` tokens do not exist in the M3 set. | A pasted shadcn file renders a brown button and references classes that compile to nothing. |
-| **shadcn's Toast is deprecated.** | The 4.7.0 bundle marks `toast` as `deprecatedBy:"sonner"`. | §8.6 needs two live regions at different politeness levels. One sonner toaster is not that. `Toast` stays hand-written. |
-| **Radix Tabs and RadioGroup skip disabled items.** | `@radix-ui/react-roving-focus` (1.1.11, 1.1.13, 1.1.15): `getItems().filter((item) => item.focusable)`. Tabs and RadioGroup pass `focusable: !disabled`. | A disabled item drops out of arrow-key order — the exact defect §3.5 #6 rejects. `DateStrip` has disabled past days that must stay reachable, so it cannot use Radix. A hand-written `useRovingFocus` (~40 lines) is needed regardless, and `SegmentedTabs` and `PaymentMethodCard` reuse it. |
-| **Radix Dialog is worth its weight.** | `grep 'role="dialog"'` across all 48 mockups returns **0**. Plan 01 has at least four modal surfaces: the cancel confirmation, the conflict modal on `/book/review`, and the `เร็ว ๆ นี้` sheets. `@radix-ui/react-dialog` ships **no CSS and no class names**. | Focus trap, focus restore, Escape, outside-click, inert siblings and scroll lock (with pinch-zoom allowed) for ~12 KB gzipped, with no conflict with Tailwind 3.4.17, the tokens or the Thai type floor. |
+| `button` · `card` · `badge` · `input` · `label` · `radio-group` · `separator` · `skeleton` | `shadcn@2.1.8` (Tailwind 3 output), adapted: variants rewritten to our tokens, 48px minimum targets | `cva`, `tailwind-merge` v2, and `@radix-ui/react-slot` / `-label` / `-radio-group` / `-separator` where shadcn uses them |
+| `modal` | Ours | `@radix-ui/react-dialog` — focus trap, focus restore, Escape, outside-click, inert siblings |
+| `sheet` | Ours | Plain `div`. **Non-modal on purpose** |
+| `toast` · `spinner` · `copy-button` · `empty-state` · `segmented-tabs` · `icon` | Ours | `segmented-tabs` uses `lib/use-roving-focus.ts` |
 
-**Adopted:** `@radix-ui/react-dialog` → `components/ui/Modal.tsx`, and `@radix-ui/react-slot` → `Button asChild`, so one styled `Button` can render a React Router `<Link>`.
+`components.json` is committed so the shadcn CLI keeps working against `tailwind.config.js` and `src/styles/index.css`. `src/lib/utils.ts` extends `tailwind-merge` with our `font-size` group (see Revision 6 for why that matters).
 
 **Rules for everyone writing components:**
 
-- **Never run `npx shadcn init` or `npx shadcn add` against this repo.** shadcn source may be read as a reference for composition; it is never pasted verbatim. §11.2 blocks `tailwind-merge`, `class-variance-authority`, `sonner` and `lucide-react`.
-- **`Sheet` (#9) and `SelectionDrawer` (#21) are non-modal.** No focus trap, no scroll lock, never built on Dialog. The user keeps scrolling and tapping the grid while the drawer is up. shadcn's own `Sheet` *is* a Dialog, which is why `shadcn add sheet` would silently break the core interaction. §11.2 blocks the import.
+- **Add from the 2.x registry only** (`npx shadcn@2.1.8 add …`). The current registry emits Tailwind v4 classes that compile to nothing against 3.4.17, silently. After pasting, rewrite `bg-secondary`/`text-secondary-foreground` to our surface tokens — `secondary` here is the peak-price brown.
+- **`tailwind-merge` stays on v2; `sonner` and `lucide-react` never enter `package.json`.** `scripts/gate.mjs` fails the build on any of the three (§11.2).
+- **`Sheet` and `SelectionDrawer` are non-modal.** No focus trap, no scroll lock, never built on Dialog. The user keeps scrolling and tapping the grid while the drawer is up. shadcn's own `Sheet` *is* a Dialog, which is why `shadcn add sheet` would silently break the core interaction.
+- **Radix Tabs is not used**, because it drops disabled items from arrow-key order (`focusable: !disabled`) and `DateStrip` has past days that must stay reachable. `DateStrip` and `SegmentedTabs` use the hand-written `useRovingFocus`. Radix `RadioGroup` is used on `/book/review`, where no option is ever disabled.
 - **`Dialog.Portal` renders into `document.body` and escapes `.liff-column`.** `Modal`'s content wrapper carries its own `max-w-liff mx-auto`, the same rule as every other `fixed` element.
-- **Escape hatch for old Android WebViews:** Radix only locks body scroll inside `Dialog.Overlay`. If that fights `overscroll-behavior` in the LINE webview during the Day 15 device pass, render a plain backdrop `<div>` instead of `Dialog.Overlay`. The focus trap, inert siblings and focus restore all remain.
+- **Escape hatch for old Android WebViews:** Radix only locks body scroll inside `Dialog.Overlay`. If that fights `overscroll-behavior` in the LINE webview, render a plain backdrop `<div>` instead of `Dialog.Overlay`. The focus trap, inert siblings and focus restore all remain.
 
 #### Icons: Material Symbols from shadcn.io, copied in
 
@@ -348,30 +368,44 @@ The mockups use **Material Symbols Outlined** everywhere, and the approved scree
 
 **How icons get into the repo:**
 
-1. Open the icon on shadcn.io (Material Symbols set, **Outlined** style — not Rounded or Sharp), copy the React component, and paste it into `src/components/icons/<PascalName>.tsx`.
+1. Open the icon on shadcn.io (Material Symbols set, **Outlined** style — not Rounded or Sharp), copy the React component, and paste it into `src/components/icons/<glyph-name>.tsx`, named after the Material Symbols glyph in kebab-case (`sports-tennis.tsx`, `sports-tennis-fill.tsx`). Export it from `components/icons/index.ts`.
 2. Normalise each file on paste: `fill="currentColor"`, no hard-coded `width`/`height`, spread `SVGProps<SVGSVGElement>`, `aria-hidden` by default.
-3. Register it once in `Icon.tsx`:
+3. Register it once in `components/ui/icon.tsx` (excerpt of the committed file):
 
 ```tsx
-// src/components/ui/Icon.tsx
-import type { SVGProps } from 'react';
-import { SportsTennis, SportsTennisFill, EventAvailable, EventAvailableFill /* … */ } from '@/components/icons';
+// src/components/ui/icon.tsx
+import type { ComponentType, SVGProps } from 'react';
+import * as I from '@/components/icons';
+
+type Glyph = ComponentType<SVGProps<SVGSVGElement>>;
 
 const ICONS = {
-  sports_tennis: { outline: SportsTennis, fill: SportsTennisFill },
-  event_available: { outline: EventAvailable, fill: EventAvailableFill },
-  close: { outline: Close },
+  home: { outline: I.Home },
+  sports_tennis: { outline: I.SportsTennis, fill: I.SportsTennisFill },
+  event_available: { outline: I.EventAvailable, fill: I.EventAvailableFill },
   // … one entry per glyph in the checklist below
 } as const;
 
 export type IconName = keyof typeof ICONS;   // a typo is a TypeScript error
+export const ICON_NAMES = Object.keys(ICONS) as IconName[];
+export type IconSize = 14 | 16 | 18 | 20 | 24 | 28 | 32 | 36;
 
-export function Icon({ name, size = 24, filled = false, label, ...rest }:
-  { name: IconName; size?: number; filled?: boolean; label?: string } & SVGProps<SVGSVGElement>) {
-  const entry = ICONS[name];
-  const Glyph = filled && 'fill' in entry ? entry.fill : entry.outline;
-  return <Glyph width={size} height={size}
-    {...(label ? { role: 'img', 'aria-label': label } : { 'aria-hidden': true })} {...rest} />;
+type IconProps = Omit<SVGProps<SVGSVGElement>, 'name'> & {
+  name: IconName;
+  size?: IconSize;
+  /** Use the filled glyph when one exists (e.g. the active bottom-nav tab). */
+  filled?: boolean;
+  /** Give the icon an accessible name. Without it the icon is decorative. */
+  label?: string;
+};
+
+export function Icon({ name, size = 24, filled = false, label, ...rest }: IconProps) {
+  const entry: { outline: Glyph; fill?: Glyph } = ICONS[name];
+  const Glyph = filled && entry.fill ? entry.fill : entry.outline;
+  const a11y = label
+    ? { role: 'img' as const, 'aria-label': label, 'aria-hidden': false }
+    : { 'aria-hidden': true };
+  return <Glyph width={size} height={size} {...a11y} {...rest} />;
 }
 ```
 
@@ -396,13 +430,7 @@ export function Icon({ name, size = 24, filled = false, label, ...rest }:
 
 **Can be skipped for Plan 01:** `star` — it only appears in the `4.8 (142 รีวิว)` capsule, which §2.2 cuts. `sell` and `badge` belong to the two nav tabs that are declared but hidden (D61′); copy them anyway, so enabling a tab later stays a one-boolean change.
 
-**Check before Day 1 (each takes a few minutes):**
-
-- [ ] On shadcn.io, confirm the Material Symbols set offers the **Outlined** style and how outlined vs filled variants are named (for example, whether the filled form is the base name and outlined has an `-outline` suffix). Name the files by what they *are*, not by the site's suffix.
-- [ ] Confirm all 69 glyphs exist in the set. Any missing one falls back to Google's Material Symbols SVG source, pasted the same way.
-- [ ] Put three pasted icons (`sports_tennis`, `calendar_month`, `qr_code_2`) next to the mockup screenshots at 24px and confirm the stroke weight matches (Material Symbols default weight 400, grade 0, optical size 24).
-- [ ] Confirm the copied component is plain inline SVG with no runtime import (for example, no `@iconify/react`). If it imports a runtime, strip it to the `<svg>` before committing.
-- [ ] `npm view @radix-ui/react-dialog version` and `npm view @radix-ui/react-slot version`, then pin what it returns in §4.6.
+**Done on Day 1.** Every glyph in the checklist exists in the shadcn.io set and is committed, along with the four filled variants, as plain inline SVG with no runtime import. `components/ui/icon.test.ts` checks that all 69 glyphs are registered and that filled variants exist exactly where the UI uses them.
 
 ### 4.6 `package.json`
 
@@ -410,146 +438,188 @@ export function Icon({ name, size = 24, filled = false, label, ...rest }:
 {
   "name": "winner-court-liff",
   "private": true,
+  "version": "0.0.0",
   "type": "module",
-  "engines": { "node": ">=20.11" },
+  "engines": {
+    "node": ">=20.11"
+  },
+  "packageManager": "pnpm@10.9.0",
   "scripts": {
     "dev": "vite --host",
-    "build": "tsc -b && vite build",
+    "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host",
     "test": "vitest run",
     "lint": "eslint src --max-warnings 0",
     "typecheck": "tsc --noEmit",
-    "gate": "node scripts/gate.mjs"
+    "gate": "node scripts/gate.mjs",
+    "check": "npm run gate && npm run typecheck && npm run lint && npm test && npm run build"
   },
   "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-router-dom": "^6.28.0",
-    "@radix-ui/react-dialog": "^1.1.19",
-    "@radix-ui/react-slot": "^1.3.0",
-    "@fontsource-variable/inter": "^5.1.0",
-    "@fontsource-variable/noto-sans-thai": "^5.1.0",
-    "@fontsource/noto-sans": "^5.1.0"
+    "@fontsource-variable/inter": "5.3.0",
+    "@fontsource-variable/noto-sans-thai": "5.3.0",
+    "@fontsource/noto-sans": "5.3.0",
+    "@radix-ui/react-dialog": "1.1.23",
+    "@radix-ui/react-label": "2.1.7",
+    "@radix-ui/react-radio-group": "1.3.8",
+    "@radix-ui/react-separator": "1.1.7",
+    "@radix-ui/react-slot": "1.3.3",
+    "class-variance-authority": "0.7.1",
+    "clsx": "2.1.1",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-router-dom": "6.30.6",
+    "tailwind-merge": "2.6.0"
   },
   "devDependencies": {
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "@vitejs/plugin-react": "^4.3.4",
-    "typescript": "^5.7.2",
-    "vite": "^6.0.0",
-    "vitest": "^2.1.0",
+    "@eslint/js": "9.39.5",
+    "@testing-library/dom": "10.4.2",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.3",
+    "@testing-library/user-event": "14.6.1",
+    "@types/node": "22.20.3",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "4.7.0",
+    "autoprefixer": "10.6.1",
+    "eslint": "9.39.5",
+    "eslint-plugin-react-hooks": "5.2.0",
+    "globals": "15.15.0",
+    "jsdom": "25.0.1",
+    "postcss": "8.5.28",
     "tailwindcss": "3.4.17",
-    "postcss": "^8.4.49",
-    "autoprefixer": "^10.4.20",
-    "@testing-library/react": "^16.1.0"
+    "typescript": "5.7.3",
+    "typescript-eslint": "8.70.0",
+    "vite": "6.4.3",
+    "vitest": "4.1.11"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   }
 }
 ```
 
-`tailwindcss` is pinned exactly. Do not put a `^` on it.
+This is `apps/liff/package.json` as committed. Every version is exact, and `tailwindcss` must stay exact — never put a `^` on it.
 
-> **Package manager: pnpm** (2026-09-18, owner's decision). `packageManager: pnpm@10.9.0` is pinned in `package.json`, `pnpm-lock.yaml` is committed, and `package-lock.json` is deleted — one lockfile, or two machines drift. `esbuild` is listed under `pnpm.onlyBuiltDependencies` because pnpm 10 blocks install scripts by default. Every command in this document that says `npm run x` is `pnpm x`.
->
-> **As installed on 2026-09-15** (`apps/liff/package.json` is now authoritative, every version exact): React 19.3.0 · React Router 6.30.6 · Vite 6.4.3 · TypeScript 5.7.3 · Tailwind 3.4.17 · `@radix-ui/react-dialog` 1.1.23 · `@radix-ui/react-slot` 1.3.3 · fontsource 5.3.0. Three changes from the block above: **Vitest 4.1.11** instead of 2.x (2.x/3.x carry advisory GHSA-82fw-gwwq-j7x9 and 4.x is the first to support Vite 6 without a second Vite copy); **ESLint 9 + typescript-eslint + react-hooks** added, because the `lint` script had no linter; **`@testing-library/dom` + `jsdom`** added as the peers `@testing-library/react` needs. Open item: React Router 6 carries two moderate advisories (open redirect via backslash in `<Link>`/`useNavigate`; SSR `deserializeErrors`) that are fixed only in v7. Neither is reachable in this demo — no navigation target comes from user input and there is no SSR — so v6 stays for Plan 01; the router already opts in to every v7 future flag, and the upgrade belongs to Plan 03.
+**Package manager: pnpm** (2026-09-18, owner's decision). `packageManager: pnpm@10.9.0` is pinned, `pnpm-lock.yaml` is committed, and there is no `package-lock.json` — one lockfile, or two machines drift. `esbuild` is listed under `pnpm.onlyBuiltDependencies` because pnpm 10 blocks install scripts by default. Every command in this document is `pnpm x`; `pnpm check` runs gate → typecheck → lint → test → build.
 
-**Nine runtime dependencies.** `@radix-ui/react-slot` already ships inside `@radix-ui/react-dialog`; it is declared because `Button` imports it directly. There is no icon package — icons are committed source files (§4.5).
+How it got here from the block this section first proposed:
+
+- **Vitest 4.1.11**, not 2.x: 2.x/3.x carry advisory GHSA-82fw-gwwq-j7x9, and 4.x is the first to support Vite 6 without a second Vite copy.
+- **ESLint 9 + typescript-eslint + react-hooks** added, because the `lint` script had no linter. **`@testing-library/dom`, `@testing-library/jest-dom`, `@testing-library/user-event` and `jsdom`** added for the component tests.
+- **`class-variance-authority`, `clsx`, `tailwind-merge` v2 and four more Radix packages** (`label`, `radio-group`, `separator`, alongside `dialog` and `slot`) arrived with shadcn in Revision 6 (§4.5).
+- `build` is `tsc --noEmit && vite build`, and `check` chains every gate.
+
+**Fourteen runtime dependencies**, none of them an icon package — icons are committed source files (§4.5).
+
+**Open item:** React Router 6 carries two moderate advisories (open redirect via backslash in `<Link>`/`useNavigate`; SSR `deserializeErrors`) that are fixed only in v7. Neither is reachable in this demo — no navigation target comes from user input and there is no SSR — so v6 stays for Plan 01; the router already opts in to every v7 future flag, and the upgrade belongs to Plan 03.
 
 ### 4.7 File tree
 
+The tree as built. `apps/liff/README.md` carries the same `src/` tree and `testing/readme-tree.test.ts` fails when the two disagree, so the README is the copy to trust if this one drifts. The folder rules and their reasons are `apps/liff/DESIGN.md` §6.
+
 ```
 booking/                          ← ONE repository (decision 10): documents and code together
+├─ README.md                     entry point and reading order
 ├─ documents/                    PRD · stitch mockups · audit · plans — read-only reference
 └─ apps/liff/                    ← Plan 01 is built here (the path ADR-001 §4.3 expects)
-   ├─ index.html                  lang="th", correct viewport meta, Thai font preload
-   ├─ package.json                pinned deps (§4.6)
+   ├─ index.html                  lang="th", zoomable viewport meta, favicons from public/brand/
+   ├─ package.json                exact pins (§4.6)
+   ├─ pnpm-lock.yaml
    ├─ tailwind.config.js          THE token package (§5.1) — most important file in the repo
    ├─ postcss.config.js
-   ├─ vite.config.ts              react plugin, base:'./' for portable static hosting, @ → src
+   ├─ components.json             shadcn CLI config (§4.5)
+   ├─ eslint.config.js
+   ├─ vite.config.ts              react plugin, base:'./' for portable static hosting, @ → src, vitest config
    ├─ tsconfig.json               strict, noUncheckedIndexedAccess, @/* path alias
-   ├─ .nvmrc                      20.11
-   ├─ README.md                   how to run · the demo script (§12) · what is faked (§13)
-   ├─ DECISIONS.md                every §3 row, its answer, and the file that would change it
+   ├─ .nvmrc                      22
+   ├─ README.md                   how to run · the src/ tree · "where does X go"
+   ├─ DESIGN.md                   tokens, components, §6 folder rules
    │
    ├─ scripts/
-   │  └─ gate.mjs                 the 8 CI greps (§11.2) — runs in ~1s, blocks merge
+   │  └─ gate.mjs                 the defect gates (§11.2) — pure Node, ~1s, first step of `pnpm check`
    │
    ├─ public/
-   │  ├─ mascot/                  capybara-idle.svg · -cheer.svg · -sleep.svg · -avatar.svg
-   │  │                           (the 4 orphaned Stitch SVGs: rename code.html → .svg,
-   │  │                            strip width/height, add role="img" + <title>)
-   │  └─ venue/                   court-1.webp · court-2.webp · court-3.webp
-   │                              (from documents/stitch/*_badminton_*/screen.png,
-   │                               resized to 860px wide, WebP q80, ~60 KB each.
-   │                               Replaces 136 remote lh3.googleusercontent.com refs.)
+   │  ├─ brand/                   favicon-32 · favicon-180 · icon-512 · logo-mark (PNG)
+   │  ├─ mascot/                  capybara-idle · -cheer · -sleep · -avatar (.webp, generated artwork)
+   │  └─ venue/                   court-1 · court-2 · court-3 (.webp, AI-generated sample photos)
    │
-   └─ src/          ⚠️ AS PLANNED, 2026-09. NOT THE SHIPPED TREE — see apps/liff/README.md.
-      │                Revision 5 cut platform/, demo/, Payment.tsx, HoldExpired.tsx,
-      │                PaymentMethodCard, BookingTicket, AvailabilityBanner, StepHeader,
-      │                OutsideLineNotice, cn.ts and useCountdown.ts; what was built has
-      │                since moved to package-by-feature (DESIGN.md §6). Left as written
-      │                because this document is the argument, not the map.
+   └─ src/
       ├─ main.tsx
-      ├─ app/
-      │  ├─ router.tsx            createHashRouter — 5 screens + catalog + 404
-      │  ├─ AppShell.tsx          <Outlet> + header + bottom nav + pt-16 pb-24 + .liff-column
-      │  ├─ BookingFlowProvider.tsx   useReducer for selection/contact/method/hold
-      │  └─ navConfig.ts          THE nav source of truth (D59) — 4 declared, 2 enabled
+      ├─ app/                     the wiring
+      │  ├─ routes.tsx            THE route table — the only list of URLs (data, so tests can read it)
+      │  ├─ router.tsx            createHashRouter over ROUTES, every v7 future flag on
+      │  ├─ pages/
+      │  │  ├─ catalog/           /__catalog — every primitive in every state
+      │  │  └─ not-found/         *
+      │  ├─ providers/
+      │  │  ├─ app-providers.tsx
+      │  │  └─ booking-flow-provider.tsx   useReducer for selection · contact phone · method
+      │  ├─ booking-flow.test.tsx  the whole flow through the real route table
+      │  └─ a11y.test.tsx
       │
-      ├─ styles/
-      │  ├─ index.css             @tailwind + :root custom props + global focus-visible
-      │  └─ fonts.ts
+      ├─ features/                package by feature; a feature never imports another feature
+      │  ├─ features.test.ts      enforces the import rules and the route ↔ folder binding
+      │  ├─ booking/
+      │  │  ├─ selection.ts       ← THE STATE MACHINE (§8). Pure function, no React.
+      │  │  ├─ selection.test.ts
+      │  │  ├─ components/
+      │  │  │  └─ price-breakdown.tsx      shared by more than one booking page
+      │  │  └─ pages/             a page = a folder = one line in app/routes.tsx
+      │  │     ├─ booking-grid/   /book
+      │  │     │  ├─ index.tsx
+      │  │     │  ├─ booking-grid.test.tsx
+      │  │     │  ├─ hooks/use-slot-selection.ts   React state + toasts around selection.ts
+      │  │     │  └─ components/  court-matrix · slot-cell · date-strip · legend-bar · selection-drawer
+      │  │     ├─ booking-review/ /book/review
+      │  │     ├─ booking-success/ /book/success/:ref
+      │  │     └─ my-bookings/    /bookings
+      │  │        └─ components/  booking-card
+      │  └─ venue/
+      │     └─ pages/court-profile/   /
+      │        └─ components/     photo-carousel · rate-card · amenity-grid
+      │
+      ├─ components/              shared by the whole app
+      │  ├─ icons/                one file per Material Symbols glyph (§4.5) + index.ts + LICENSE
+      │  └─ ui/                   badge · button · card · input · label · radio-group · separator ·
+      │                           skeleton (shadcn, adapted) · modal · sheet (non-modal) · toast ·
+      │                           spinner · copy-button · empty-state · segmented-tabs · icon
       │
       ├─ data/                    ← the contract. Survives to Plan 02.
       │  ├─ types.ts              all domain types = the future API DTOs (§6.1)
       │  ├─ fixtures.ts           venue · 6 courts · 3 rate rules · user · blocks · 3 bookings (§6.3)
       │  ├─ rates.ts              ruleFor / priceForHour / quote — rates are DATA (§6.4)
-      │  ├─ availability.ts       buildGrid() · countAvailableSlots() · isDayFull()
-      │  ├─ bookingRef.ts         WC-YYMM-NNNN sequence (§6.5)
-      │  ├─ db.ts                 module store + useSyncExternalStore + localStorage
-      │  └─ api.ts                async facade with deliberate latency — THE seam
+      │  ├─ availability.ts       buildGrid() and the slot counts
+      │  ├─ booking-ref.ts        WC-YYMM-NNNN sequence (§6.5)
+      │  ├─ db.ts                 module store + useSyncExternalStore + localStorage (`wc.db.v1`)
+      │  └─ api.ts                async facade with deliberate latency — THE seam (§6.6)
       │
-      ├─ features/booking/
-      │  ├─ useSlotSelection.ts   ← THE STATE MACHINE (§8). Headless. Unit-tested.
-      │  └─ useSlotSelection.test.ts
+      ├─ layouts/                 app chrome
+      │  ├─ app-layout.tsx        <Outlet> + header + bottom nav + .liff-column
+      │  ├─ app-header.tsx
+      │  ├─ bottom-nav.tsx
+      │  └─ nav-config.ts         THE nav source of truth (D59) — 4 declared, 2 enabled
       │
-      ├─ platform/
-      │  ├─ liff.ts               LiffAdapter interface + getLiff() + isInLine()
-      │  ├─ mockLiff.ts           fixture profile; share → line.me/R/share
-      │                           PromptPay builder stubbed and throwing
+      ├─ lib/                     no domain knowledge
+      │  ├─ utils.ts              cn() = clsx + tailwind-merge extended with our type scale
+      │  ├─ clock.ts              now() · today() · defaultDemoDate() · advance()
+      │  ├─ thai-date.ts          BE year, Thai weekday/month
+      │  ├─ money.ts              thb(satang(44_000)) → "฿440" · payAmount(…) → "440.00"
+      │  ├─ asset.ts              public/ paths that survive base:'./'
+      │  └─ use-roving-focus.ts   1-D roving tabindex that keeps disabled items reachable (§4.5)
       │
-      ├─ lib/
-      │  ├─ cn.ts                 12-line clsx, no dependency
-      │  ├─ clock.ts              now() · today() · defaultDemoDate() · advance() for DemoBar
-      │  ├─ thaiDate.ts           BE year, Thai weekday/month, "ศุกร์ 24 พ.ค. 2567"
-      │  ├─ money.ts              thb(satang(44_000)) → "฿440" · payAmount(…) → "440.00"; tabular-nums
-      │  ├─ useCountdown.ts       wall-clock countdown (fixes the mockup's setInterval bug)
-      │  └─ useRovingFocus.ts     1-D roving tabindex that keeps disabled items reachable (§4.5)
+      ├─ styles/
+      │  ├─ index.css             @tailwind + global focus-visible + tabular figures (§5.2)
+      │  └─ fonts.ts              @fontsource imports (§4.4)
       │
-      ├─ components/
-      │  ├─ icons/                69 Material Symbols components copied from shadcn.io (§4.5),
-      │  │                        one file per glyph + index.ts + LICENSE-material-symbols.txt
-      │  ├─ ui/                   Icon · Button · Card · Pill · Spinner · Toast · CopyButton
-      │  │                        SegmentedTabs · Sheet (non-modal) · Modal (Radix Dialog)
-      │  │                        EmptyState
-      │  ├─ shell/                AppHeader · BottomNav · StepHeader · OutsideLineNotice
-      │  └─ booking/              DateStrip · CourtMatrix · SlotCell · LegendBar
-      │                           SelectionDrawer · PriceBreakdown · PaymentMethodCard
-      │                           BookingTicket · BookingCard
-      │                           RateCard · AvailabilityBanner · PhotoCarousel
-      │                           AmenityGrid
-      │
-      ├─ screens/
-      │  ├─ CourtProfile.tsx · BookingGrid.tsx · BookingReview.tsx · Payment.tsx
-      │  ├─ BookingSuccess.tsx · MyBookings.tsx · HoldExpired.tsx · NotFound.tsx
-      │  ├─ Catalog.tsx          /__catalog — every primitive in every state (§7).
-      │                          No params, no state, no fetch; cannot render not-found.
-      │
-      └─ demo/
-         ├─ DemoBar.tsx           ?demo=1 — jump date · simulate payment · expire hold · reset
-         └─ FixtureBadge.tsx      corner chip "ข้อมูลตัวอย่าง"
+      └─ testing/                 helpers for tests, not shipped
+         ├─ render-app.tsx
+         └─ readme-tree.test.ts   fails when apps/liff/README.md's tree and src/ disagree
 ```
 
-**~60 source files plus 69 icon files, all under `apps/liff/`. One `src/`.** There is **no workspace yet**: run every `npm` command inside `apps/liff/`, and point the static host's root directory at it. Plan 03 adds `pnpm-workspace.yaml` at `booking/` and `apps/api/` beside this folder — no file moves, and no history import. No monorepo, no workspaces. `critique.md` #12 is right: seven workspace packages for one SPA is ceremony for a team of two.
+**What the planned tree had that was never built.** Revision 5 cut `platform/` (`liff.ts`, `mockLiff.ts`), `demo/` (`DemoBar`, `FixtureBadge`), `Payment.tsx`, `HoldExpired.tsx`, `PaymentMethodCard`, `BookingTicket`, `AvailabilityBanner`, `StepHeader`, `OutsideLineNotice` and `useCountdown.ts`; `cn.ts` became shadcn's `lib/utils.ts`; `DECISIONS.md` was not written (§3 and the Appendix are the record). What was built moved from `screens/` + `components/booking/` to package-by-feature, and every file under `src/` is kebab-case.
+**71 source and test files plus 73 icon files (the outlined glyphs and their filled variants), all under `apps/liff/`. One `src/`.** There is **no workspace yet**: run every `pnpm` command inside `apps/liff/`, and point the static host's root directory at it. Plan 03 adds `pnpm-workspace.yaml` at `booking/` and `apps/api/` beside this folder — no file moves, and no history import. `critique.md` #12 is right: seven workspace packages for one SPA is ceremony for a team of two.
 
 ---
 
@@ -557,7 +627,7 @@ booking/                          ← ONE repository (decision 10): documents an
 
 Adapted from `ds.md` §6 with six corrections, each flagged inline.
 
-> **Since setup (2026-09-15), `apps/liff/tailwind.config.js` and `apps/liff/src/styles/index.css` are the source of truth.** They apply two decisions the blocks below predate: the NEW-7 Thai line-height floor (`body-md` 22px, `body-sm` 18px, `label-lg` 22px, `label-md` 18px, `label-sm` 17px), and revision 2's removal of the `:root` palette mirror (`index.css` reads colours through `theme()` and contains no hex).
+> **The blocks in §5.1 and §5.2 are the committed files**, copied in on 2026-10-06. Compared with what this section first proposed, they add three things: the NEW-7 Thai line-height floor (`body-md` 22px, `body-sm` 18px, `label-lg` 22px, `label-md` 18px, `label-sm` 17px); the shadcn compatibility names from Revision 6 (`foreground`, `card`, `muted`, `accent`, `destructive`, `border`, `input`, `ring`, `*-foreground`), each pointing at an existing M3 colour; and revision 2's removal of the `:root` palette mirror, so `index.css` reads colours through `theme()` and holds no hex. If a block and its file disagree, the file is right.
 
 ### 5.1 `tailwind.config.js`
 
@@ -574,6 +644,31 @@ export default {
   theme: {
     extend: {
       colors: {
+        /* ---- shadcn compatibility layer ----
+           shadcn's components are written against these names. Ours stay authoritative
+           (the 38 generated mockup configs use the M3 set), so this layer only ADDS the
+           names shadcn needs and points them at our palette. Two notes:
+             · `primary` and `secondary` already exist here and keep OUR meaning. A copied
+               component that says `bg-secondary` therefore renders our dark brown, which
+               is wrong for a muted button — those two class names are rewritten to our
+               surface tokens when a component is pasted in (see src/components/ui).
+             · No `*-foreground` name collides with anything, so they are plain aliases. */
+        'primary-foreground': '#ffffff',       // = on-primary
+        background: '#fbf9f5',                 // = surface
+        foreground: '#1b1c1a',                 // = on-surface
+        card: '#ffffff',                       // = surface-container-lowest
+        'card-foreground': '#1b1c1a',
+        popover: '#ffffff',
+        'popover-foreground': '#1b1c1a',
+        muted: '#efeeea',                      // = surface-container
+        'muted-foreground': '#44474d',         // = on-surface-variant
+        accent: '#eae8e4',                     // = surface-container-high (hover surface)
+        'accent-foreground': '#1b1c1a',
+        destructive: '#ba1a1a',                // = error
+        'destructive-foreground': '#ffffff',
+        input: '#c5c6cd',                      // = outline-variant
+        ring: '#fdbd77',                       // = secondary-container, the focus ring
+
         /* ---- PRIMARY / NAVY ---- */
         primary: '#07182e',                 // headings, primary CTA fill (near-black)
         'on-primary': '#ffffff',
@@ -634,6 +729,7 @@ export default {
         'on-surface-variant': '#44474d',
         outline: '#75777e',                 // 4.47:1 — borders / ≥18px text only
         'outline-variant': '#c5c6cd',
+        border: '#c5c6cd',                     // shadcn's `border-border`
         'inverse-surface': '#30312e',
         'inverse-on-surface': '#f2f0ed',
 
@@ -681,6 +777,8 @@ export default {
         'label-sm':    ['Inter Variable', 'Noto Sans Thai Variable', 'sans-serif'],
         sans:          ['Noto Sans Thai Variable', 'Noto Sans', 'sans-serif'],
       },
+      // NEW-7 Thai line-height floor: every size <= 16px has line-height >= 1.5, because
+      // Thai stacks vowels + tone marks above the x-height and descends below it.
       fontSize: {
         'display-lg':        ['40px', { lineHeight: '48px', letterSpacing: '-0.02em', fontWeight: '700' }],
         'display-lg-mobile': ['32px', { lineHeight: '40px', letterSpacing: '-0.01em', fontWeight: '700' }],
@@ -688,11 +786,11 @@ export default {
         'headline-md':       ['22px', { lineHeight: '28px', fontWeight: '600' }],
         'headline-sm':       ['18px', { lineHeight: '24px', fontWeight: '600' }],
         'body-lg':           ['16px', { lineHeight: '24px', fontWeight: '400' }],
-        'body-md':           ['14px', { lineHeight: '20px', fontWeight: '400' }],
-        'body-sm':           ['12px', { lineHeight: '16px', fontWeight: '400' }],
-        'label-lg':          ['14px', { lineHeight: '20px', letterSpacing: '0.01em', fontWeight: '600' }],
-        'label-md':          ['12px', { lineHeight: '16px', letterSpacing: '0.02em', fontWeight: '600' }],
-        'label-sm':          ['11px', { lineHeight: '14px', letterSpacing: '0.03em', fontWeight: '500' }],
+        'body-md':           ['14px', { lineHeight: '22px', fontWeight: '400' }],
+        'body-sm':           ['12px', { lineHeight: '18px', fontWeight: '400' }],
+        'label-lg':          ['14px', { lineHeight: '22px', letterSpacing: '0.01em', fontWeight: '600' }],
+        'label-md':          ['12px', { lineHeight: '18px', letterSpacing: '0.02em', fontWeight: '600' }],
+        'label-sm':          ['11px', { lineHeight: '17px', letterSpacing: '0.03em', fontWeight: '500' }],
       },
 
       /* ---- ELEVATION ---- DESIGN.md's three specified levels appear ZERO times in
@@ -795,98 +893,45 @@ export default {
 @tailwind components;
 @tailwind utilities;
 
+/* Colours come from tailwind.config.js via theme() — no hex values live here.
+   (Revision 2 cut the :root palette mirror: it had no consumer.) */
+
 @layer base {
-  /* Framework-agnostic mirror of the token set, for anything outside Tailwind's
-     reach: canvas, inline SVG, future Flex-JSON tooling. */
   :root {
     color-scheme: light;
-
-    --wc-primary: #07182e;
-    --wc-on-primary: #ffffff;
-    --wc-primary-container: #1d2d44;
-    --wc-on-primary-container: #8595b0;
-
-    --wc-secondary: #835418;
-    --wc-secondary-container: #fdbd77;
-    --wc-on-secondary-container: #784a0d;
-    --wc-secondary-fixed: #ffdcbb;
-
-    --wc-tertiary-fixed: #dbe9a9;
-    --wc-on-tertiary-fixed: #171e00;
-
-    --wc-success: #606c38;
-    --wc-on-success: #ffffff;
-    --wc-success-container: #dbe9a9;
-    --wc-on-success-container: #2f3a12;
-
-    --wc-error: #ba1a1a;
-    --wc-error-container: #ffdad6;
-    --wc-on-error-container: #93000a;
-
-    --wc-surface: #fbf9f5;
-    --wc-surface-container-lowest: #ffffff;
-    --wc-surface-container-low: #f5f3ef;
-    --wc-surface-container: #efeeea;
-    --wc-surface-container-high: #eae8e4;
-    --wc-on-surface: #1b1c1a;
-    --wc-on-surface-variant: #44474d;
-    --wc-outline: #75777e;
-    --wc-outline-variant: #c5c6cd;
-
-    --wc-line: #06c755;
-    --wc-line-hover: #05b34c;
-    --wc-line-a11y: #04803a;
-
-    --wc-radius-xs: .25rem;
-    --wc-radius-sm: .5rem;
-    --wc-radius-md: .75rem;
-    --wc-radius-lg: 1rem;
-
-    --wc-shadow-app-header: 0 1px 8px rgba(0,0,0,.04);
-    --wc-shadow-app-nav: 0 -2px 12px rgba(29,45,68,.06);
-    --wc-shadow-sheet: 0 12px 36px rgba(29,45,68,.18);
-
-    --wc-app-bar-h: 4rem;
-    --wc-bottom-nav-h: 4rem;
-    --wc-liff-max-w: 430px;
-    --wc-touch-min: 48px;
+    --wc-liff-max-w: theme('maxWidth.liff');
   }
 
   html { -webkit-text-size-adjust: 100%; }
 
   body {
     margin: 0;
-    background: var(--wc-surface);
-    color: var(--wc-on-surface);
-    font-family: 'Noto Sans Thai Variable', 'Noto Sans', sans-serif;
+    background: theme('colors.surface');
+    color: theme('colors.on-surface');
+    font-family: theme('fontFamily.sans');
     overscroll-behavior-y: none;
     -webkit-font-smoothing: antialiased;
-    /* NOT `min-height: max(884px, 100dvh)` — 7 mockups bake a 390×844 iPhone into
-       CSS, which forces a scrollbar on every shorter viewport. */
     min-height: 100dvh;
   }
 
-  /* DESIGN.md mandates tabular figures for schedules, 24h times and THB.
-     Shipped in 1 of 48 files. Make it structural. */
-  time,
-  [data-numeric],
-  .price, .total, .countdown, .booking-ref, .slot-time {
+  /* iOS Safari zooms the page on focus when an input is under 16px and never zooms back
+     — the side effect of allowing pinch-zoom again (Plan 01 revision 2). */
+  input, select, textarea { font-size: 16px; }
+
+  /* Tabular figures for prices, times and countdowns, structurally. */
+  time, [data-numeric], .price, .total, .countdown, .booking-ref, .slot-time {
     font-variant-numeric: tabular-nums;
     font-feature-settings: 'tnum' 1;
   }
 
-  /* THE focus ring. 0 occurrences of focus-visible across 48 files — that alone
-     fails keyboard operability product-wide. :where() keeps specificity at 0 so
-     any component can override it. */
-  :where(a, button, input, select, textarea, summary, [tabindex]:not([tabindex='-1']))
-  :focus-visible {
-    outline: 2px solid var(--wc-secondary-container);
+  /* THE focus ring (0 occurrences of focus-visible across the 48 mockups).
+     :where() keeps specificity at 0 so any component can override it. */
+  :where(a, button, input, select, textarea, summary, [tabindex]:not([tabindex='-1'])):focus-visible {
+    outline: 2px solid theme('colors.secondary-container');
     outline-offset: 2px;
-    border-radius: var(--wc-radius-xs);
+    border-radius: theme('borderRadius.DEFAULT');
   }
-  :where(a, button):focus:not(:focus-visible) { outline: none; }
 
-  /* Every animate-ping / -pulse / -bounce in the mockups is decorative. */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: .01ms !important;
@@ -898,9 +943,8 @@ export default {
 }
 
 @layer components {
-  /* The LIFF column clamp. Most mockups set html,body{width:100vw} with no
-     max-width, so every screen stretches full-bleed on a desktop browser —
-     which is exactly where a venue owner will first open the demo link. */
+  /* The LIFF column clamp. Every `fixed` element needs its own inner clamp as well,
+     because `fixed` positions against the viewport, not this column. */
   .liff-column { width: 100%; max-width: var(--wc-liff-max-w); margin-inline: auto; }
 }
 ```
@@ -947,6 +991,8 @@ export interface Venue {
       'Asia/Bangkok' here. Its absence is what let a runtime-local date bug into
       clock.ts (§6.2); a venue's calendar is never the runtime's calendar. */
   timezone: string;
+  /** Rendered in the app header. Derived once here so no screen re-types it. */
+  openHoursLabel: string;       // 'เปิดบริการ 09:00 - 22:00'
   openMinutes: Minutes;         // 540  = 09:00   (D02)
   closeMinutes: Minutes;        // 1320 = 22:00
   // Policy, not identity: `number`, never a literal type. A second venue on 90-minute
@@ -1097,7 +1143,9 @@ export interface User {
 }
 ```
 
-`Booking.lines` is the point of the whole type file: one `QuoteLine[]` is computed once by the selection hook, rendered by the drawer, rendered again by the review breakdown, and stored on the booking. One computation, three renderers, and the real API returns the same array.
+`Booking.lines` is the point of the whole type file: one `quote()` produces the `QuoteLine[]` that the drawer renders, the review breakdown renders, and `api.confirmBooking` stores on the booking. As built, each of the three calls `quote()` itself with the same inputs, so the arrays are identical by construction; in Plan 04 the server computes it once and the client renders what it returns.
+
+The one field `types.ts` gained after approval is `Venue.openHoursLabel`, so the header stops re-typing the opening hours.
 
 ### 6.2 `src/lib/clock.ts` — real clock, demo-safe
 
@@ -1195,6 +1243,7 @@ export const VENUE: Venue = {
   mapsUrl: 'https://maps.google.com/?q=Winner+Court+Badminton+Ramkhamhaeng',
   lineOaUrl: '',                 // no real OA in the demo; nothing links to it
   timezone: 'Asia/Bangkok',
+  openHoursLabel: 'เปิดบริการ 09:00 - 22:00',
   openMinutes: 9 * 60,
   closeMinutes: 22 * 60,
   slotMinutes: 60,
@@ -1256,7 +1305,7 @@ export const USER: User = {
   displayName: 'คุณต้น',
   fullName: 'คุณต้น (Ton Jiraphat)',
   lineId: '@ton_badminton',
-  pictureUrl: '/mascot/capybara-avatar.svg',
+  pictureUrl: '/mascot/capybara-avatar.webp',
   phone: '089-111-2345',      // deliberately NOT the venue number
 };
 
@@ -1425,8 +1474,11 @@ export function quote(
   }
   const total = satang(lines.reduce((sum, l) => sum + l.amount, 0));
   const hours = (endMinutes - startMinutes) / 60;
-  const rateMix: RateMix =
-    lines.length > 1 ? 'mixed' : lines[0].isPeak ? 'peak' : 'standard';
+  // Guard added during Day 3 (the plan's block indexes lines[0] directly, which is
+  // both a strict-TS error and a real crash if startMinutes === endMinutes).
+  const first = lines[0];
+  if (!first) throw new Error(`Empty quote for ${date} ${startMinutes}-${endMinutes}`);
+  const rateMix: RateMix = lines.length > 1 ? 'mixed' : first.isPeak ? 'peak' : 'standard';
 
   return {
     lines: [...lines, {
@@ -1452,7 +1504,7 @@ export function quote(
 
 On Saturday or Sunday every hour is `r_peak_we`, so 10:00–12:00 = **฿440**. That contrast is the visible payoff of rates-as-data, and it is the last beat of the demo script.
 
-### 6.5 `src/data/bookingRef.ts`
+### 6.5 `src/data/booking-ref.ts`
 
 ```ts
 import type { ISODate } from './types';
@@ -1479,89 +1531,244 @@ export function nextBookingRef(venueId: string, date: ISODate): string {
 
 ### 6.6 `src/data/api.ts` — the seam
 
-Every screen talks to `api`, never to `db`. Swapping to real `fetch()` or TanStack Query touches only this file.
+Screens are meant to talk to `api`, never to `db`, so swapping to real `fetch()` or TanStack Query touches only this file. **One exception shipped:** `/bookings` reads the list through `useDb()` from `data/db.ts`, so a cancellation re-renders without a refetch. Plan 04 has to replace that subscription along with `api.ts`.
 
 ```ts
-const lag = <T>(v: T, ms = 120 + Math.random() * 230): Promise<T> =>
-  new Promise(res => setTimeout(() => res(v), ms));
+import { now } from '@/lib/clock';
+import { buildGrid } from './availability';
+import { nextBookingRef } from './booking-ref';
+import { COURTS, RATE_RULES, USER, VENUE } from './fixtures';
+import { quote } from './rates';
+import { getState, setState, sweepHolds } from './db';
+import type {
+  AvailabilityBlock, Booking, ISODate, PaymentMethodId, SelectionRange,
+} from './types';
+
+/** Deliberate latency: every screen is forced to have somewhere to put a loading
+    state. `?fast=1` compresses it so a rehearsal has no dead air. */
+const FAST = typeof window !== 'undefined' && new URLSearchParams(location.search).has('fast');
+const lag = <T,>(value: T, ms = 120 + Math.random() * 230): Promise<T> =>
+  new Promise((resolve) => setTimeout(() => resolve(value), FAST ? 30 : ms));
+
+const hoursOf = (sel: SelectionRange) => ({
+  startMinutes: sel.startHour * 60,
+  endMinutes: sel.endHour * 60,
+});
+
+const isFree = (date: ISODate, courtId: string, startHour: number, endHour: number, ignoreId?: string) =>
+  !getState().blocks.some(
+    (b) =>
+      b.date === date &&
+      b.courtId === courtId &&
+      b.id !== ignoreId &&
+      (b.kind !== 'held' || (b.expiresAt ?? 0) > now()) &&
+      startHour * 60 < b.endMinutes &&
+      endHour * 60 > b.startMinutes,
+  );
+
+export class SlotTakenError extends Error {
+  constructor() {
+    super('SLOT_TAKEN');
+    this.name = 'SlotTakenError';
+  }
+}
 
 export const api = {
-  getVenue:        () => lag({ venue: VENUE, courts: COURTS, rates: RATE_RULES }),
-  getUser:         () => lag(USER),
-  getAvailability: (date: ISODate) => { sweepHolds(); return lag(buildGrid(date, COURTS, getState().blocks)); },
-  getBookings:     () => lag(getState().bookings),
-  createHold:      (sel: SelectionRange) => { /* insert kind:'held' block per courtId, expiresAt = now + 10min */ },
-  releaseHold:     (holdId: string) => { /* remove the block */ },
-  confirmPayment:  (holdId: string, sel: SelectionRange, phone: string, method: PaymentMethodId) =>
-                     /* hold → booked, create Booking, return it */ lag(booking, 900),
-  cancelBooking:   (id: string) => { /* status → cancelled, release blocks */ },
+  getVenue: () => lag({ venue: VENUE, courts: COURTS, rates: RATE_RULES }),
+  getUser: () => lag(USER),
+
+  getAvailability: (date: ISODate, ownHoldId?: string) => {
+    sweepHolds();
+    return lag(buildGrid(date, COURTS, getState().blocks, { ownHoldId }));
+  },
+
+  getQuote: (sel: SelectionRange) => {
+    const { startMinutes, endMinutes } = hoursOf(sel);
+    return lag(quote(sel.date, startMinutes, endMinutes));
+  },
+
+  getBookings: () => {
+    sweepHolds();
+    return lag(getState().bookings);
+  },
+
+  getBooking: (ref: string) =>
+    lag(getState().bookings.find((b) => b.ref === ref) ?? null),
+
+  /** Unused by the demo after Revision 5 (nothing waits between choosing and
+      confirming). Kept because Plan 04 needs a server-side hold, and the shape is
+      already right: one block per court, matching the per-court exclusion constraint. */
+  createHold: (sel: SelectionRange) => {
+    const holdId = `hold_${Math.round(now())}`;
+    for (const courtId of sel.courtIds) {
+      if (!isFree(sel.date, courtId, sel.startHour, sel.endHour)) throw new SlotTakenError();
+    }
+    const { startMinutes, endMinutes } = hoursOf(sel);
+    const blocks: AvailabilityBlock[] = sel.courtIds.map((courtId, i) => ({
+      id: i === 0 ? holdId : `${holdId}_${i}`,
+      venueId: VENUE.id,
+      courtId,
+      date: sel.date,
+      startMinutes,
+      endMinutes,
+      kind: 'held',
+      expiresAt: now() + VENUE.holdMinutes * 60_000,
+    }));
+    setState((s) => ({ ...s, blocks: [...s.blocks, ...blocks] }));
+    return lag({ holdId, expiresAt: blocks[0]!.expiresAt! });
+  },
+
+  releaseHold: (holdId: string) => {
+    setState((s) => ({
+      ...s,
+      blocks: s.blocks.filter((b) => b.id !== holdId && !b.id.startsWith(`${holdId}_`)),
+    }));
+    return lag(true);
+  },
+
+  /** Creates the booking. `method` defaults to paying at the counter, which is what
+      v1 does; `holdId` is optional because the demo books straight from the review
+      screen with nothing held in between. */
+  confirmBooking: (
+    sel: SelectionRange,
+    contactPhone: string,
+    method: PaymentMethodId = 'counter',
+    holdId = '',
+  ) => {
+    for (const courtId of sel.courtIds) {
+      if (!isFree(sel.date, courtId, sel.startHour, sel.endHour, holdId)) throw new SlotTakenError();
+    }
+    const { startMinutes, endMinutes } = hoursOf(sel);
+    const q = quote(sel.date, startMinutes, endMinutes);
+    const paid = method === 'promptpay';
+    const booking: Booking = {
+      id: `bkg_${Math.round(now())}`,
+      ref: nextBookingRef(VENUE.id, sel.date),
+      venueId: VENUE.id,
+      courtIds: sel.courtIds,
+      userId: USER.id,
+      date: sel.date,
+      startMinutes,
+      endMinutes,
+      status: paid ? 'confirmed' : 'pending_payment',
+      lines: q.lines,
+      total: q.total,
+      paymentMethod: method,
+      paymentStatus: paid ? 'paid' : 'unpaid',
+      paidAt: paid ? now() : null,
+      contactPhone,
+      headcountHint: '',
+      createdAt: now(),
+      holdExpiresAt: null,
+    };
+    const heldByThisFlow = (id: string) =>
+      // `holdId` is empty in the demo, and `''.startsWith('')` is true for EVERY block —
+      // which silently turned maintenance windows into bookings. Guard it explicitly.
+      holdId !== '' && (id === holdId || id.startsWith(`${holdId}_`));
+
+    setState((s) => {
+      const converted = s.blocks.map((b) =>
+        heldByThisFlow(b.id)
+          ? { ...b, kind: 'booked' as const, expiresAt: undefined, bookingId: booking.id }
+          : b,
+      );
+      const alreadyBlocked = converted.some((b) => b.bookingId === booking.id);
+      // With no hold to convert, the booking inserts its own blocks — one per court,
+      // matching the per-court exclusion constraint Plan 03 puts in the database.
+      const inserted: AvailabilityBlock[] = alreadyBlocked
+        ? []
+        : sel.courtIds.map((courtId, i) => ({
+          id: `${booking.id}_${i}`,
+          venueId: VENUE.id,
+          courtId,
+          date: sel.date,
+          startMinutes,
+          endMinutes,
+          kind: 'booked',
+          bookingId: booking.id,
+        }));
+      return { blocks: [...converted, ...inserted], bookings: [booking, ...s.bookings] };
+    });
+    return lag(booking, 900);
+  },
+
+  cancelBooking: (id: string) => {
+    setState((s) => ({
+      blocks: s.blocks.filter((b) => b.bookingId !== id),
+      bookings: s.bookings.map((b) => (b.id === id ? { ...b, status: 'cancelled' as const } : b)),
+    }));
+    return lag(true);
+  },
 };
 ```
 
-Deliberate latency exists so every screen is *forced* to have somewhere to put a loading state. The audit found zero loading states in 48 files, and they are always retrofitted badly. `confirmPayment` gets the longest lag (900 ms) because that is the "waiting for the bank" beat of the pitch. `?fast=1` compresses every lag to 30 ms so a rehearsal has no dead air.
+Deliberate latency (120–350 ms) exists so every screen is *forced* to have somewhere to put a loading state. The audit found zero loading states in 48 files, and they are always retrofitted badly. `confirmBooking` gets the longest lag (900 ms), because confirming is the beat the venue owner watches. `?fast=1` compresses every lag to 30 ms so a rehearsal has no dead air.
 
-`sweepHolds()` runs on every availability read and on a 15 s interval — the client-side stand-in for the server job that releases dead holds.
+What changed from the sketch this section first carried:
+
+- **`confirmPayment` became `confirmBooking(sel, contactPhone, method = 'counter', holdId = '')`.** Revision 5 removed the hold from the flow, so the review screen books directly, and with no hold to convert the booking inserts its own `booked` blocks — one per court, matching the per-court exclusion constraint Plan 03 puts in the database. A slot that is no longer free throws `SlotTakenError`.
+- **`getQuote` and `getBooking(ref)` were added.** `getQuote` exists for Plan 04's server-authoritative quote; nothing calls it yet (the screens call `quote()` from `rates.ts`).
+- **`createHold` / `releaseHold` stay, unused**, because Plan 04 needs a server-side hold and the shape is already right. The hold length comes from `VENUE.holdMinutes` (15), not a literal 10.
+- **`sweepHolds()` runs on every availability and bookings read.** There is no 15 s interval: with no holds in the flow, the sweep is cosmetic, and the booking path re-checks freedom itself.
 
 ---
 
-## 7. Component inventory, in build order
+## 7. Component inventory, as built
 
-Build top to bottom and nothing is ever blocked. **Keep** = ships into the real product roughly as-is. **Adapt** = shape survives, internals change when a real API lands. **Demo** = throwaway.
+**Keep** = ships into the real product roughly as-is. **Adapt** = shape survives, internals change when a real API lands. Paths are relative to `apps/liff/src/`.
 
-### Tier 0 — primitives (Days 3–4, ~1 day)
+### Tier 0 — primitives (`components/ui/`)
 
-| # | Component | Key props | States / variants | Fate |
+| # | Component | File | As built | Fate |
 |---|---|---|---|---|
-| 1 | `Icon` | `name: IconName; size?: 16\|18\|20\|24\|28\|32\|36; filled?; label?` | Wraps the 69 committed Material Symbols components in `components/icons/` (§4.5). Outlined by default; `filled` for the 4 glyphs that have it. Decorative by default (`aria-hidden`); `label` promotes it to `role="img"` | Keep |
-| 2 | `Button` | `variant: 'primary'\|'tonal'\|'ghost'\|'line'\|'danger'; size; leadingIcon; trailingIcon; loading; fullWidth; asChild` (via `@radix-ui/react-slot`, so a CTA can render a router `<Link>`) | `disabled`, `loading` (spinner + `aria-busy`), `active:scale-98`. **The `line` variant hard-codes `text-primary-container` — white on `#06C755` is 2.26:1 and must be impossible to write** | Keep |
-| 3 | `Card` | `variant?: 'base'\|'raised'\|'inset'\|'accent'; accentColor?` | accent = 6px full-height left bar | Keep |
-| 4 | `Pill` | `tone: 'success'\|'peak'\|'error'\|'neutral'\|'info'\|'line'; dot?; pulse?; icon?` | 6 tones. Settles "three visual languages for one state" — `success` becomes one thing | Keep |
-| 5 | `Spinner` | `size?; label?` | — | Keep |
-| 6 | `Toast` + `useToast()` | `message; tone?; assertive?` | `aria-live` polite (default) / assertive (rejections). **Replaces the mockups' blocking `alert()`** | Keep |
-| 7 | `CopyButton` | `text; label; successLabel` | idle ⇄ copied (2 s swap) → toast. Clipboard API with a read-only-textarea fallback for old webviews | Keep |
-| 8 | `SegmentedTabs` | `tabs: {id,label,count?}[]; value; onChange` | real `role="tablist"` + `aria-selected` + `aria-controls`, arrow keys via **`useRovingFocus`** (not Radix Tabs — §4.5). The mockups swap `className` and expose nothing | Keep |
-| 9 | `Sheet` | `open?; elevation?` | `fixed bottom-nav-safe`, `pointer-events-none` wrapper / `auto` card. ⚠️ **Non-modal: no focus trap, no scroll lock, never built on Dialog** — it hosts `SelectionDrawer` | Keep |
-| 9a | `Modal` | `open; onOpenChange; title; description?; children; actions?` | **Built on `@radix-ui/react-dialog`** — focus trap, focus restore, Escape, outside-click, inert siblings. Bottom-sheet presentation on mobile, styled with the M3 tokens. Content wrapper carries its own `max-w-liff mx-auto` because the portal escapes `.liff-column`. Used by the cancel confirmation, the conflict modal and the `เร็ว ๆ นี้` sheets | Keep |
-| 10 | `EmptyState` | `mascot: 'idle'\|'sleep'\|'cheer'; badge?; headline; body; primaryAction?; secondary?` | 3 poses, with/without blurred ambient orbs. Drives `_2` and `empty_state` | Keep |
+| 1 | `Icon` | `icon.tsx` | `name: IconName; size?: 14\|16\|18\|20\|24\|28\|32\|36; filled?; label?`. 69 glyphs, 4 with a filled variant (§4.5). Decorative by default (`aria-hidden`); `label` promotes it to `role="img"` | Keep |
+| 2 | `Button` | `button.tsx` | shadcn, adapted. Variants `primary`·`tonal`·`ghost`·`outline`·`line`·`danger`; sizes `md`·`lg`·`icon`; `leadingIcon`, `trailingIcon`, `loading` (spinner + `aria-busy`), `fullWidth`, `asChild`; `active:scale-98`. **`line` hard-codes `text-primary-container`** — white on `#06C755` is 2.26:1. With `asChild` the icon props are ignored | Keep |
+| 3 | `Card` | `card.tsx` | shadcn, adapted. `variant: 'base'\|'raised'\|'inset'\|'accent'; accentColor?` — accent = 6px full-height left bar | Keep |
+| 4 | `Badge` *(planned as `Pill`)* | `badge.tsx` | `tone: 'success'\|'peak'\|'error'\|'neutral'\|'info'\|'line'; dot?; pulse?; icon?` | Keep |
+| 5 | `Spinner` | `spinner.tsx` | `size?; label?` | Keep |
+| 6 | `Toast` + `useToast()` | `toast.tsx` | Tones `neutral`·`success`·`error`; 3.2 s. Two global regions, polite and assertive. **Replaces the mockups' blocking `alert()`** | Keep |
+| 7 | `CopyButton` | `copy-button.tsx` | idle ⇄ copied (2 s) → toast. Clipboard API with a read-only-textarea fallback | Keep |
+| 8 | `SegmentedTabs` | `segmented-tabs.tsx` | `role="tablist"` + `aria-selected`, arrow keys via `useRovingFocus`. Its `aria-controls` points at panel ids that `/bookings` does not render yet | Keep |
+| 9 | `Sheet` | `sheet.tsx` | `fixed bottom-nav-safe`, `pointer-events-none` wrapper / `auto` card. ⚠️ **Non-modal: no focus trap, no scroll lock, never built on Dialog** — it hosts `SelectionDrawer` | Keep |
+| 9a | `Modal` | `modal.tsx` | **Built on `@radix-ui/react-dialog`**: focus trap, focus restore, Escape, outside-click, inert siblings. `open; onOpenChange; title; description?; trigger?; actions?`. Content wrapper carries `max-w-liff mx-auto`. Used by the cancel confirmation on `/bookings` | Keep |
+| 10 | `EmptyState` | `empty-state.tsx` | `mascot: 'idle'\|'sleep'\|'cheer'`, headline, body, actions. Drives sold-out and the empty `/bookings` tabs | Keep |
+| — | `Input` · `Label` · `RadioGroup` · `Separator` · `Skeleton` | shadcn files of the same names | Added with Revision 6 (§4.5) | Keep |
 
-### Tier 1 — shell (Days 1–2, ~0.5 day)
+### Tier 1 — shell (`layouts/`)
 
-| # | Component | Notes | Fate |
+| # | Component | As built | Fate |
 |---|---|---|---|
-| 11 | `AppHeader` | h-16 frosted bar, `pt-safe`, venue identity, open/closed dot derived from the clock, avatar. **Local avatar asset** — every mockup uses an ephemeral `lh3.googleusercontent.com` URL that will 404 | Keep |
-| 12 | `BottomNav` | Renders `navConfig.ts`. `aria-current="page"` computed from `useLocation()`, never hardcoded, never re-applied by a `DOMContentLoaded` script (which is what makes `_3` and `empty_state` announce the wrong page today) | Keep |
-| 13 | `StepHeader` | Back button + centred two-line `{title}` / `ขั้นตอน N จาก 3` | Keep |
-| 14 | `AppShell` | `<Outlet/>` + `.liff-column` + `pt-16 pb-24`; nav suppressed on `/book/success`. `Modal` portals render outside it — see #9a | Keep |
-| 15 | `OutsideLineNotice` | Dismissible strip when `!isInLine()`. Not a blocking gate | Adapt |
+| 11 | `AppHeader` (`app-header.tsx`) | `pt-safe`, solid `bg-surface` (frosted only under `supports-[backdrop-filter]`), 48px home button, venue name over a `bg-success` dot + `VENUE.openHoursLabel`, local avatar. The dot is **static**, not derived from the clock | Keep |
+| 12 | `BottomNav` (`bottom-nav.tsx`) | Renders `nav-config.ts`. `NavLink`, so `aria-current="page"` comes from the router; active tab bold with the filled glyph | Keep |
+| 14 | `AppLayout` *(planned as `AppShell`)* (`app-layout.tsx`) | `<Outlet/>` + `.liff-column` + header/nav padding that includes the safe-area insets; nav hidden on `NAV_HIDDEN_PREFIXES` (`/book/success`) | Keep |
 
-### Tier 2 — the booking domain (Days 5–11, the project)
+### Tier 2 — the booking domain (`features/`)
 
-| # | Component | Key props | States / variants | Fate |
+| # | Component | File | As built | Fate |
 |---|---|---|---|---|
-| 16 | `SlotCell` | `courtId; hour; status; price; isPeak; selected; edge?: 'single'\|'top'\|'middle'\|'bottom'; onTap` | 5 statuses × selected. Always a `<button>` with `aria-disabled` and a full Thai accessible name — **never a `<div>`, never `disabled`** (§3.5 #6) | **Keep — highest-value component in the repo** |
-| 17 | `SelectionBridge` | `edge` | The merged multi-hour visual: `rounded-t-xl` / `rounded-b-xl` + a connector bridge with a pulsing honey dot | Keep |
-| 18 | `CourtMatrix` | `courts; hours; grid; selection; onTap` | Real `<table>`, sticky `<thead>`, sticky `<th scope="row">` time axis, `min-w-[570px]` inside an `overflow-x-auto` region. Peak rows tinted. Roving tabindex (§8.6) | **Keep** |
-| 19 | `LegendBar` | `priceRange` | 4 keys with the hatch and dot-grid swatches | Keep |
-| 20 | `DateStrip` | `days; value; onChange` | today+selected · selected · available · sold-out (error pip) · past (disabled). Edge-bleed `-mx-4 px-4`, `role="tablist"`. Arrow keys via **`useRovingFocus`**, which keeps past days reachable — Radix Tabs would skip them (§4.5) | Keep |
-| 21 | `SelectionDrawer` | `selection; quote; quoting; onClear; onContinue` | **none** (instructional, CTA disabled) · **quoting** (shimmer total) · **selected** · **max reached** (caption). Announces via `aria-live="polite"`. ⚠️ **Non-modal** — the grid stays scrollable and tappable while it is up | Keep |
-| 22 | `PriceBreakdown` | `lines; total` | Iterates `QuoteLine[]` — a mixed range renders two rows automatically | Keep |
-| 23 | `PaymentMethodCard` | `id; title; tag?; subtitle; facts; selected; onSelect` | Real `role="radio"` + `aria-checked` in a `role="radiogroup"`, arrow keys via **`useRovingFocus`**. The mockups use bare `<button>`s, invisible to a screen reader | Keep |
-| ~~24~~ | ~~`HoldBanner`~~ — **cut, Revision 5** | `expiresAt; onExpire` | normal (honey) · **expiring** (<60 s, `error-container` + pulse) · **expired** (grey, fires `onExpire`). mm:ss from wall clock | Keep |
-| ~~25~~ | ~~`QrPanel`~~ — **cut, Revision 5** | `payload; amount; scheme` | THAI QR / พร้อมเพย์ badges, real rendered QR, centre mascot token, `QR สาธิต` caption | Adapt |
-| 26 | `BookingTicket` | `booking; venue; court` | bleed header (ref), 4 label/value rows, bleed payment strip. Paid / counter variants | Keep |
-| 27 | `BookingCard` | `booking; court; variant: 'hero'\|'compact'\|'past'; onAction` | **confirmed** (success pill + countdown chip, `bg-secondary` accent) · **pending** (honey pulsing pill, `bg-secondary-container` accent) · **past** (grey `เสร็จสิ้น`) | Keep |
-| 28 | `RateCard` | `rules; hours` | Rows rendered from `RATE_RULES` — no hardcoded prices anywhere (D05) | Keep |
-| 29 | `AvailabilityBanner` | `date; freeSlotCount; bands` | Navy hero with mascot watermark; per-band badge tone comfortable / urgent | Adapt |
-| 30 | `PhotoCarousel` | `slides` | `snap-x snap-mandatory`, dots, `1 / 3` counter. **Every slide has a real Thai `alt`** — 0 images in 48 files do | Keep |
-| 31 | `AmenityGrid` | `items` | 2-col, 6 tiles | Keep |
-| ~~32~~ | ~~`ShareToLine`~~ — **cut, Revision 5** | `text` | idle / sharing / failed. `navigator.share` → `line.me/R/share` fallback | Adapt |
+| 16 | `SlotCell` | `booking/pages/booking-grid/components/slot-cell.tsx` | A `<button role="gridcell">` with `aria-disabled` (never `disabled`), `aria-selected`, and a Thai name from `slotLabel()`. `edge: 'none'\|'single'\|'top'\|'middle'\|'bottom'` draws the merged multi-hour block — rounded ends and a 4px connector — so no separate `SelectionBridge` exists | **Keep — highest-value component in the repo** |
+| 18 | `CourtMatrix` | `…/booking-grid/components/court-matrix.tsx` | A `div role="grid"` with `aria-rowcount`/`aria-colcount`, `role="row"`/`columnheader`/`rowheader`, `aria-rowindex`/`aria-colindex`, `lang="th"`. `min-w-[336px]`, so six courts fit the 430px column with no sticky header and no horizontal scroll. Peak rows tinted. Roving tabindex (§8.6) | **Keep** |
+| 19 | `LegendBar` | `…/booking-grid/components/legend-bar.tsx` | `{standard, peak}` price strings. Keys: `ว่าง ฿180` · bolt `ช่วงพีค ฿220` · `เต็มแล้ว` (hatch) · `ปิดปรับปรุง` (dot grid) | Keep |
+| 20 | `DateStrip` | `…/booking-grid/components/date-strip.tsx` | `role="radiogroup"` of `role="radio"` days, arrow keys via `useRovingFocus`. 14 days; today reads `วันนี้`; a sold-out day reads `เต็ม` | Keep |
+| 21 | `SelectionDrawer` | `…/booking-grid/components/selection-drawer.tsx` | Inside a non-modal `Sheet`. States: none (`ยังไม่ได้เลือกคอร์ท` / `แตะช่องว่างในตารางเพื่อเลือกเวลา`, CTA disabled) · quoting (skeleton total) · selected (court, time, hours, total, `ช่วงพีค` or `ปกติ + พีค`). Buttons `ล้าง` and `จองทันที`. Owns an sr-only polite live region | Keep |
+| 22 | `PriceBreakdown` | `booking/components/price-breakdown.tsx` | Iterates `QuoteLine[]`, so a mixed range renders two rows, plus the free fee line | Keep |
+| 27 | `BookingCard` | `booking/pages/my-bookings/components/booking-card.tsx` | `{booking, onCancel?}`. One layout; the badge comes from the status: `ยืนยันแล้ว` · `รอชำระที่หน้าร้าน` · `เสร็จสิ้น` · `ยกเลิกแล้ว` · `หมดอายุ` | Keep |
+| 28 | `RateCard` | `venue/pages/court-profile/components/rate-card.tsx` | Rows rendered from `RATE_RULES` — no hard-coded prices (D05) | Keep |
+| 30 | `PhotoCarousel` | `…/court-profile/components/photo-carousel.tsx` | `snap-x snap-mandatory`, dots, `1 / 3`. Every slide has a real Thai `alt` | Keep |
+| 31 | `AmenityGrid` | `…/court-profile/components/amenity-grid.tsx` | 2 columns, 6 tiles | Keep |
 
-### Tier 3 — demo scaffolding (Day 14, ~0.5 day)
+### Planned and not built
 
-| # | Component | Purpose | Fate |
-|---|---|---|---|
-| 33 | `DemoBar` | Behind `?demo=1`, off by default: jump to date · **จำลองยอดเงินเข้า (webhook)** · **หมดเวลาทันที** · reset. Makes an 8-minute pitch possible without waiting 10 real minutes, and makes the auto-confirm story concrete instead of hand-wavy | Demo |
-| 34 | `FixtureBadge` | Corner chip `ข้อมูลตัวอย่าง`, so nobody in the room ever believes this is live | Demo |
+| Planned | Why it is absent | What stands in its place |
+|---|---|---|
+| `StepHeader` (#13) | Only one screen has a step | Inline back button + `ขั้นตอน 1 จาก 2` on `/book/review` |
+| `OutsideLineNotice` (#15), `ShareToLine` (#32) | LINE integration cut, Revision 5 | — |
+| `SelectionBridge` (#17) | Folded into `SlotCell`'s `edge` | — |
+| `PaymentMethodCard` (#23) | One payment method after Revision 5 | shadcn `RadioGroup` with one option |
+| `HoldBanner` (#24), `QrPanel` (#25) | Payment screen cut, Revision 5 | — |
+| `BookingTicket` (#26) | Inline on the success screen | — |
+| `AvailabilityBanner` (#29) | Inline on the court profile | A green-accent `Card` |
+| `DemoBar` (#33), `FixtureBadge` (#34) | Not built | `?fast=1` is the only demo switch (§6.6) |
 
 ---
 
@@ -1569,7 +1776,10 @@ Build top to bottom and nothing is ever blocked. **Keep** = ships into the real 
 
 **This is the heart of the demo and it is prototyped nowhere.** `2.` is hardcoded markup with zero selection JS. `_1` toggles a CSS class per cell with no range logic, no price accumulation, no drawer update, and a CTA that is `disabled` in the markup and never enabled. Everything in this section is net-new, and it is the file most likely to survive verbatim into the real product.
 
-It lives in `src/features/booking/useSlotSelection.ts`, is **headless** (no JSX, no DOM), and is unit-tested before any grid pixel is drawn.
+It is split in two:
+
+- **`src/features/booking/selection.ts`** — the rules as pure functions: `tap()`, `reconcile()` (§8.4), `assertInvariants()`, `hourLabel`, `rangeLabel`. No React, no DOM. `tap()` returns the new selection, the feedback to announce, and which rule fired. Unit-tested in `selection.test.ts` (§8.7).
+- **`src/features/booking/pages/booking-grid/hooks/use-slot-selection.ts`** — the React hook around it: holds the state, sends feedback to the toasts and the drawer's live region, and computes the quote (§8.5).
 
 ### 8.1 Model
 
@@ -1581,7 +1791,7 @@ import type { Selection, SelectionRange } from '@/data/types';
 // Whole hours, endHour EXCLUSIVE, courtIds length 1 in this UI (§6.1, NEW-6).
 ```
 
-**Invariants**, asserted in dev and re-validated server-side in the real build (D21):
+**Invariants**, re-validated server-side in the real build (D21). `assertInvariants()` checks them; as built it runs only inside the tests (the property test calls it after every step), not in the dev app:
 
 1. `endHour > startHour`
 2. `minBookingHours ≤ endHour − startHour ≤ maxBookingHours` (1…3)
@@ -1610,15 +1820,17 @@ Let `S` = current selection, `c` = tapped court, `h` = tapped hour, `st` = `grid
 | **R2** | `st === 'maintenance'` | no change | assertive toast **`คอร์ทนี้ปิดปรับปรุงในช่วงเวลานี้`** |
 | **R3** | `st === 'past'` | no change | assertive toast **`เวลานี้ผ่านไปแล้ว`** |
 | **R4** | `S.kind === 'none'` | `S = {c, h, h+1}` | drawer slides up; polite announce |
-| **R5** | `!S.courtIds.includes(c)` | **`S = {c, h, h+1}`** — switch court | toast **`เปลี่ยนเป็นคอร์ท {n} แล้ว`** |
+| **R5** | `!S.courtIds.includes(c)` | **`S = {c, h, h+1}`** — switch court | polite announce **`เปลี่ยนเป็นคอร์ท {n} แล้ว`** |
 | **R6** | same court · `h === S.startHour` · `hours === 1` | `S = none` | drawer slides down; announce `ยกเลิกการเลือกแล้ว` |
 | **R7** | same court · `h === S.startHour` · `hours > 1` | `S.startHour = h + 1` (shrink from top) | polite announce |
 | **R8** | same court · `h === S.endHour - 1` · `hours > 1` | `S.endHour = h` (shrink from bottom) | polite announce |
-| **R9** | same court · `S.startHour < h < S.endHour - 1` (interior of a 3-hour range) | **collapse: `S = {c, h, h+1}`** | toast **`เลือกใหม่เป็น {HH}:00 - {HH+1}:00`** |
+| **R9** | same court · `S.startHour < h < S.endHour - 1` (interior of a 3-hour range) | **collapse: `S = {c, h, h+1}`** | polite announce **`เลือกใหม่เป็น {HH}:00 - {HH+1}:00`** |
 | **R10** | same court · `h === S.endHour` · `hours < MAX` | **extend down: `S.endHour = h + 1`** | polite announce |
 | **R11** | same court · `h === S.startHour - 1` · `hours < MAX` | **extend up: `S.startHour = h`** | polite announce |
 | **R12** | same court · adjacent (`h === S.endHour` or `h === S.startHour - 1`) · `hours === MAX` | **no change** | assertive toast **`จองต่อเนื่องได้สูงสุด 3 ชั่วโมง`** |
-| **R13** | same court · not adjacent and not inside (a gap of ≥1 hour, empty or blocked) | **restart: `S = {c, h, h+1}`** | toast **`เลือกได้เฉพาะชั่วโมงติดกัน — เริ่มเลือกใหม่ที่ {HH}:00`** |
+| **R13** | same court · not adjacent and not inside (a gap of ≥1 hour, empty or blocked) | **restart: `S = {c, h, h+1}`** | assertive toast **`เลือกได้เฉพาะชั่วโมงติดกัน — เริ่มเลือกใหม่ที่ {HH}:00`** |
+
+**Feedback as built.** "Polite announce" goes to the drawer's sr-only live region only; "assertive toast" is a visible toast in the assertive region. R4, R7, R8, R10 and R11 announce `เลือก {HH}:00 - {HH}:00 น.`. R12 is checked before R10/R11 (`hours >= MAX`), which is the same table. Any other status — in practice `closed` — falls into the R3 row with `เวลานี้เลือกไม่ได้`.
 
 ### 8.3 Why these three rules are the way they are
 
@@ -1631,73 +1843,73 @@ These are the three a reviewer will argue with, so the reasoning is written down
 Two consequences worth stating so nobody re-derives them:
 
 - **Extension can never jump a blocked cell.** R10/R11 only fire when the tapped cell is `available` (R1–R3 have already returned otherwise), and they extend by exactly one hour. Tapping the cell *after* a booked cell is a gap, so it falls to R13.
-- **`ล้าง` and `Escape` are the only ways to reach `none` other than R6.** There is no implicit clear.
+- **`ล้าง` is the only way to reach `none` other than R6** (and the date change below). There is no implicit clear. *`Escape` was planned and is not implemented.*
 
 ### 8.4 Transitions that are not taps
 
 | Trigger | Effect |
 |---|---|
-| `ล้าง` button / `Escape` | `S = none` |
+| `ล้าง` button | `S = none` *(`Escape` planned, not implemented)* |
 | date pill or calendar change | `S = none`, **always** — even if the identical court and hours are free on the new date |
-| grid refetch (retry, focus regain, hold sweep) | if any selected hour is no longer `available`: `S = none` + assertive toast **`ช่วงเวลาที่เลือกไว้เพิ่งถูกจองไปครับ กรุณาเลือกใหม่`** |
-| navigate to `/book/review` | freeze `S` into the flow reducer; `S` survives Back |
-| Back from review | restore `S`, scroll `startHour` into view |
+| grid refetch | `reconcile()`: if any selected hour is no longer `available`, `S = none` + assertive toast **`ช่วงเวลาที่เลือกไว้เพิ่งถูกจองไปครับ กรุณาเลือกใหม่`**. As built the only refetch is a date change; there is no focus-regain refetch and no sweep interval |
+| navigate to `/book/review` | freeze `S` into the flow reducer as `draft` (persisted under `wc.flow.v1`) |
+| Back from review | **planned:** restore `S` and scroll `startHour` into view. **As built:** the grid remounts on `defaultDemoDate()` with `S = none` |
 | ~~hold expiry~~ | *(cut, Revision 5 — no hold in the demo)* |
 
 **Out of scope, stated explicitly:** long-press, drag-to-select, multi-court selection, cross-midnight ranges, sub-hour granularity.
 
 ### 8.5 Quote debounce
 
-Every selection change kicks a 250 ms debounced `quote()`. While in flight, `quoting = true`: the total renders as a shimmer bar the width of the previous total and the CTA is disabled.
+Every selection change kicks a **250 ms** debounced `quote()` in the hook. While it is in flight, `quoting = true`: the total renders as a skeleton bar and the CTA is disabled.
 
-This is theatre in Plan 01 — the computation is synchronous and instant. It is built anyway because in the real product the quote is server-authoritative (D21, closing the "client computed a different total" hole), and the loading state costs nothing now versus a retrofit later. It is also the only place in the app where the CTA-enable rule gets interesting:
+This is theatre in Plan 01 — the computation is synchronous and instant. It is kept because in the real product the quote is server-authoritative (D21, closing the "client computed a different total" hole), and the loading state costs nothing now versus a retrofit later. *(Revision 2 proposed zeroing this delay; the build kept 250 ms.)* It is also the only place in the app where the CTA-enable rule gets interesting:
 
-> **The CTA enables iff `selection.kind === 'range' && !quoting && !gridError`.** That is the entire rule, and it is the rule `_1` never implements.
+> **The CTA enables iff `selection.kind === 'range' && !quoting && grid !== null`.** When the grid fails to load, the drawer is not rendered at all. That is the entire rule, and it is the rule `_1` never implements.
 
 ### 8.6 Keyboard and screen reader
 
-**Structure.** A real `<table>` (§3.5 #5): `<caption class="sr-only">`, `<th scope="col">` per court, `<th scope="row">` per hour, each cell a `<td>` wrapping a `<button>`. Header association comes free from the table semantics — nothing today associates a cell with its court name, because both mockups build the matrix out of scroll panes.
+**Structure.** `role="grid"` on a `div` (§3.5 #5 chose a `<table>` carrying the role; the build uses ARIA roles throughout instead): `aria-label="ตารางเวลาว่างของแต่ละคอร์ท"`, `aria-rowcount`/`aria-colcount`, a `role="columnheader"` per court, a `role="rowheader"` per hour, and each cell a `<button role="gridcell">` with `aria-rowindex`/`aria-colindex`. The grid carries `lang="th"`.
 
-**Roving tabindex.** The grid is **one** tab stop. The focused cell has `tabindex="0"`, every other cell `tabindex="-1"`.
+**Roving tabindex.** The grid is **one** tab stop. The focused cell has `tabindex="0"`, every other cell `tabindex="-1"`. The initial target is คอร์ท 1 @ 09:00.
 
-| Key | Action |
-|---|---|
-| `↑` `↓` | move one hour; stops at 09:00 / 21:00 |
-| `←` `→` | move one court; stops at คอร์ท 1 / คอร์ท 6; scrolls the region to keep the cell visible |
-| `Home` / `End` | first / last court in the row |
-| `PageUp` / `PageDown` | 09:00 / 21:00 in the same court |
-| `Ctrl+Home` / `Ctrl+End` | คอร์ท 1 @ 09:00 / คอร์ท 6 @ 21:00 |
-| `Enter` / `Space` | `tap()` — the §8.2 table verbatim |
-| `Shift+↓` | extend `endHour` by 1 (R10 semantics, including the R12 block) |
-| `Shift+↑` | extend `startHour` back by 1 (R11), or shrink from the bottom (R8) when focus is at `endHour-1` and `hours > 1` |
-| `Escape` | `S = none`; focus unchanged |
-| `Tab` | leaves the grid → the drawer's `ล้าง`, then the CTA |
+| Key | Action | Built |
+|---|---|---|
+| `↑` `↓` | move one hour; stops at 09:00 / 21:00 | ✅ |
+| `←` `→` | move one court; stops at คอร์ท 1 / คอร์ท 6 | ✅ (no explicit scroll; native `focus()` does it) |
+| `Home` / `End` | first / last court in the row | ✅ |
+| `PageUp` / `PageDown` | 09:00 / 21:00 in the same court | ✅ |
+| `Enter` / `Space` | `tap()` — the §8.2 table verbatim | ✅ (native button click) |
+| `Ctrl+Home` / `Ctrl+End` | คอร์ท 1 @ 09:00 / คอร์ท 6 @ 21:00 | ❌ behaves like `Home` / `End` |
+| `Shift+↓` / `Shift+↑` | extend or shrink the range | ❌ moves focus only |
+| `Escape` | `S = none` | ❌ |
+| `Tab` | leaves the grid → the drawer's `ล้าง`, then the CTA | ✅ |
 
 Focus is **never** moved programmatically by a tap.
 
-**Accessible names** come from `slotLabel(court, hour, status, price, isPeak, selected)` — never scraped from DOM text, which contains only `฿180` and announces as "180 baht" with no context.
+**Accessible names** come from `slotLabel(courtName, slot, selected)` in `slot-cell.tsx` — never scraped from DOM text, which contains only `฿180` and announces as "180 baht" with no context.
 
 | Status | Announced name |
 |---|---|
 | available, standard | `คอร์ท 3 เวลา 15:00 ถึง 16:00 ว่าง ราคา 180 บาท` |
 | available, peak | `คอร์ท 3 เวลา 19:00 ถึง 20:00 ว่าง ช่วงพีค ราคา 220 บาท` |
-| selected | as above + `เลือกอยู่`, plus `aria-pressed="true"` |
+| selected | as above + `เลือกอยู่`, plus `aria-selected="true"` |
 | booked | `คอร์ท 3 เวลา 19:00 ถึง 20:00 ถูกจองแล้ว` + `aria-disabled="true"` |
 | maintenance | `คอร์ท 6 เวลา 09:00 ถึง 10:00 ปิดปรับปรุง` + `aria-disabled="true"` |
 | past | `คอร์ท 1 เวลา 09:00 ถึง 10:00 เลยเวลาแล้ว` + `aria-disabled="true"` |
+| closed | `… นอกเวลาทำการ` + `aria-disabled="true"` |
 
-**Exactly two live regions**, both owned by the grid screen:
+**Three live regions:**
 
-- `aria-live="polite"` on the drawer summary — `เลือก คอร์ท 3 เวลา 19:00 ถึง 21:00 รวม 2 ชั่วโมง ยอดรวม 440 บาท`; on clear, `ยกเลิกการเลือกแล้ว`.
-- `aria-live="assertive"` on the toast node — R1/R2/R3/R12 rejections and the "slot taken" refetch case.
+- The toast provider's two global regions, polite and assertive — R1/R2/R3/R12/R13 rejections and the "slot taken" refetch case go to the assertive one.
+- An sr-only `aria-live="polite"` region in the drawer, which reads the tap feedback (`เลือก 19:00 - 21:00 น.`, `ยกเลิกการเลือกแล้ว`). The hook also builds a fuller summary with court and total (`เลือก คอร์ท 3 เวลา 19:00 - 21:00 น. รวม 2 ชั่วโมง ยอดรวม ฿440`), but nothing renders it yet.
 
-Announcements are debounced 300 ms so a held `Shift+↓` does not flood the buffer.
+Polite announcements are debounced 300 ms so a held arrow key does not flood the buffer.
 
-**Non-colour encoding (D53).** Booked = 45° hatch. Maintenance = dot grid. Selected = a `check_circle` glyph plus the literal word `เลือกแล้ว`. Peak = a `bolt` glyph in the time axis, not just a tint. **Nothing in the grid is distinguishable by hue alone.**
+**Non-colour encoding (D53).** Booked = 45° hatch + a `close` glyph. Maintenance = dot grid + a `build` glyph. Past = 60% opacity + a `schedule` glyph. Selected = navy fill + a `check_circle` glyph on the top cell of the range. Peak = a `bolt` glyph in the time axis, not just a tint. *The planned literal word `เลือกแล้ว` in selected cells was not built.*
 
-### 8.7 Unit tests — `useSlotSelection.test.ts`
+### 8.7 Unit tests — `selection.test.ts`
 
-These are written **before** the grid UI, run headless, and are the definition of done for Days 5–6. Grid fixture: 6 courts × 13 hours, with `c3@19` and `c3@20` free, `c6@09`–`c6@11` maintenance, `c1@20`–`c1@22` booked.
+The rules are tested as pure functions in `src/features/booking/selection.test.ts`, headless, with no React. Grid fixture: 6 courts × 13 hours on a weekday at least seven days ahead, with `c3@19` and `c3@20` free, `c6@09`–`c6@11` maintenance, and `c1@20` booked for one hour.
 
 | # | Test | Expects |
 |---|---|---|
@@ -1711,81 +1923,74 @@ These are written **before** the grid UI, run headless, and are the definition o
 | 8 | 19–22 then tap `c3@18` | unchanged; max-hours rejection (R12) |
 | 9 | 19–21 then tap `c3@09` | `{c3, 9, 10}` (R13 restart) |
 | 10 | 19–21 then tap `c1@19` | `{c1, 19, 20}` (R5 switch) |
-| 11 | tap `c6@09` (maintenance) | unchanged; R2 toast |
-| 12 | tap `c1@20` (booked) | unchanged; R1 toast |
-| 13 | 19–21, then tap `c1@21` where `c1@20` is booked | `{c1, 21, 22}` — R13, not an extension across a blocked cell |
+| 11 | tap `c6@09` (maintenance) | unchanged; R2 |
+| 12 | tap `c1@20` (booked) | unchanged; R1 |
+| 13 | `c1@19`, then tap `c1@21` across the booked `c1@20` | `{c1, 21, 22}` — R13, not an extension across a blocked cell |
+| 13b | 19–21 on `c3`, then tap `c1@21` | R5 (a different court is a switch, not a gap) |
 | 14 | select 16–18 on a weekday | two quote lines, ฿180 + ฿220 = **฿400**, `rateMix: 'mixed'` |
 | 15 | select 20–22 on a weekday | two lines, ฿220 + ฿180 = ฿400 |
 | 16 | select 10–12 on a Saturday | one line, ฿220 × 2 = **฿440** |
 | 17 | change date with a live selection | `none` |
 | 18 | refetch where a selected hour became booked | `none` + assertive toast |
-| 19 | property test: 2,000 random tap sequences | invariants 1–4 hold after **every** step |
+| — | refetch where the selection is still free | selection survives |
+| 19 | property test: **one seeded run of 2,000 random taps** | `assertInvariants()` holds after **every** step |
 
-Test 19 is the one that matters. It is ~15 lines and it is the reason invariant 4 can be trusted as a claim rather than an intention.
+**21 tests.** Test 19 is the one that matters: it is why invariant 4 can be trusted as a claim rather than an intention. The generator is seeded (`20_260_920`), so a failure reproduces.
 
 ---
 
-## 9. Screen-by-screen build notes
+## 9. Screen-by-screen, as built
 
-Shared chrome, applied identically to all nine screens:
+Each screen below says what shipped. Where the plan asked for more than was built, it is listed under **Not built**, so the gap is visible instead of silently dropped.
 
-- **Header** `h-16 bg-surface/80 backdrop-blur-xl shadow-app-header pt-safe z-header` — 44×44 home button (`aria-label="หน้าแรก"`), `venue.displayName` over a `bg-success`-dot pill reading `เปิดบริการ 09:00 - 22:00`, 32px local avatar.
-- **Bottom nav** `h-16 pb-safe shadow-app-nav` — two tabs from `navConfig.ts` (`sports_tennis จองคอร์ท` → `/book`, `event_available ประวัติจอง` → `/bookings`); active = `text-primary font-bold` + `aria-current="page"` + `FILL 1`, derived from the router.
-- `main` is `pt-16 pb-24` inside `.liff-column`.
-- **Viewport:** `width=device-width, initial-scale=1, viewport-fit=cover`. **`maximum-scale` and `user-scalable=no` are deleted** (present in 38 of 48 mockups; WCAG 1.4.4 failure).
+Shared chrome, applied identically to every screen (`layouts/`):
+
+- **Header** `pt-safe`, solid `bg-surface` (frosted only under `supports-[backdrop-filter]`), `shadow-app-header`, `z-header` — 48×48 home button, `venue.displayName` over a `bg-success` dot + `เปิดบริการ 09:00 - 22:00` (`VENUE.openHoursLabel`), 32px local avatar.
+- **Bottom nav** `pb-safe shadow-app-nav` — two tabs from `nav-config.ts` (`sports_tennis จองคอร์ท` → `/book`, `event_available ประวัติจอง` → `/bookings`); active = `text-primary font-bold` + `aria-current="page"` + filled glyph, derived from the router. Hidden on `/book/success`.
+- `main` sits inside `.liff-column`, padded for the header, the nav and the safe-area insets.
+- **Viewport:** `width=device-width, initial-scale=1, viewport-fit=cover`. **`maximum-scale` and `user-scalable=no` are gone** (present in 38 of 48 mockups; WCAG 1.4.4 failure) and gated (§11.2).
 - All `animate-ping` / `-pulse` / `-bounce` are killed under `prefers-reduced-motion` globally.
+- URLs are hash routes (`/#/book`).
 
-Screen order below is the build order.
+### S2/S3/S4 · `/book` — the booking grid (`features/booking/pages/booking-grid/`)
 
-### S2/S3/S4 · `/book` — the booking grid *(Days 7–8 and 10, the project)*
+Top to bottom: `จองคอร์ทแบดมินตัน` + `{วันที่} · ว่าง {n} ช่วงเวลา` → 14-day `DateStrip` → `LegendBar` → `CourtMatrix` → `SelectionDrawer`. The grid opens on `defaultDemoDate()` (tomorrow after 18:00).
 
-Build the layout from `2.` (two synchronised panes, 95px cells) **not** from `_1` (`grid-cols-6` squeezes six columns into the viewport at ~44px), then replace the two panes with the `<table>` (§3.5 #5).
+**Cells:** `available` = white + `฿180` in `text-success` (or `฿220` in `text-secondary` when peak); `selected` = `bg-primary-container` + price, with `check_circle` on the top cell and the cells merged into one block; `booked` = `.pattern-booked` + `close` glyph; `maintenance` = `.pattern-maintenance` + `build` glyph; `past` = 60% opacity + `schedule` glyph. Column headers are the court number over `gridSubtitle`.
 
-Top to bottom: title block (`จองคอร์ทแบดมินตัน` + chip `6 คอร์ทยางมาตรฐาน` + a 40px `calendar_month` button opening a native `<input type="date">`, min today, max today+13) → month row (`{เดือน} {ปี พ.ศ.}` + a `bolt` chip **`ช่วงพีค 17:00-21:00`** derived from `RATE_RULES`) → 14-day `DateStrip` → `LegendBar` → the matrix → `SelectionDrawer`.
+Defects in the source that the build fixes:
 
-**Legend — one reconciled set** (`_1` and `2.` ship two different ones):
+- **All 13 rows render.** `_1` silently omits 12:00, 14:00 and 16:00. Rows come from `openingHours()`, never typed as markup — R10/R11/R13 depend on `h±1` being a real row.
+- **`_1`'s full-width `เริ่มช่วงเวลาพีค` divider band is gone.** It broke the 1:1 row↔hour mapping arrow keys depend on. A row tint plus the `bolt` glyph carry the message.
+- **The `★` on the Court 3 header is gone.** It read as "selected". (`isPopular` is in the data and not rendered.)
+- **Peak is honey, not olive.** Peak = `secondary`; success = `success`. Never crossed.
+- **Six courts fit one screen** (NEW-5): the matrix is `min-w-[336px]`, so a 390px phone shows every court with no horizontal scroll and no sticky header to fight.
 
-| Swatch | Label |
-|---|---|
-| white + `shadow-sm` | `ว่าง ฿180–220` |
-| `bg-primary-container` + honey dot | `กำลังเลือก` |
-| `.swatch-booked` (grey + hatch) | `เต็มแล้ว` |
-| `.swatch-maintenance` (red + dots) | `ปิดปรับปรุง` |
+**States built:**
 
-**Cells:** `available` = white + `฿180` in `text-success` (or `฿220` in `text-secondary` when peak) + a status dot; `selected` = `bg-primary-container` + `check_circle` + `เลือกแล้ว` + `{HH}:00-{HH+1}:00` + price; `booked` = `.pattern-booked` + `เต็มแล้ว`; `maintenance` = `.pattern-maintenance` + `ปิดปรับปรุง`; `past` = 50% opacity + `—`.
+- idle · selected · **past hours** (on today, every row ≤ the current hour).
+- **loading** — eight skeleton bars, `aria-busy`, `aria-label="กำลังโหลดตาราง"`.
+- **error** — `โหลดตารางไม่สำเร็จ` / `ลองใหม่อีกครั้งได้เลยครับ` / `ลองอีกครั้ง`; the drawer is hidden. *Unreachable in the demo (the fake API never rejects), and the retry button does not refetch yet: it sets the date to the value it already has.*
+- **sold out (`_2`)** — `EmptyState` with the sleeping capybara, `วันนี้คอร์ทเต็มทุกช่วงเวลาแล้วครับ` / `ลองดูวันถัดไปไหมครับ ยังมีช่วงค่ำว่างอยู่`, and one button `ดูวัน{วันถัดไป}` that moves to the next day (BASE+4, the open alternate day). The drawer is hidden.
 
-Fixes applied here, each of which is a defect in the source:
+The CTA reads **`จองทันที`** in every state. *The plan asked for `ไปต่อที่ชำระเงิน`; with no payment screen after Revision 5, the review screen is the next step and the button does not book anything yet — the label is a known mismatch to settle.*
 
-- **All 13 rows render.** `_1` silently omits 12:00, 14:00 and 16:00 while its header claims a continuous 09:00–22:00. Rows are generated by a loop over `POLICY`, never typed as markup. This also matters for the state machine: R10/R11/R13 depend on `h±1` being a real row, and with 16:00 missing the mixed-rate case is not even expressible.
-- **`_1`'s full-width `เริ่มช่วงเวลาพีค` divider band is deleted.** It inserts a non-hour row into the grid, breaking the 1:1 row↔hour mapping that arrow-key navigation depends on. A row tint plus the header chip carry the same message.
-- **The `★` on the Court 3 header is dropped.** `bg-primary-container` on a column header reads as "this court is selected" and collides with the actual selection state. `isPopular` becomes a small honey `local_fire_department` glyph in the subtitle line.
-- **Peak is honey, not olive.** `2.` colours the peak `bolt` icon and the drawer's `ช่วงพีค` chip with `#606C38` — the colour that means *available / paid / confirmed* on every other screen. Peak = `secondary`; success = `success`. Never crossed.
-- **CTA label is `ไปต่อที่ชำระเงิน` in every state.** `_1` says `จองทันที`, which promises a booking that has not happened.
-- **Auto-scroll to the first non-past row on mount**, replacing `2.`'s unconditional `window.scrollTo({top:360})`, which fights a user who is already scrolling.
+**Not built:** the `6 คอร์ทยางมาตรฐาน` chip, the calendar button and native date input, the month row and the `ช่วงพีค 17:00-21:00` chip; the `กำลังเลือก` legend key; the `เลือกแล้ว` word and time range inside selected cells; auto-scroll to the first non-past row; `?error=grid`; on the sold-out day, the recommendation card with `เลือกช่องนี้`, the free count in the CTA, the waitlist toggle (D23′) and the collapsed greyed grid; `countAvailableCourts()` and its dev assertion.
 
-**States built:** idle · selected · **loading** (time axis and headers render immediately from local data; the 78 cells are `animate-pulse` blocks; drawer reads `กำลังโหลดตาราง…`) · **error** (the matrix area is replaced by `โหลดตารางไม่สำเร็จ` / `ตรวจสอบสัญญาณอินเทอร์เน็ตแล้วลองอีกครั้งครับ` / `ลองใหม่อีกครั้ง`; date strip and legend stay; trigger with `?error=grid`) · **past hours** (on today, every row ≤ current hour is `past`) · **sold out** (below).
+### S5 · `/book/review` — ยืนยันข้อมูลการจอง (`features/booking/pages/booking-review/`)
 
-**Sold out (`_2`).** `EmptyState` with the sleeping capybara (`alt="มาสคอตคาปิบาร่านอนหลับพักผ่อนหลังตีแบดมินตัน"` — the mockup uses `data-alt`, which is not an attribute and gives the image no accessible name), headline `วันนี้คอร์ทเต็มทุกช่วงเวลาแล้วครับ`, a recommendation card whose `เลือกช่องนี้` button **navigates to the suggested date and pre-selects that exact range** (today it does nothing), a primary CTA `ดูตาราง{วัน} (ว่าง {n} ช่วงเวลา)`, and the waitlist toggle (`role="switch"`, persisted). Then — **and this is a change from the mockup** — the greyed grid stays on screen inside a collapsed `<details>` summarised `ดูตารางวันนี้ (เต็มทั้งหมด)`. The mockup discards the matrix entirely, so the user cannot verify the claim or scan for a late cancellation, and the screen reads as broken rather than as full.
+Guard: no `draft` in the flow state (deep link, reload after clear) → redirect to `/book` with `replace`. *The planned toast `กรุณาเลือกช่วงเวลาก่อนครับ` was not built.*
 
-Counts are **computed, never literal**: `countAvailableSlots(date)` and `countAvailableCourts(date, band)`. `_2`'s `ว่าง 8 คอร์ท` is impossible at a 6-court venue — the unit was also wrong, since it is *slots*, not courts. Ship a dev assertion `countAvailableCourts() <= courts.length`; that class of bug should fail loudly.
+Back button (`ย้อนกลับ`) + `ยืนยันข้อมูลการจอง` / `ขั้นตอน 1 จาก 2` → summary card (`court.longLabel`, date, `{เวลา} ({n} ชั่วโมง)`, venue name) → `รายละเอียดค่าบริการ` (`PriceBreakdown`) → contact card → payment card → `ยืนยันการจอง`.
 
-Also removed: the persona leak `คุณต้นและเดอะแก๊ง` in production copy (interpolate `{user.displayName}` or drop it), and the two different recommended windows the same card advertises (18:00–21:00 in the body, 18:00–20:00 in the card — both now render one `suggestion.window` field).
+- **The phone field ships empty.** The mockup prefilled `081-234-5678` — *the venue's own hotline* — into the user's field. Label `เบอร์โทรติดต่อ`, helper `สนามใช้ติดต่อกลับกรณีมีการเปลี่ยนแปลง`, placeholder `08X-XXX-XXXX`, 16px. Validation strips every non-digit, then `^0[0-9]{8,9}$`. Invalid after blur or submit → `border-error` + `กรุณากรอกเบอร์โทรให้ครบ 9–10 หลัก` + `aria-invalid`. The CTA stays enabled and validates on press.
+- **Payment is one option** (Revision 5): a `RadioGroup` labelled `วิธีชำระเงิน` with `ชำระที่หน้าร้าน` / `จ่ายเงินสดหรือโอนที่เคาน์เตอร์ตอนมาถึงสนาม`, selected by default.
+- Cancellation line `ยกเลิกฟรีถ้าแจ้งก่อนเริ่มเล่นมากกว่า {venue.cancellationHours} ชั่วโมง` — the number is never typed.
+- **`รอบ 4` and `รวมภาษีมูลค่าเพิ่มแล้ว` are gone** (D74).
 
-### S5 · `/book/review` — ยืนยันข้อมูลการจอง (1/3) *(Day 9)*
+**States:** default · submitting (spinner in the CTA) · validation error · **slot taken while deciding** — `api.confirmBooking` throws `SlotTakenError`, the screen shows the assertive toast `ช่วงเวลานี้เพิ่งถูกจองไปครับ กรุณาเลือกใหม่` and returns to `/book`. Any other failure toasts `บันทึกไม่สำเร็จ ลองอีกครั้งครับ`. The booking is created `pending_payment` / `unpaid` / `counter`.
 
-Guard: no draft selection (deep link, reload after clear) → redirect to `/book` with toast `กรุณาเลือกช่วงเวลาก่อนครับ`.
-
-Booking summary card (venue name, `court.longLabel` navy pill, climate pill from `court.climate`, 48px thumbnail with a real `alt`, date + time inset grid) → `PriceBreakdown` iterating `quote.lines` → contact card → payment selector → cancellation callout → sticky total drawer.
-
-Fixes:
-
-- **Delete the `รอบ 4` pill.** Unexplained, and it collides with `คอร์ท 3` on the same screen; nobody can say whether it means round 4, court 4 or slot 4.
-- **The emergency-contact phone field ships empty and required.** The mockup prefills `081-234-5678` — *the venue's own hotline* — into the user's personal field. Validation: strip `-` and spaces, then `^0[0-9]{8,9}$`. Invalid → `border-error` + `กรุณากรอกเบอร์โทรศัพท์ 10 หลัก` + `aria-invalid` + `aria-describedby`, CTA disabled.
-- **Drop `รวมภาษีมูลค่าเพิ่มแล้ว`.** It asserts VAT with no tax line, and the venue's VAT position is genuinely unknown (D74).
-- **Payment selector is a real `role="radiogroup"`.** Option A `ชำระออนไลน์ตอนนี้` / `PromptPay QR` (the mockup's `PromptPay QR / บัตรเครดิต` is trimmed — card is not in scope). Option B `ชำระเงินสดที่เคาน์เตอร์สนาม` / `เงินสด / โอนสแกนที่จุดบริการ`. **CTA label swaps with the method**: A → `ดำเนินการชำระเงิน (฿440)`, B → `ยืนยันการจองคอร์ท (฿440)`. B skips `/book/pay` entirely and routes to `/book/success/:ref` with `paymentMethod: 'counter'`, `paymentStatus: 'unpaid'`, `status: 'pending_payment'`.
-- Cancellation copy interpolates `venue.cancellationHours` — the number is never typed.
-
-**States:** default · submitting (CTA spinner + `กำลังยืนยัน…`, inputs disabled) · validation error · **slot taken while deciding** — a modal `ช่วงเวลานี้เพิ่งถูกจองไปเมื่อครู่` / `มีคนจอง {court} {time} ไปก่อนหน้าคุณ ลองเลือกเวลาอื่นดูไหมครับ` with `กลับไปเลือกเวลาใหม่` (→ grid, selection cleared, refetched). Trigger with `?conflict=1`. This is the most likely real failure of the flow and it exists in no mockup.
+**Not built:** the climate pill and thumbnail; the conflict *modal* and `?conflict=1` (NEW-1 shipped as the toast above); the price inside the CTA label; a sticky total drawer; disabling the inputs while submitting.
 
 ### ~~S6 · `/book/pay`~~ — **cut in Revision 5.** The section below is kept only as the spec to restore from if prepayment ever ships.
 
@@ -1850,58 +2055,47 @@ Hero card: context pill → `฿` + `payAmount(satang(44_000))` = **`฿440.00`*
 
 **`/book/expired`** — sleeping capybara at 128px, `หมดเวลาจองชั่วคราวแล้ว`, `คอร์ทถูกปล่อยกลับสู่ระบบแล้ว กรุณาเลือกช่วงเวลาใหม่อีกครั้งครับ`, primary `กลับไปเลือกเวลาใหม่` → the grid on the same date with the same court scrolled into view. The hold is released and availability invalidated on entry.
 
-### S7 · `/book/success/:ref` — จองคอร์ทสำเร็จ (3/3) *(Day 9)*
+### S7 · `/book/success/:ref` — จองคอร์ทสำเร็จ (`features/booking/pages/booking-success/`)
 
-Folder is named `line`; it is **not** a LINE chat preview.
+Folder in the mockups is named `line`; it is **not** a LINE chat preview.
 
-Mascot hero (cheering capybara) → `จองคอร์ทสำเร็จแล้วครับ!` → a status pill: `bg-success` **`ยืนยันแล้ว (ชำระเงินเรียบร้อย)`**, or for the counter path `bg-secondary-container` + `hourglass_top` **`ยืนยันแล้ว (ชำระที่เคาน์เตอร์)`** with added sub-copy `กรุณาชำระที่เคาน์เตอร์ก่อนลงสนามอย่างน้อย 15 นาที` → `BookingTicket` → LINE share → 2-col secondary grid (Google Calendar template URL, `venue.mapsUrl`) → rules card → two links.
+Skeleton while loading → cheering capybara → `จองคอร์ทสำเร็จแล้วครับ` / `ล็อกคอร์ทเรียบร้อย เจอกันที่สนามครับ` → badge `รอชำระที่หน้าร้าน` → ticket card (`หมายเลขการจอง` + ref; rows `สนาม / คอร์ท`, `วันที่เล่น`, `เวลา`, `เบอร์ติดต่อ`; `PriceBreakdown`; `ชำระเงินที่เคาน์เตอร์เมื่อมาถึงสนาม แจ้งหมายเลขการจองกับพนักงานได้เลย`) → `คัดลอกหมายเลขการจอง` (`CopyButton`) → `ดูการจองของฉัน` · `จองคอร์ทอีกครั้ง`.
 
-Fixes: `จองคอร์ทสำเร็จ (รอบ 4/3)` → `จองคอร์ทสำเร็จ`. The `QR เข้าคอร์ท` tag renders **only** when the session starts within 15 minutes; otherwise a caption `QR เข้าคอร์ทจะแสดง 15 นาทีก่อนเวลาเล่น` (D15/PRD say the entry QR appears 15 min before; showing it on a booking hours away is wrong). The LINE CTA sub-label promises `ส่งการ์ด` but `line.me/R/share?text=` sends plain text only → `ส่งรายละเอียดนัดให้เพื่อนเตรียมตัวลงสนาม`. The LINE button uses `text-primary-container` on `bg-line`, never white.
+`จองคอร์ทสำเร็จ (รอบ 4/3)` → `จองคอร์ทสำเร็จแล้วครับ`. The booking is written to the store by `api.confirmBooking` before this screen opens, which is what makes `/bookings` populate.
 
-`shareText` comes from **one template**, not duplicated markup:
+**States:** loaded · unknown `:ref` (`ไม่พบการจองนี้` / `ลิงก์อาจหมดอายุ หรือเปิดจากเครื่องอื่น` / `กลับไปหน้าจองคอร์ท`).
 
-```
-🏸 นัดแบดก๊วนเราเรียบร้อยแล้ว!
-📍 สนาม: วินเนอร์ คอร์ท (Winner Court)
-🏟️ คอร์ท: คอร์ท 3 (พื้นยางเกรด BWF)
-🗓️ วันที่: ศุกร์ 11 ก.ย. 2569
-⏰ เวลา: 19:00 - 21:00 น. (2 ชม.)
-🎟️ รหัสจอง: #WC-2609-0042
-💰 ยอดรวม: ฿440 (ชำระแล้วเรียบร้อย)
-พร้อมลุย! อย่าลืมพกรองเท้าพื้นยางมาด้วยนะ 👟✨
-```
+**Not built:** LINE share and its `shareText` template (cut, Revision 5); the Google Calendar and maps buttons; the rules card; the entry-QR tag. The status badge is fixed to the counter path, because that is the only path.
 
-**Side effect on mount:** append the booking to the store and persist. This is what makes `/bookings` populate and the demo feel like a real system rather than a slideshow.
+### S8/S9 · `/bookings` — การจองของฉัน (`features/booking/pages/my-bookings/`)
 
-**States:** paid · counter-unpaid · share failed (toast `เปิด LINE ไม่สำเร็จ ลองคัดลอกข้อความแทนได้ครับ`) · clipboard unavailable (fall back to selecting the text in a read-only textarea) · unknown `:ref` (`ไม่พบการจองนี้` + `ดูรายการจองของฉัน`).
+`การจองของฉัน` / `ตรวจสอบคอร์ทและประวัติการลงสนาม` → `SegmentedTabs` `กำลังจะถึง` / `ที่ผ่านมา` with **computed** counts (the mockup's badge said 5 while the panel rendered 3) → `BookingCard` list, or an `EmptyState` per tab.
 
-### S8/S9 · `/bookings` — การจองของฉัน *(Day 10)*
+- Past prices come from `booking.total` as stored; the mockup's ฿360 for a peak session is gone.
+- `ยกเลิก` opens a real `Modal`: `ยกเลิกการจองนี้?` / `คอร์ทจะถูกปล่อยกลับสู่ระบบทันที และยกเลิกแล้วไม่สามารถกู้คืนได้` / `ไม่ยกเลิก` · `ยืนยันยกเลิก` → toast `ยกเลิกการจองแล้ว คอร์ทถูกปล่อยกลับสู่ระบบ`. Cancelling sets the status to `cancelled` (the card moves to `ที่ผ่านมา`) and frees the court's blocks. No `alert()` anywhere.
+- Empty upcoming tab: idle capybara, `ยังไม่มีนัดตีแบดเลยครับ` / `รวมก๊วนเพื่อนแล้วมาเลือกล็อกคอร์ทกันเลย`, link `ค้นหาและจองคอร์ททันที` → `/book`. Empty past tab: `ยังไม่มีประวัติการจอง`. An empty upcoming tab with a populated past tab falls out of the per-tab empty state.
 
-One screen, two states. `SegmentedTabs` with **computed** counts — the mockup's badge says 5 while the panel renders 3.
+**States built:** loading (two skeleton bars) · populated · empty per tab.
 
-**Populated:** hero `BookingCard` (confirmed) + pending-payment card + a past-history preview. Fixes: the date wraps to two lines beside two stacked pills and goes cramped — put the date on its own row and the pills on a `flex-wrap` row below. `คัดลอก` uses an inline toast, **not** the mockup's blocking `alert()`. The pending card's `รอชำระเงิน (15 นาที)` chip becomes a live countdown from the actual hold (D15: 10). Past prices come from `booking.total` as stored; the mockup's ฿360 for an 18:00–20:00 peak session is arithmetically impossible under any of the rate tables. `ยกเลิกการจอง` gets a real confirm sheet (`ยืนยันยกเลิกการจอง?` / `คุณจะได้รับเงินคืนเต็มจำนวน เนื่องจากยกเลิกก่อนเวลาเล่นมากกว่า 3 ชั่วโมง`) → removes from the store → toast. Four mockup files have a `ยกเลิก` button with no destination at all.
+**Not built:** hero/compact card variants, the copy button on cards, the live countdown chip (no hold); the today-availability launcher with pre-selecting slot chips; the trust badge, the consult card and the `refresh` button; the 3-hour rule in the cancel dialog and the cancel-window-passed state.
 
-**Empty:** `EmptyState` with the idle capybara → `ยังไม่มีนัดตีแบดเลยครับ` → CTA `ค้นหาและจองคอร์ททันที` → the today-availability launcher, whose three slot chips are **`<button>`s that pre-select that court+hour** (they are non-interactive `<div>`s today despite looking tappable) and whose count comes from `countAvailableSlots(today)` — the mockup headlines `เหลือ 5 ช่วงเวลา` above three chips, and the phantom `฿200` disappears because prices come from `priceForHour()`.
+The list is read through `useDb()` from `data/db.ts`, not through `api` (§6.6).
 
-One copy conflict to fix on this screen: the trust badge promises `ไม่ต้องรอแอดมินตอบแชท` while the card below says `ทักแอดมิน LINE`. Reword to `จองเหมาสนาม หรือจัดแข่งขัน?` / `ปรึกษาเจ้าหน้าที่` so the empty state stops undercutting the product's core promise.
+### S1 · `/` — โปรไฟล์สนาม (`features/venue/pages/court-profile/`)
 
-The `refresh` button exists on `empty_state` and not on `_3`, and has no handler on either. One component, one handler, both states.
+Carousel (3 local WebPs, `snap-x`, dots, `1 / 3`) → `วินเนอร์ คอร์ท (Winner Court)` + `เปิดอยู่` badge → address, `6 คอร์ท · เปิดทุกวัน 09:00 – 22:00` → `แผนที่` (the pinned `?q=` URL, not the bare `maps.google.com` the mockup ships) and the venue phone `02-000-0000` (`tel:020000000`) → **availability card** → `RateCard` → `AmenityGrid` → sticky CTA `จองคอร์ทเลย` → `/book`.
 
-**States built:** populated · empty · **upcoming-empty-but-past-populated** (exists in neither mockup — a compact empty hero inside the upcoming panel while the tab counts stay honest) · cancel-window-passed (`ยกเลิกการจอง` becomes `aria-disabled` with caption `เลยเวลายกเลิกฟรีแล้ว (ต้องยกเลิกก่อน 3 ชม.)`). **Not built:** loading and error (§3.5 #7).
+The availability card is the screen's job. Its number is `countAvailableSlots()` on the same day and grid `/book` opens on, **never a literal 5**, so it always equals the free cells on the grid: `วันนี้ว่างอีก {n} ช่วงเวลา`, then `ช่วงค่ำ 19:00 – 22:00 ยังเหลือ {n} คอร์ท` or `ช่วงค่ำเต็มแล้ว ลองดูช่วงบ่ายได้ครับ`. A skeleton holds its place while loading. It is a green-accent card, not the planned navy banner, and it is not tappable.
 
-### S1 · `/` — โปรไฟล์สนาม *(Day 11)*
+The rate card renders from `RATE_RULES`, so it reads `อัตราปกติ` · `ทุกวัน · 09:00 – 22:00` · `฿180 / ชม.`, `ช่วงพีคเย็น (จ.–ศ.)` · `จันทร์ – ศุกร์ · 17:00 – 21:00` · `฿220 / ชม.` (was 17:00–22:00 in the mockup), and a weekend row. The `4.8 (142 รีวิว)` capsule is cut (D08).
 
-Carousel (3 local WebPs, `snap-x`, dots, `1 / 3`) → status row → title → address card (`เปิด Google Maps` uses the pinned `?q=` URL, not the bare `maps.google.com` homepage the mockup ships) → **the navy live-availability banner** → `RateCard` → `AmenityGrid` → sticky CTA bar.
-
-The banner is the screen's job. Its headline number is `countAvailableSlots(today)`, **never a literal 5**, and its two band rows are tappable, routing to `/book` with the band's start hour scrolled into view. The rate card renders from `RATE_RULES`, so the middle row now reads `ช่วงพีคเย็น (จ.-ศ.) / 17:00 - 21:00 น. / ฿220 / ชม.` (was 17:00–22:00) and a weekend row appears.
-
-Cut: the `4.8 (142 รีวิว)` capsule → a `verified` pill `สนามพาร์ทเนอร์` (D08).
-
-Built: **venue closed** (outside 09:00–22:00 the status pill reads `ปิดแล้ว • เปิดอีกครั้ง 09:00 น.` and the banner switches to tomorrow) and **image load failure** (`onError` swaps to a flat `bg-primary-container` panel with the venue name — never a broken-image glyph). Not built: skeleton.
+**Not built:** the `สนามพาร์ทเนอร์` pill; the venue-closed state (the badge is always `เปิดอยู่`); image `onError` fallback; tappable band rows. After 18:00 the card shows tomorrow's count under a label that still says `วันนี้`.
 
 ---
 
 ## 10. Milestones — 16 days, one developer
+
+> **Status (2026-10-06): this is the schedule as planned, kept as the record of how the work was priced.** Revision 5 removed Day 9's `/book/pay`, Day 14's hold-expiry chain, `DemoBar`, `FixtureBadge`, `OutsideLineNotice` and the instrumentation, and Day 15's LIFF spike. What shipped is described in §7–§9, and §11 marks each acceptance item against the code. Names below are the planned ones: `useSlotSelection.ts` shipped as `features/booking/selection.ts` + the hook, `Icon.tsx` as `components/ui/icon.tsx`, `bookingRef.ts` as `booking-ref.ts`, and the quote debounce was kept at 250 ms rather than zeroed (§8.5).
 
 Each day has a *done when* that is observable, not a feeling.
 
@@ -1929,102 +2123,110 @@ Revision 1 priced this at 11 days with Gate 1 on Day 5. `01-critique.md` showed 
 
 ---
 
-## 11. Acceptance checklist
+## 11. Acceptance checklist — status against the code (2026-10-06)
 
-### 11.1 Functional — all must pass on a real phone
+`[x]` = holds in the code. `[ ]` = does not hold yet, with what is missing. ~~Struck~~ = cut by Revision 5. Items that need a real phone or a screen reader are marked *(device pass)* — the code supports them, but nobody has recorded a pass.
 
-- [ ] Cold open on `/` renders in under 2 s on a mid-range Android over 4G with no layout shift after the fonts land.
-- [ ] The availability banner number equals the count of free cells on `/book` for the same day.
-- [ ] `/book` renders **13 rows** × **6 courts** = 78 cells, every row present, none skipped.
-- [ ] Tapping `c3@19` then `c3@20` produces one merged navy block and **฿440**.
-- [ ] All 13 state-machine rules behave as §8.2 when exercised by hand.
-- [ ] Selecting 16:00–18:00 on a weekday shows **two** price lines totalling **฿400**.
-- [ ] Selecting 10:00–12:00 on a Saturday shows **฿440**.
-- [ ] Attempting a 4th hour shows the max-hours toast and does not extend.
-- [ ] Changing the date clears the selection.
-- [ ] The CTA is disabled with nothing selected and enabled with a valid range — always.
-- [ ] The review screen's phone field is empty on arrival and rejects `12345`.
-- [ ] Selecting cash-at-counter changes the CTA label and skips the QR screen.
-- [ ] The QR **scans on three different phones** — none of them the presenter's — and each one opens `/qr-demo`, which renders its confirmation page with no booking, no `localStorage` and no not-found state.
-- [ ] `บันทึก QR ลงรูปภาพ` puts the QR in the photo gallery, and *สแกนจากคลังภาพ* inside SCB / K PLUS / Krungthai reads it back and lands on `/qr-demo`.
-- [ ] The hold counts down from 15:00, survives a refresh, and lands on `/book/expired` at zero with the slot released back to the grid.
-- [ ] A booking made in the demo appears in `/bookings` with the right ref, court, time and total.
-- [ ] Cancelling a booking removes it and shows an inline toast, not `alert()`.
-- [ ] `?reset=1` restores canonical state; a fresh browser sees the seeded fixture.
-- [ ] Every price on every screen is ฿180 or ฿220 per hour. **No ฿160, no ฿200, no ฿360.**
-- [ ] Every booking reference matches `^WC-\d{4}-\d{4}$`.
-- [ ] Every phone number displayed for the venue is the sample `02-000-0000`; no real-looking company name, tax ID or LINE link appears anywhere (decision 9).
-- [ ] Cancellation copy says **3 ชั่วโมง** on both screens that mention it.
-- [ ] Court 3 is described identically on the grid, the review, the ticket and `/bookings`.
+### 11.1 Functional
 
-### 11.2 Accessibility — the eight CI gates plus the manual pass
+- [ ] Cold open on `/` renders in under 2 s on a mid-range Android over 4G with no layout shift after the fonts land. *(device pass)*
+- [x] The availability number on `/` equals the count of free cells on `/book` for the same day.
+- [x] `/book` renders **13 rows** × **6 courts** = 78 cells, every row present, none skipped.
+- [x] Tapping `c3@19` then `c3@20` produces one merged navy block and **฿440**.
+- [x] All 13 state-machine rules behave as §8.2 (21 unit tests, §8.7).
+- [x] Selecting 16:00–18:00 on a weekday shows **two** price lines totalling **฿400** (plus the free fee line).
+- [x] Selecting 10:00–12:00 on a Saturday shows **฿440**.
+- [x] Attempting a 4th hour shows the max-hours toast and does not extend.
+- [x] Changing the date clears the selection.
+- [x] The CTA is disabled with nothing selected and enabled with a valid range once the 250 ms quote lands.
+- [x] The review screen's phone field is empty on arrival and rejects `12345`.
+- ~~Selecting cash-at-counter changes the CTA label and skips the QR screen.~~ Counter is the only method.
+- ~~The QR scans on three different phones and opens `/qr-demo`.~~
+- ~~`บันทึก QR ลงรูปภาพ` puts the QR in the photo gallery.~~
+- ~~The hold counts down from 15:00 and lands on `/book/expired`.~~
+- [x] A booking made in the demo appears in `/bookings` with the right ref, court, time and total.
+- [x] Cancelling a booking takes it out of `กำลังจะถึง` (status `cancelled`, shown under `ที่ผ่านมา`) and shows an inline toast, not `alert()`.
+- [ ] `?reset=1` restores canonical state. *`resetDb()` exists; nothing calls it outside tests. Clearing site data is the only reset today.* A fresh browser does see the seeded fixture.
+- [x] Every price on every screen is ฿180 or ฿220 per hour. **No ฿160, no ฿200, no ฿360.**
+- [x] Every booking reference matches `^WC-\d{4}-\d{4}$`. *But the sequence lives in memory, so after a reload the next ref restarts at `…-0042` and can repeat one already in `localStorage`.*
+- [x] Every phone number displayed for the venue is the sample `02-000-0000`; no real-looking company name, tax ID or LINE link appears anywhere (decision 9).
+- [ ] Cancellation copy says **3 ชั่วโมง** on both screens that mention it. *Only `/book/review` mentions it; the cancel dialog does not.*
+- [ ] Court 3 is described identically on the grid, the review, the ticket and `/bookings`. *Grid: `3` / `ยาง BWF / แอร์`; review: `คอร์ท 3 (พื้นยางเกรด BWF)`; success and bookings: `คอร์ท 3`.*
+- [ ] Seeded bookings block their own slots. *The two upcoming seeds (`c3` 19–21 on `D.next`, `c1` 18–20 on BASE+5) have no availability block, so the grid shows those hours free.*
 
-`scripts/gate.mjs` runs in ~1 s and blocks merge. It exists because these defects are already in the source material and will be re-imported by anyone porting markup — and, since revision 3, because the shadcn path is easy to wander back onto:
+### 11.2 Accessibility — the gates plus the manual pass
 
-```bash
-! grep -rn 'data-alt'            src            # not an attribute; gives images no name
-! grep -rn 'user-scalable\|maximum-scale' index.html src
-! grep -rn 'py-0\.2'             src            # 47 occurrences, 24 files — always a typo
-! grep -rn 'จองคอร์ด'            src            # 23 of 48 files — "book a musical chord"
-! grep -rn 'lh3.googleusercontent' src          # 136 refs that will 404
-! grep -rn 'outline-none'        src --include=*.tsx | grep -v focus-visible
-! grep -n  'tailwind-merge\|class-variance-authority\|"sonner"\|lucide-react' package.json   # §4.5: shadcn not adopted
-! grep -n  'react-dialog' src/components/ui/Sheet.tsx src/components/booking/SelectionDrawer.tsx  # must stay non-modal
-```
+`scripts/gate.mjs` is pure Node (no grep, same on every machine), runs in ~1 s, and is the first step of `pnpm check`. It has ten gates:
 
-Manual, before the demo is shown:
+| Gate | Fails on |
+|---|---|
+| `data-alt` | `data-alt` in `src` — not an attribute; gives images no name |
+| `zoom-lock` | `user-scalable` / `maximum-scale` in `src` or `index.html` |
+| `py-0.2` | `py-0.2` in `src` — 47 occurrences in the mockups, always a typo |
+| `chord-typo` | `จองคอร์ด` in `src` — "book a musical chord" |
+| `remote-image` | `lh3.googleusercontent` in `src` — 136 refs that will 404 |
+| `outline-none` | `outline-none` in a `.tsx` line with no `focus-visible` |
+| `wrong-deps` | `sonner` or `lucide-react` in `package.json` |
+| `tailwind-merge-v3` | any `tailwind-merge` that is not 2.x |
+| `modal-drawer` | `react-dialog` in `sheet.tsx` or `selection-drawer.tsx` — they must stay non-modal |
+| `raw-hex` | a 6-digit hex in any `.ts`/`.tsx` outside `components/icons/` (§11.3) |
+
+*Known gap:* `modal-drawer` still lists `src/components/booking/selection-drawer.tsx`, which moved to `features/booking/pages/booking-grid/components/`. The missing path is filtered out silently, so today the gate checks `sheet.tsx` only.
+
+Manual, before the demo is shown *(device pass unless noted)*:
 
 - [ ] Tab through `/book` end to end — every interactive element shows the honey focus ring; the grid is one tab stop.
-- [ ] Arrow keys move within the grid; booked cells **are** reachable and announce `ถูกจองแล้ว`.
+- [x] Arrow keys move within the grid; booked cells **are** reachable and announce `ถูกจองแล้ว`. *(code)*
 - [ ] VoiceOver on a cell announces `คอร์ท 3 เวลา 19:00 ถึง 20:00 ว่าง ช่วงพีค ราคา 220 บาท`.
-- [ ] Selecting announces the total via the polite live region; a rejection announces via the assertive one.
-- [ ] Pinch-zoom to 200% on every screen: no horizontal page scroll; only the matrix scrolls, inside its own region.
+- [ ] Selecting announces via the polite live region; a rejection announces via the assertive one.
+- [ ] Pinch-zoom to 200% on every screen: no horizontal page scroll.
 - [ ] iOS Reduce Motion: no ping, pulse or bounce anywhere.
-- [ ] iOS Larger Text at max: no clipped Thai; ฿440 and the mm:ss countdown still fit.
+- [ ] iOS Larger Text at max: no clipped Thai; ฿440 still fits.
 - [ ] Airplane mode after first load: fonts, icons, mascots and photos all render.
-- [ ] Contrast spot-check: LINE CTA, peak price on white, the maintenance label, the disabled CTA.
-- [ ] axe DevTools on all nine routes, `/qr-demo` included: **0 serious/critical**.
+- [ ] Contrast spot-check: LINE CTA, peak price on white, the maintenance cell, the disabled CTA.
+- [ ] axe DevTools on all six routes: **0 serious/critical**. *`app/a11y.test.tsx` checks in CI that every screen has one `h1` and named images and controls, that the grid is one tab stop with arrow-key movement, and that a booking can be made by keyboard alone. It does not run axe.*
 - [ ] Every touch target ≥ 48×48 CSS px, including date pills and the copy button.
-- [ ] Open each modal with the keyboard: focus moves inside, Tab cannot leave it, Escape closes it, focus returns to the trigger. While `SelectionDrawer` is open, the grid still scrolls and accepts taps.
+- [ ] Open the cancel modal with the keyboard: focus moves inside, Tab cannot leave it, Escape closes it, focus returns to the trigger. *`/bookings` does not pass `trigger` to `Modal`, which DESIGN.md §6 says focus return needs.* While `SelectionDrawer` is open, the grid still scrolls and accepts taps.
 
 ### 11.3 Foundation
 
-- [ ] `useSlotSelection.test.ts` — 19 tests green, including the property test.
-- [ ] `tailwind.config.js` has zero raw hex values in `src/**` outside it (`grep -rn '#[0-9a-fA-F]\{6\}' src --include=*.ts --include=*.tsx` → empty — **`.ts` too**: raw hex hides in `navConfig.ts`, chart helpers and any non-JSX module, and a `.tsx`-only gate lets it through).
-- [ ] `RATE_RULES` is the only place ฿180 and ฿220 appear.
-- [ ] `navConfig.ts` is the only place a nav label appears.
-- [ ] `venue.phone` is the only place a venue phone number appears.
-- [ ] Every screen imports from `data/api`, never from `data/db`.
-- [ ] `DECISIONS.md` records every §3 row with the file that would change it.
-- [ ] Every file in `components/icons/` uses `currentColor`, has no fixed `width`/`height`, and imports nothing at runtime; `LICENSE-material-symbols.txt` is present.
+- [x] `selection.test.ts` — 21 tests green, including the property test.
+- [x] Zero raw hex in `src/**/*.{ts,tsx}` outside `tailwind.config.js` and `components/icons/` — enforced by the `raw-hex` gate. (`index.html` carries one, `theme-color`, and is not gated.)
+- [ ] `RATE_RULES` is the only place ฿180 and ฿220 appear. *The seeded bookings in `fixtures.ts` repeat ฿220 in their quote lines, and the grid passes the 19:00 price to `LegendBar` as its peak example.*
+- [x] `nav-config.ts` is the only place a nav label appears.
+- [x] `venue.phone` is the only place a venue phone number appears.
+- [ ] Every screen imports from `data/api`, never from `data/db`. *`/bookings` reads through `useDb()` (§6.6).*
+- [ ] ~~`DECISIONS.md` records every §3 row.~~ Not written; §3 and the Appendix of this plan are the record.
+- [x] Every file in `components/icons/` uses `currentColor`, has no fixed `width`/`height`, and imports nothing at runtime; `LICENSE-material-symbols.txt` is present.
 
 ---
 
 ## 12. The demo script
 
-Four minutes. Rehearse it twice with a stopwatch. **Hand them the phone at step 3 and do not take it back.**
+Eight to twelve minutes. Rehearse it twice with a stopwatch. **Hand them the phone at step 3 and do not take it back.**
 
-Setup: open the link on an unlocked phone, `?demo=1` **off**, `?fast=1` on if you are pressed for time. Have two other phones in your pocket for the QR scan at step 9 — §11.1 requires three non-presenter scans, and you want the failure to happen in rehearsal, not in the room.
+Setup: open the link on an unlocked phone, with `?fast=1` if you are pressed for time. Clear the site data beforehand if anyone has booked on that phone before — there is no reset control yet (§11.1).
 
 | # | You do | You say (Thai) |
 |---|---|---|
-| 1 | Open `/` and hold the phone up. Let the banner land. | "นี่คือหน้าสนามของพี่ที่ลูกค้าเห็นตอนกดจากไลน์ครับ" |
-| 2 | Point at the navy banner. | "ตรงนี้อัปเดตสดครับ วันนี้เหลือกี่ช่วง ลูกค้าเห็นเลย ไม่ต้องทักมาถาม" |
-| 3 | **Hand them the phone.** Say nothing else. | "ลองจองคอร์ทวันศุกร์ ทุ่มนึงถึงสามทุ่มดูครับ" |
-| 4 | Watch them. Do not coach. They tap `ดูตารางเวลาว่างวันนี้`. | *(silence)* |
+| 1 | Open `/` and hold the phone up. Let the availability card land. | "นี่คือหน้าสนามของพี่ที่ลูกค้าเห็นตอนกดจากไลน์ครับ" |
+| 2 | Point at the availability card. | "ตรงนี้อัปเดตสดครับ วันนี้เหลือกี่ช่วง ลูกค้าเห็นเลย ไม่ต้องทักมาถาม" |
+| 3 | **Hand them the phone.** Say nothing else. | "ลองจองคอร์ท 3 ทุ่มนึงถึงสามทุ่มดูครับ" |
+| 4 | Watch them. Do not coach. They tap `จองคอร์ทเลย`. | *(silence)* |
 | 5 | They tap `คอร์ท 3` at 19:00, then 20:00. Let them see the merge. | "เห็นไหมครับ สองช่องต่อกันเป็นก้อนเดียว ราคารวมขึ้นเองเลย ฿440" |
-| 6 | They tap `ไปต่อที่ชำระเงิน`. | "ทุกอย่างสรุปให้แล้ว ค่าคอร์ทช่วงพีค 220 คูณสอง ไม่มีค่าธรรมเนียม" |
-| 7 | **Point at the two payment options and stop.** This is the question the whole demo exists to ask. | "อันนี้สำคัญครับ — ทุกวันนี้พี่รับเงินยังไงครับ? อยากให้ลูกค้าจ่ายล่วงหน้า หรือมาจ่ายหน้าเคาน์เตอร์?" |
-| 8 | **Listen. Write the answer down.** Then follow whichever path they said. | *(their answer decides Plan 02)* |
-| 9 | If PromptPay: they scan the QR with **their own** phone. | "พี่ลองสแกนด้วยมือถือพี่เองได้เลยครับ — อันนี้เป็น QR สาธิต ยังไม่ตัดเงินจริง ของจริงจะเป็นพร้อมเพย์ของสนามพี่" |
-| 10 | Wait for the auto-confirm (6 s, or 1.5 s on `?fast=1`). | "ไม่ต้องส่งสลิป ไม่ต้องรอแอดมินกดยืนยัน ระบบเห็นยอดเข้าแล้วล็อคคอร์ทให้เลย" |
-| 11 | Success screen. Tap the LINE share button. | "แชร์เข้ากลุ่มก๊วนได้ทันที เพื่อนเห็นวันเวลาคอร์ทครบ" |
-| 12 | Tap `ประวัติจอง`. | "ลูกค้าย้อนดูได้เอง ไม่ต้องถามหน้าร้าน" |
-| 13 | Go back to the grid, jump to the sold-out day. | "แล้วถ้าวันไหนเต็ม ระบบไม่ปล่อยให้ลูกค้าหลุดไปครับ — แนะนำวันอื่นให้เลย และถ้าเขาอยากรอคิว กดปุ่มนี้ไว้ได้" |
-| 14 | Swipe the date strip to **Saturday**, point at the daytime prices. | "ตรงนี้คือเรทวันหยุดครับ พีคทั้งวัน" |
-| 15 | **The close.** On *their* phone, open `DemoBar` → ตัวแก้ราคา and change the peak rate to the number they just said. The grid reprices immediately. | "ราคาและช่วงพีคของพี่คือเท่าไหร่ครับ? เดี๋ยวผมแก้ให้ดูเลย — ไม่ต้องเขียนโปรแกรมใหม่ครับ" |
+| 6 | They tap `จองทันที`. | "ทุกอย่างสรุปให้แล้ว ค่าคอร์ทช่วงพีค 220 คูณสอง ไม่มีค่าธรรมเนียม" |
+| 7 | **Point at `ชำระที่หน้าร้าน` and stop.** This is the question the whole demo exists to ask. | "ตอนนี้ลูกค้าจองแล้วมาจ่ายที่เคาน์เตอร์ครับ — ทุกวันนี้พี่รับเงินยังไงครับ? อยากให้ลูกค้าจ่ายล่วงหน้าไหม?" |
+| 8 | **Listen. Write the answer down.** | *(their answer decides Plan 05)* |
+| 9 | They type a phone number and tap `ยืนยันการจอง`. | "ไม่ต้องรอแอดมินกดยืนยัน คอร์ทล็อกให้ทันที" |
+| 10 | Success screen. Point at the booking number. | "ลูกค้าได้เลขจองไว้แจ้งพนักงานตอนมาถึงครับ" |
+| 11 | Tap `ดูการจองของฉัน`. | "ลูกค้าย้อนดูได้เอง ยกเลิกเองได้ ไม่ต้องถามหน้าร้าน" |
+| 12 | Go back to the grid, tap the day marked `เต็ม`. | "แล้วถ้าวันไหนเต็ม ระบบไม่ปล่อยให้ลูกค้าหลุดไปครับ — พาไปดูวันถัดไปให้เลย" |
+| 13 | Swipe the date strip to **Saturday**, point at the daytime prices. | "ตรงนี้คือเรทวันหยุดครับ พีคทั้งวัน" |
+| 14 | **The close.** Ask for their rates and peak hours. | "ราคาและช่วงพีคของพี่คือเท่าไหร่ครับ? ตัวเลขพวกนี้เป็นข้อมูล แก้ได้โดยไม่ต้องเขียนโปรแกรมใหม่ครับ" |
 
-**Beats that carry the pitch:** step 3 (they do it unaided — if they need coaching, that is the finding, and the fix goes in Plan 02), step 5 (the merge, which is the one interaction nothing else in the market does well), step 7 (the question `critique.md` #1 says nobody has asked), step 9 (scanning with their own phone is what makes it feel real), step 15 (rates-as-data, which is what a multi-venue product is worth).
+**Beats that carry the pitch:** step 3 (they do it unaided — if they need coaching, that is the finding), step 5 (the merge, which is the one interaction nothing else in the market does well), step 7 (the question `critique.md` #1 says nobody has asked), step 13 (rates-as-data, which is what a multi-venue product is worth).
+
+*Dropped with what was not built:* the QR scan and auto-confirm (Revision 5), the LINE share (Revision 5), the waitlist toggle, and the live rate edit in `DemoBar`. Step 14 makes the rates-as-data point in words; editing `RATE_RULES` live needs a laptop.
 
 **Things to volunteer before they ask.** Every one of them, unprompted — see §13.
 
@@ -2039,19 +2241,13 @@ Say these out loud. A demo that oversells gets caught in the first five minutes 
 | Backend | `db.ts` in memory + `localStorage`, behind `api.ts` | "ตอนนี้ข้อมูลอยู่ในเครื่องครับ ยังไม่มีเซิร์ฟเวอร์ ของจริงจะบันทึกไว้ที่ระบบกลาง" |
 | The venue's data | Fixture: 6 courts, ฿180/฿220, พีค 17:00–21:00 | "ตัวเลขพวกนี้ผมสมมติมาก่อนครับ ของจริงใช้ของสนามพี่ทั้งหมด" |
 | Availability | Seeded blocks; nobody else is booking | "ตารางนี้เป็นตัวอย่างครับ ของจริงจะอัปเดตตามคิวจริงแบบสด" |
-| Payment | No money moves at all | "ยังไม่ตัดเงินจริงนะครับ ยังไม่ได้ต่อกับธนาคาร" |
-| The QR | A real, scannable QR encoding the static `/qr-demo` URL — **not** a PromptPay payload | "QR อันนี้สแกนได้จริง แต่เป็นลิงก์สาธิตครับ ของจริงจะเป็นพร้อมเพย์ของสนาม" |
-| What the QR does when scanned | It moves **no money** and never will: it opens `/qr-demo`, a fixed page. The real one is an EMVCo/PromptPay payload issued against a licensed acquirer's merchant ID (D17/D18) and settling into the venue's own account. | "สแกนแล้วไม่มีการตัดเงินเลยนะครับ ของจริงจะเป็น QR พร้อมเพย์ที่ออกผ่านธนาคาร เข้าบัญชีสนามพี่โดยตรง" |
-| Saving the QR to the gallery | Real and kept — an `<img>` (long-press → *บันทึกรูปภาพ*) plus a `บันทึก QR ลงรูปภาพ` button, because **nobody can scan their own screen**: the Thai muscle memory is save → open SCB / K PLUS / Krungthai → *สแกนจากคลังภาพ*, which is exactly how the venue's existing customers already pay them, and exactly what the owner will try. | "ลูกค้าเซฟ QR แล้วสแกนจากคลังภาพในแอปธนาคารได้เลยครับ เหมือนที่ลูกค้าพี่จ่ายกันอยู่ทุกวันนี้" |
-| Payment confirmation | A 6-second timer standing in for a bank webhook | "ของจริงธนาคารจะแจ้งเข้ามาเองครับ ตรงนี้ผมตั้งเวลาไว้ให้เห็นภาพ" |
-| The 15-minute hold | Real countdown, real expiry, but only on this phone | "การล็อคคอร์ทเป็นของจริงในเครื่องนี้ครับ ของจริงจะล็อคทั้งระบบ ไม่มีใครแย่งได้" |
-| LINE login | Fixture user `คุณต้น`; no login screen | "ของจริงลูกค้าจะล็อกอินด้วยไลน์ครับ ตอนนี้ผมข้ามขั้นนี้ไปก่อน" |
-| LINE share | `line.me/R/share?text=` — plain text, not a Flex card | "ของจริงจะเป็นการ์ดสวย ๆ ในแชทครับ ตอนนี้ส่งเป็นข้อความก่อน" |
-| The waitlist toggle | Stores a boolean; queues nothing | "ปุ่มนี้ยังไม่ได้ต่อระบบแจ้งเตือนครับ ผมใส่ไว้ให้ดูว่าจะทำงานยังไง" |
-| The mascot and photos | Local assets, generated | "รูปกับมาสคอตเปลี่ยนเป็นของสนามพี่ได้ครับ" |
-| Cancel / refund | Removes a row; no money returns | "ยกเลิกจะคืนเงินอัตโนมัติในของจริงครับ ตอนนี้แค่เอารายการออก" |
+| Payment | None. Every booking is pay-at-the-counter | "ตอนนี้ยังไม่มีการจ่ายเงินในระบบครับ ลูกค้ามาจ่ายที่หน้าร้าน ถ้าพี่อยากให้จ่ายล่วงหน้า เป็นขั้นต่อไป" |
+| Locking the court | The booking blocks the slot, but only on this phone | "การล็อกคอร์ทเป็นของจริงในเครื่องนี้ครับ ของจริงจะล็อกทั้งระบบ ไม่มีใครแย่งได้" |
+| LINE login | No login at all; the demo opens in a normal browser | "ของจริงลูกค้าจะล็อกอินด้วยไลน์ครับ ตอนนี้ผมข้ามขั้นนี้ไปก่อน" |
+| The mascot and photos | Local assets, AI-generated | "รูปกับมาสคอตเปลี่ยนเป็นของสนามพี่ได้ครับ" |
+| Cancel | Frees the court and marks the booking cancelled; no money involved | "ยกเลิกแล้วคอร์ทว่างกลับเข้าระบบทันทีครับ" |
 
-**One thing that is deliberately *not* faked, and why it matters:** the QR encodes a demo URL, never a syntactically valid EMVCo/PromptPay payload aimed at a merchant ID we do not control. A hand-drawn decorative QR fails the moment anyone points a camera at it. A *valid-looking* payload to a fake merchant is worse — their banking app parses it and throws a Thai-language error about an invalid merchant, and the demo now looks broken *and* slightly fraudulent. `buildPromptPayPayload()` exists in `platform/qr.ts` as a typed stub that **throws**, so the work is visible and cannot be accidentally wired up before a licensed acquirer issues a real ID (D17/D18).
+**What is deliberately absent, and why it matters:** there is no QR of any kind. Revision 5 cut the payment screen, so the demo never shows a code that a banking app could parse. If prepayment comes back (Plan 05), the archived S6 in §9 is the spec, and the QR must still never be a valid-looking EMVCo/PromptPay payload aimed at a merchant ID we do not control.
 
 ---
 
@@ -2062,18 +2258,17 @@ Say these out loud. A demo that oversells gets caught in the first five minutes 
 | Artifact | Why it survives |
 |---|---|
 | `tailwind.config.js` + `index.css` | The only reconciliation of 48 divergent inline configs that will ever be done. Settles D51, D52, D53, D54, D55 by compiling them once. |
-| `useSlotSelection.ts` + its 19 tests | 13 behavioural rules the backend must re-validate and no mockup prototypes. Headless, zero UI dependencies. |
+| `features/booking/selection.ts` + its 21 tests | 13 behavioural rules the backend must re-validate and no mockup prototypes. Pure functions, zero UI dependencies. (The hook around it, `use-slot-selection.ts`, is Adapt: its quote call becomes a request.) |
 | `data/types.ts` | **This is Plan 02's API contract.** Plan 02's first task is a server that returns exactly `Booking`, `Slot`, `AvailabilityBlock`, `Quote`. |
-| `rates.ts` + `bookingRef.ts` | Pure functions with no I/O. `quote()` moves to the server verbatim; `nextBookingRef` becomes a Postgres sequence with the same format. |
-| `components/ui/*` (11 primitives, incl. `Modal`) + `useRovingFocus` | Typed, token-driven, a11y-correct. Nothing in them knows about booking. `Modal` keeps its Radix Dialog core. |
-| `SlotCell` + `CourtMatrix` a11y semantics | The `<table>` shape, `aria-disabled`, roving tabindex, `slotLabel()`, two live regions. The hardest thing here to retrofit. |
-| `navConfig.ts` | Settles D59/D61 and kills five competing nav models. |
-| `DECISIONS.md` | ~25 rows of `register.md` closed with evidence. Arguably the highest-value output of the whole plan. |
-| `Icon.tsx` + `components/icons/` + the self-hosted font setup | Committed source that cannot be forgotten per-file, unlike the CDN links 15 mockups omitted. Adding an icon later is one paste and one line. |
+| `rates.ts` + `booking-ref.ts` | Pure functions with no I/O. `quote()` moves to the server verbatim; `nextBookingRef` becomes a Postgres sequence with the same format. |
+| `components/ui/*` (16 primitives: 8 adapted from shadcn, 8 ours, incl. `Modal`) + `lib/use-roving-focus.ts` | Typed, token-driven, a11y-correct. Nothing in them knows about booking. `Modal` keeps its Radix Dialog core. |
+| `SlotCell` + `CourtMatrix` a11y semantics | `role="grid"` with row/column indices, `aria-disabled`, `aria-selected`, roving tabindex, `slotLabel()`, separate polite and assertive regions. The hardest thing here to retrofit. |
+| `layouts/nav-config.ts` | Settles D59/D61 and kills five competing nav models. |
+| `components/ui/icon.tsx` + `components/icons/` + the self-hosted font setup | Committed source that cannot be forgotten per-file, unlike the CDN links 15 mockups omitted. Adding an icon later is one paste and one line. |
 
 ### Thrown away
 
-`db.ts` and its `localStorage` layer (replaced by a real API), the fixture *contents* (the shapes stay, the data becomes the venue's), `mockLiff.ts` (replaced by the real SDK behind the same `LiffAdapter` interface), `clock.ts`'s `defaultDemoDate()` and `advance()`, `DemoBar`, `FixtureBadge`, the demo QR payload, and roughly 60% of the `screens/*` markup once real loading, error and permission states arrive.
+`db.ts` and its `localStorage` layer, plus the one `useDb()` read in `/bookings` (replaced by a real API), the fixture *contents* (the shapes stay, the data becomes the venue's), `clock.ts`'s `defaultDemoDate()` and `advance()`, and roughly 60% of the `features/*/pages/*/index.tsx` markup once real loading, error and permission states arrive. `DECISIONS.md` was never written; §3 and the Appendix of this plan carry the ~25 closed `register.md` rows instead.
 
 **Estimated discard: ~12% of files, ~25% of lines.** Everything discarded is data or scaffolding. Nothing discarded encodes a decision.
 
@@ -2084,6 +2279,8 @@ A compiled design system; a working, tested interaction model for the hardest sc
 ---
 
 ## 15. Risks
+
+*Status 2026-10-06: risks #1, #2 (the share and `navigator.share` part), #6 and #7 concern features Revision 5 cut and are moot; #3 and #4 were mitigated (the state machine is tested, the gate runs first in `pnpm check`); #13 was overtaken by Revision 6 — shadcn is adopted, and the gate now blocks only `sonner`, `lucide-react` and `tailwind-merge` v3 (with the `modal-drawer` path gap noted in §11.2).*
 
 | # | Risk | Likelihood | Impact | Mitigation |
 |---|---|---|---|---|
@@ -2106,7 +2303,7 @@ A compiled design system; a working, tested interaction model for the hardest sc
 
 ## Appendix — every mockup contradiction this plan resolves
 
-Each row goes into `DECISIONS.md` and back to `register.md`.
+Each row goes back to `register.md`. (`DECISIONS.md` was not written; this table is the record.)
 
 | # | Conflict | Resolution | Register ref |
 |---|---|---|---|
@@ -2115,16 +2312,16 @@ Each row goes into `DECISIONS.md` and back to `register.md`.
 | 3 | Peak 17:00–21:00 (both grids) vs 17:00–22:00 (`winner_court_1` rate card) | **17:00–21:00**; 21:00–22:00 returns to ฿180. Deviates from D04 | D04′ |
 | 4 | `_1` skips the 12:00, 14:00 and 16:00 rows | 13 continuous rows, generated by a loop | D02 |
 | 5 | The same Friday is both bookable (`2.`) and fully booked (`_2`) | The default day stays bookable; BASE+3 is the sold-out day; the alternate points at BASE+4 | new |
-| 6 | `_2` claims `ว่าง 8 คอร์ท` at a 6-court venue | Count free **slots**, not courts; dev assertion caps courts at `courts.length` | D01 |
+| 6 | `_2` claims `ว่าง 8 คอร์ท` at a 6-court venue | Count free **slots**, not courts (`countAvailableSlots`). *The planned dev assertion was not built.* | D01 |
 | 7 | Court 3 is ยางเขียว / ปาร์เกต์ / ยาง BWF / ยางเกรด BWF across 4 files | One court table; Court 3 = ยาง BWF + แอร์. Marked `assumed` | D06 |
 | 8 | Three venue phone numbers, one of which is prefilled as the *user's* contact | One `venue.phone`; the user's number is different and the field ships empty | D07 |
 | 9 | Six booking-reference formats | `WC-YYMM-NNNN`, per-venue-per-month sequence | D09 |
-| 10 | Hold: 10 min (PRD) vs `15 นาที` (`_3`) vs a `9:42` seed (`promptpay_qr`) | 15:00 (ADR-001 §3.3), wall-clock, with a real expiry consequence and a screen to land on | D15 |
+| 10 | Hold: 10 min (PRD) vs `15 นาที` (`_3`) vs a `9:42` seed (`promptpay_qr`) | 15 minutes in `VENUE.holdMinutes` (ADR-001 §3.3). *The hold left the demo with Revision 5; `api.createHold` keeps the shape for Plan 04.* | D15 |
 | 11 | Cancellation 3 hr (mockups, twice, in user-facing copy) vs 4 hr (PRD) | 3 hours, interpolated from one constant | D16 |
-| 12 | Five nav models; `จองคอร์ด` in 23 files | One `navConfig.ts`; `จองคอร์ท`; two tabs rendered, four declared | D59, D61′ |
-| 13 | `_2`'s body says 18:00–21:00, its own card says 18:00–20:00 | One `suggestion.window` field, derived from actual fixture availability | new |
-| 14 | `คัดลอกเลขบัญชี` whose handler copies the tax ID | Label corrected to `คัดลอกเลขผู้เสียภาษี` | D18 |
-| 15 | Two legends for the same grid; two labels for the same CTA | One `legend.ts`; `ไปต่อที่ชำระเงิน` in both states | new |
+| 12 | Five nav models; `จองคอร์ด` in 23 files | One `nav-config.ts`; `จองคอร์ท`; two tabs rendered, four declared | D59, D61′ |
+| 13 | `_2`'s body says 18:00–21:00, its own card says 18:00–20:00 | *Moot as built:* the sold-out screen offers only the next day, with no time window | new |
+| 14 | `คัดลอกเลขบัญชี` whose handler copies the tax ID | *Moot:* the payment screen that carried it was cut (Revision 5) | D18 |
+| 15 | Two legends for the same grid; two labels for the same CTA | One `LegendBar`; one CTA label, `จองทันที`, in every state | new |
 | 16 | `#606C38` (the success olive) used for the peak chip and `bolt` icon in `2.` | Peak is honey (`secondary`); success is olive (`success`). Never crossed | D52 |
 | 17 | `รวมภาษีมูลค่าเพิ่มแล้ว` with no tax line | Claim removed pending the venue's VAT position | D74 |
 | 18 | `จองคอร์ทสำเร็จ (รอบ 4/3)` and an unexplained `รอบ 4` pill | Both deleted | new |

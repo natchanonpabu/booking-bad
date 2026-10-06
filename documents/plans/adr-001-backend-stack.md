@@ -351,7 +351,7 @@ Redis (~฿400/mo plus a stateful system to back up and patch) · a managed MQTT
 - **The raw-body LINE bug is structurally impossible**, not policed by review discipline.
 - **One origin, one deploy artifact, one language, one database, one bill.** No CORS layer, no service discovery, no cross-repo PR dance, and a LIFF endpoint URL that never changes.
 - **Idle cost is ฿1,156/month and per-venue fixed cost falls as venues are added** — 17–33% of a venue's subscription at ten venues, against **39–77% at one** (§6.2 states the range, not a midpoint).
-- **Plan 01's four surviving artifacts survive intact**, including its 19 state-machine tests, and its `api.ts` seam is the only file that changes when the backend arrives.
+- **Plan 01's four surviving artifacts survive intact**, including its 21 state-machine tests, and its `api.ts` seam is the only file that changes when the backend arrives — plus the one `useDb()` read in `/bookings` that bypasses it (Plan 01 §6.6).
 - **Nothing in the architecture is orphaned by the three biggest open questions.** If the venue says pay-at-counter, if slip verification is impossible, if IoT is cancelled — the schema, the host, the framework and the job system are unchanged.
 
 ### 8.2 Bad — stated plainly
