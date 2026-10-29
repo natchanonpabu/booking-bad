@@ -1,11 +1,12 @@
 import { now } from '@/lib/clock';
 import { buildGrid } from './availability';
+import { cancellationOutcome } from './cancellation';
 import { nextBookingRef } from './booking-ref';
 import { COURTS, RATE_RULES, USER, VENUE } from './fixtures';
 import { quote } from './rates';
 import { getState, setState, sweepHolds } from './db';
 import type {
-  AvailabilityBlock, Booking, ISODate, PaymentMethodId, SelectionRange,
+  AvailabilityBlock, Booking, CancellationOutcome, ISODate, PaymentMethodId, SelectionRange,
 } from './types';
 
 /** Deliberate latency: every screen is forced to have somewhere to put a loading
@@ -156,11 +157,22 @@ export const api = {
     return lag(booking, 900);
   },
 
-  cancelBooking: (id: string) => {
+  /** Idempotent: cancelling twice returns the first outcome and records nothing new, so
+      a double tap can never issue credit twice. */
+  cancelBooking: (id: string): Promise<CancellationOutcome> => {
+    const found = getState().bookings.find((b) => b.id === id);
+    if (!found) return lag<CancellationOutcome>({ kind: 'not_allowed' });
+    if (found.status === 'cancelled') {
+      return lag<CancellationOutcome>(found.creditOutcome ?? { kind: 'none', reason: 'unpaid' });
+    }
+    const at = now();
+    const outcome = cancellationOutcome(found, at, VENUE);
+    if (outcome.kind === 'not_allowed') return lag(outcome);
     setState((s) => ({
       blocks: s.blocks.filter((b) => b.bookingId !== id),
-      bookings: s.bookings.map((b) => (b.id === id ? { ...b, status: 'cancelled' as const } : b)),
+      bookings: s.bookings.map((b) =>
+        b.id === id ? { ...b, status: 'cancelled' as const, cancelledAt: at, creditOutcome: outcome } : b),
     }));
-    return lag(true);
+    return lag(outcome);
   },
 };

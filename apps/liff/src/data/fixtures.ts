@@ -54,7 +54,8 @@ export const VENUE: Venue = {
   maxBookingHours: 3,
   bookingDaysAhead: 14,
   holdMinutes: 15,
-  cancellationHours: 3,
+  cancellationHours: 24,
+  creditExpiryDays: 30,
   photos: [
     { src: '/venue/court-1.webp', alt: 'ภายในสนามวินเนอร์ คอร์ท มองเห็นคอร์ทแบดมินตัน 6 คอร์ทเรียงกัน' },
     { src: '/venue/court-2.webp', alt: 'โซนพักผ่อนและร้านขายอุปกรณ์แบดมินตันของวินเนอร์ คอร์ท' },

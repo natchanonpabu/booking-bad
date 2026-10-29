@@ -141,7 +141,7 @@ export default function BookingReview() {
         </RadioGroup>
         <p className="mt-space-sm flex items-start gap-space-xs font-body-sm text-body-sm text-muted-foreground">
           <Icon name="info" size={16} className="mt-0.5 shrink-0" />
-          ยกเลิกฟรีถ้าแจ้งก่อนเริ่มเล่นมากกว่า {VENUE.cancellationHours} ชั่วโมง
+          ยกเลิกได้ก่อนเริ่มเล่น หากชำระแล้วและยกเลิกก่อนเริ่มมากกว่า {VENUE.cancellationHours} ชั่วโมง จะได้เครดิตไว้จองใหม่
         </p>
       </Card>
 

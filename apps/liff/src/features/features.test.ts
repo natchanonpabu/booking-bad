@@ -58,6 +58,7 @@ describe('a page owns its components', () => {
 
   it('has the pages this app is sliced into', () => {
     expect(pageDirs.map((d) => relative(ROOT, d)).sort()).toEqual([
+      'booking/pages/booking-detail',
       'booking/pages/booking-grid',
       'booking/pages/booking-review',
       'booking/pages/booking-success',
@@ -102,7 +103,7 @@ describe('every page in the app has the same shape', () => {
   ];
 
   it('finds a page folder for every route in the table', () => {
-    expect(pageDirs).toHaveLength(7);
+    expect(pageDirs).toHaveLength(8);
   });
 
   it.each(pageDirs.map((d) => [relative(join(ROOT, '..'), d), d] as const))(

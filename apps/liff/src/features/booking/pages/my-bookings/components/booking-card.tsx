@@ -1,24 +1,18 @@
+import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Icon } from '@/components/ui/icon';
 import { COURTS } from '@/data/fixtures';
 import type { Booking } from '@/data/types';
+import { BOOKING_STATUS } from '@/features/booking/status';
 import { rangeLabel } from '@/features/booking/selection';
 import { thb } from '@/lib/money';
 import { thaiDateLong } from '@/lib/thai-date';
 
-const STATUS: Record<Booking['status'], { label: string; tone: 'success' | 'peak' | 'neutral' | 'error'; accent: string }> = {
-  confirmed: { label: 'ยืนยันแล้ว', tone: 'success', accent: 'bg-success' },
-  pending_payment: { label: 'รอชำระที่หน้าร้าน', tone: 'peak', accent: 'bg-secondary' },
-  completed: { label: 'เสร็จสิ้น', tone: 'neutral', accent: 'bg-outline' },
-  cancelled: { label: 'ยกเลิกแล้ว', tone: 'error', accent: 'bg-error' },
-  expired: { label: 'หมดอายุ', tone: 'neutral', accent: 'bg-outline' },
-};
-
 export function BookingCard({ booking, onCancel }: { booking: Booking; onCancel?: () => void }) {
   const court = COURTS.find((c) => c.id === booking.courtIds[0]);
-  const status = STATUS[booking.status];
+  const status = BOOKING_STATUS[booking.status];
   const past = booking.status === 'completed' || booking.status === 'cancelled';
 
   return (
@@ -41,11 +35,19 @@ export function BookingCard({ booking, onCancel }: { booking: Booking; onCancel?
         <span className="price font-label-lg text-label-lg text-primary">{thb(booking.total)}</span>
       </div>
 
-      {onCancel && !past && (
-        <Button variant="ghost" className="mt-space-xs px-0" onClick={onCancel}>
-          ยกเลิกการจอง
+      <div className="mt-space-xs flex items-center justify-between">
+        <Button variant="ghost" className="px-0" asChild>
+          <Link to={`/bookings/${booking.ref}`} aria-label={`ดูรายละเอียดการจอง ${booking.ref}`}>
+            ดูรายละเอียด
+            <Icon name="chevron_right" size={18} />
+          </Link>
         </Button>
-      )}
+        {onCancel && !past && (
+          <Button variant="ghost" className="px-0" onClick={onCancel}>
+            ยกเลิกการจอง
+          </Button>
+        )}
+      </div>
     </Card>
   );
 }

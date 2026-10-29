@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react';
+import BookingDetail from '@/features/booking/pages/booking-detail';
 import BookingGrid from '@/features/booking/pages/booking-grid';
 import Catalog from './pages/catalog';
 import BookingReview from '@/features/booking/pages/booking-review';
@@ -30,6 +31,7 @@ export const ROUTES: readonly RouteDef[] = [
   { path: 'book/review', element: <BookingReview /> },
   { path: 'book/success/:ref', element: <BookingSuccess /> },
   { path: 'bookings', element: <MyBookings /> },
+  { path: 'bookings/:ref', element: <BookingDetail /> },
   // Scratch route for the device pass; not linked from the app.
   { path: '__catalog', element: <Catalog /> },
   { path: '*', element: <NotFound /> },

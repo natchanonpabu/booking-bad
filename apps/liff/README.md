@@ -32,6 +32,7 @@ src/
     booking/
       components/                   shared by more than one booking page
       pages/
+        booking-detail/             /bookings/:ref — one booking, with cancel and its credit
         booking-grid/               a page = a folder = one line in app/routes.tsx
           components/               private to this page
           hooks/

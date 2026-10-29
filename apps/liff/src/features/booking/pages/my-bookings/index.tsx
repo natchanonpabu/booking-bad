@@ -9,7 +9,10 @@ import { SegmentedTabs } from '@/components/ui/segmented-tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/components/ui/toast';
 import { api } from '@/data/api';
-import { today } from '@/lib/clock';
+import { VENUE } from '@/data/fixtures';
+import { cancellationOutcome } from '@/data/cancellation';
+import { cancelledToast, cancelPreview } from '@/features/booking/cancel-copy';
+import { now, today } from '@/lib/clock';
 import type { Booking } from '@/data/types';
 
 export default function MyBookings() {
@@ -40,9 +43,9 @@ export default function MyBookings() {
 
   const confirmCancel = async () => {
     if (!cancelling) return;
-    await api.cancelBooking(cancelling.id);
+    const outcome = await api.cancelBooking(cancelling.id);
     await load();
-    toast.show('ยกเลิกการจองแล้ว คอร์ทถูกปล่อยกลับสู่ระบบ', { tone: 'success' });
+    toast.show(cancelledToast(outcome), { tone: outcome.kind === 'not_allowed' ? 'neutral' : 'success' });
     setCancelling(null);
   };
 
@@ -96,7 +99,7 @@ export default function MyBookings() {
         open={cancelling !== null}
         onOpenChange={(open) => !open && setCancelling(null)}
         title="ยกเลิกการจองนี้?"
-        description="คอร์ทจะถูกปล่อยกลับสู่ระบบทันที และยกเลิกแล้วไม่สามารถกู้คืนได้"
+        description={cancelling ? cancelPreview(cancellationOutcome(cancelling, now(), VENUE)) : undefined}
         actions={
           <>
             <Button variant="ghost" fullWidth onClick={() => setCancelling(null)}>ไม่ยกเลิก</Button>

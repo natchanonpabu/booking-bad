@@ -43,7 +43,10 @@ export interface Venue {
   maxBookingHours: number;      // 3
   bookingDaysAhead: number;     // 14
   holdMinutes: number;          // 15 (D15, ADR-001 §3.3)
-  cancellationHours: number;    // 3  (D16)
+  /** Cancelling at least this many hours before the start earns credit at once
+      (paid bookings only). Later cancellations earn credit only if the slot is rebooked. */
+  cancellationHours: number;    // 24 (D16, 2026-10-29)
+  creditExpiryDays: number;     // 30, counted from the day credit is issued
   photos: { src: string; alt: string }[];
   amenities: Amenity[];
 }
@@ -170,7 +173,20 @@ export interface Booking {
   headcountHint: string;        // 'ก๊วน 4-6 คน'
   createdAt: number;
   holdExpiresAt: number | null;
+  /** Optional so bookings persisted by an older build still load. */
+  cancelledAt?: number | null;
+  creditOutcome?: CreditOutcome | null;
 }
+
+/** What a cancellation earns. The demo records the outcome on the booking; the credit
+    ledger and the resale match are Plan 04 (spec-booking-detail.md §3). */
+export type CreditOutcome =
+  | { kind: 'credit_now'; amount: Satang; expiresAt: number }
+  | { kind: 'credit_if_resold'; amount: Satang }
+  | { kind: 'none'; reason: 'unpaid' };
+
+/** `not_allowed`: the booking has already started, so nothing is cancelled. */
+export type CancellationOutcome = CreditOutcome | { kind: 'not_allowed' };
 
 export interface User {
   id: string;
