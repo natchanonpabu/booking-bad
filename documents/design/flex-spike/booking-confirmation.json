@@ -1,0 +1,72 @@
+{
+  "type": "bubble",
+  "size": "mega",
+  "hero": {
+    "type": "image",
+    "url": "https://placehold.co/1200x480/png",
+    "size": "full",
+    "aspectRatio": "20:8",
+    "aspectMode": "cover"
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "paddingAll": "20px",
+    "spacing": "md",
+    "backgroundColor": "#fbf9f5",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "vertical",
+        "paddingAll": "16px",
+        "cornerRadius": "16px",
+        "background": {
+          "type": "linearGradient",
+          "angle": "135deg",
+          "startColor": "#1d2d44",
+          "endColor": "#07182e"
+        },
+        "contents": [
+          { "type": "text", "text": "จองสำเร็จ", "color": "#fdbd77", "size": "sm", "weight": "bold" },
+          { "type": "text", "text": "คอร์ท 3 · พรุ่งนี้ 18:00–19:00", "color": "#ffffff", "size": "lg", "weight": "bold", "wrap": true, "margin": "sm" },
+          { "type": "text", "text": "ชำระที่เคาน์เตอร์ ฿220", "color": "#8595b0", "size": "sm", "margin": "sm" }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "paddingAll": "12px",
+        "cornerRadius": "12px",
+        "borderWidth": "1px",
+        "borderColor": "#c5c6cd",
+        "backgroundColor": "#ffffff",
+        "contents": [
+          { "type": "text", "text": "เลขอ้างอิง", "size": "xs", "color": "#44474d" },
+          { "type": "text", "text": "WC-202610-B84", "size": "md", "weight": "bold", "color": "#1b1c1a" }
+        ]
+      },
+      { "type": "separator", "margin": "md" },
+      { "type": "text", "text": "ยกเลิกฟรีได้ก่อนเริ่ม 3 ชั่วโมง", "size": "xs", "color": "#44474d", "wrap": true }
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "sm",
+    "paddingAll": "16px",
+    "backgroundColor": "#fbf9f5",
+    "contents": [
+      {
+        "type": "button",
+        "style": "primary",
+        "color": "#1d2d44",
+        "action": { "type": "uri", "label": "ดูรายละเอียดการจอง", "uri": "https://example.com/bookings/WC-202610-B84" }
+      },
+      {
+        "type": "button",
+        "style": "secondary",
+        "action": { "type": "uri", "label": "เปิดดูกระดานคะแนนสดเต็มจอ (Live Scoreboard)", "uri": "https://example.com/scoreboard" }
+      }
+    ]
+  }
+}
